@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  ::selection{background:#3E6E79;color:#FCFDFD;}
+  @keyframes iceFloatP{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  @keyframes iceShimmerP{0%{transform:translateX(-60%);}100%{transform:translateX(170%);}}
+  .pdp-swatch{position:relative;width:34px;height:34px;border-radius:50%;cursor:pointer;border:1px solid #DBE0E1;padding:0;background-clip:padding-box;transition:transform 0.2s;}
+  .pdp-swatch:hover{transform:scale(1.08);}
+  .pdp-swatch[data-on="1"]::after{content:"";position:absolute;inset:-5px;border:1px solid #15191B;border-radius:50%;}
+  .pdp-lens{font-family:'Schibsted Grotesk',sans-serif;font-size:14px;font-weight:500;color:#15191B;background:#FCFDFD;border:1px solid #DBE0E1;border-radius:2px;padding:11px 14px;cursor:pointer;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:border-color 0.2s;}
+  .pdp-lens:hover{border-color:#8A9296;}
+  .pdp-lens[data-on="1"]{border-color:#15191B;}
+  .pdp-acc-head{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;cursor:pointer;padding:24px 0;text-align:left;font-family:'Schibsted Grotesk',sans-serif;color:#15191B;}
+  @media (max-width:880px){
+    .pdp-grid{grid-template-columns:1fr !important;gap:0 !important;}
+    .pdp-buy{position:static !important;padding-top:32px !important;}
+    .pdp-also{grid-template-columns:repeat(2,1fr) !important;}
+  }
+  @media (max-width:520px){ .pdp-two{grid-template-columns:1fr !important;} .pdp-also{grid-template-columns:1fr 1fr !important;} }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</helmet>
+<div data-screen-label="Product / PDP" style="--glacier:#F2F4F4;--snow:#FCFDFD;--basalt:#15191B;--slate:#586065;--ash:#8A9296;--mist:#DBE0E1;--meltwater:#DCE8EB;--ice:#BFD9DE;--glacial:#3E6E79;--driftwood:#E7E1D6;background:var(--glacier);color:var(--basalt);font-family:'Schibsted Grotesk',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;">
+
+  <dc-import name="SiteNav" current="shop" solid="true" hint-size="100%,66px"></dc-import>
+
+  <!-- BREADCRUMB -->
+  <div style="padding:clamp(96px,12vh,124px) clamp(20px,5vw,72px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ash);display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="Icegler Home.dc.html" style="color:var(--ash);text-decoration:none;" style-hover="color:var(--basalt);">Home</a><span>/</span>
+      <a href="Icegler Collection.dc.html" style="color:var(--ash);text-decoration:none;" style-hover="color:var(--basalt);">Shop</a><span>/</span>
+      <span style="color:var(--basalt);">{{ name }}</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="pdp-grid" style="display:grid;grid-template-columns:1.12fr 0.88fr;gap:clamp(32px,4.5vw,72px);padding:clamp(28px,4vh,48px) clamp(20px,5vw,72px) clamp(56px,8vh,96px);">
+
+    <!-- GALLERY -->
+    <div style="min-width:0;display:flex;flex-direction:column;gap:clamp(12px,1.6vw,20px);">
+      <div style="position:relative;aspect-ratio:1/1;background:var(--snow);border:1px solid var(--mist);overflow:hidden;">
+        <sc-if value="{{ main.real }}" hint-placeholder-val="{{ true }}">
+          <img src="{{ main.src }}" alt="{{ main.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        </sc-if>
+        <sc-if value="{{ main.placeholder }}" hint-placeholder-val="">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:repeating-linear-gradient(135deg,rgba(138,146,150,0.05) 0 2px,rgba(138,146,150,0) 2px 16px);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#B9C2C5" stroke-width="1.1"><path d="M3 16l5-6 4 4 3-4 6 7"/><circle cx="8" cy="7" r="2"/><rect x="2.5" y="3" width="19" height="18"/></svg>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);text-align:center;line-height:1.7;">{{ colorway }} studio shot<br>in production</div>
+          </div>
+        </sc-if>
+        <span style="position:absolute;top:16px;left:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);background:var(--snow);padding:6px 11px;">{{ main.label }}</span>
+      </div>
+
+      <div class="pdp-two" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,20px);">
+        <div style="position:relative;aspect-ratio:1/1;background:var(--snow);border:1px solid var(--mist);overflow:hidden;">
+          <sc-if value="{{ angle.real }}" hint-placeholder-val="{{ true }}">
+            <img src="{{ angle.src }}" alt="{{ angle.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          </sc-if>
+          <sc-if value="{{ angle.placeholder }}" hint-placeholder-val="">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:repeating-linear-gradient(135deg,rgba(138,146,150,0.05) 0 2px,rgba(138,146,150,0) 2px 14px);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B9C2C5" stroke-width="1.1"><path d="M3 16l5-6 4 4 3-4 6 7"/><circle cx="8" cy="7" r="2"/><rect x="2.5" y="3" width="19" height="18"/></svg>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);">Side view</div>
+            </div>
+          </sc-if>
+          <span style="position:absolute;top:12px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);background:var(--snow);padding:5px 9px;">Profile</span>
+        </div>
+        <!-- worn placeholder -->
+        <div style="position:relative;aspect-ratio:1/1;background:linear-gradient(165deg,#E9EEEF 0%,#DCE4E6 100%);border:1px solid var(--mist);overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A7B3B6" stroke-width="1.1"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c0-4.2 3.4-7.5 7.5-7.5s7.5 3.3 7.5 7.5"/></svg>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);text-align:center;line-height:1.7;">On-model<br>winter editorial</div>
+          <span style="position:absolute;top:12px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);background:var(--snow);padding:5px 9px;">Worn</span>
+        </div>
+      </div>
+
+      <!-- ICEBLOCK SIGNATURE -->
+      <div style="position:relative;aspect-ratio:16/10;border:1px solid rgba(255,255,255,0.6);overflow:hidden;background:linear-gradient(158deg,#F6FBFC 0%,#E4EFF2 30%,#CBE0E6 62%,#B2CFD7 100%);box-shadow:inset 0 2px 2px rgba(255,255,255,0.95),inset 0 -44px 80px -34px rgba(62,110,121,0.5),inset 0 34px 64px -42px rgba(255,255,255,0.9);">
+        <div style="position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 40%),radial-gradient(82% 60% at 74% 16%,rgba(255,255,255,0.5),rgba(255,255,255,0) 60%);"></div>
+        <div style="position:absolute;left:16%;top:26%;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 36% 32%,rgba(255,255,255,0.92),rgba(255,255,255,0) 70%);"></div>
+        <div style="position:absolute;left:80%;top:64%;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 36% 32%,rgba(255,255,255,0.88),rgba(255,255,255,0) 70%);"></div>
+        <img src="{{ iceImg }}" alt="{{ name }} encased in clear ice" style="position:absolute;left:50%;top:52%;width:70%;transform:translate(-50%,-50%);mix-blend-mode:multiply;filter:saturate(1.08) contrast(1.08);animation:iceFloatP 9s ease-in-out infinite;">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(200,222,229,0) 0%,rgba(178,207,215,0.55) 100%);backdrop-filter:blur(1.4px);-webkit-backdrop-filter:blur(1.4px);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(116deg,transparent 34%,rgba(255,255,255,0.5) 47%,transparent 60%);animation:iceShimmerP 8s ease-in-out infinite;mix-blend-mode:screen;"></div>
+        <span style="position:absolute;top:14px;left:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--glacial);background:rgba(252,253,253,0.9);padding:5px 10px;">On ice — the signature</span>
+      </div>
+    </div>
+
+    <!-- BUY PANEL -->
+    <div style="min-width:0;">
+      <div class="pdp-buy" style="position:sticky;top:92px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--glacial);">{{ modelNo }}</span>
+          <span style="width:4px;height:4px;border-radius:50%;background:var(--ash);"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--ash);">★ 4.9 · 128 reviews</span>
+        </div>
+        <h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(40px,5.2vw,64px);line-height:0.96;letter-spacing:-0.02em;margin:0;">{{ name }}</h1>
+        <div style="display:flex;align-items:baseline;gap:14px;margin-top:18px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;">{{ priceFmt }}</span>
+          <span style="font-size:14px;color:var(--ash);">incl. VAT</span>
+        </div>
+        <p style="font-size:16px;line-height:1.62;color:var(--slate);margin:22px 0 0;max-width:46ch;">{{ blurb }}</p>
+
+        <!-- COLOURWAY -->
+        <div style="margin-top:34px;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash);">Colour</span>
+            <span style="font-size:14px;font-weight:600;">{{ colorway }}</span>
+          </div>
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+            <sc-for list="{{ swatches }}" as="s" hint-placeholder-count="3">
+              <button class="pdp-swatch" data-on="{{ s.onStr }}" data-key="{{ s.key }}" onClick="{{ selectColor }}" aria-label="{{ s.key }}" title="{{ s.key }}" style="background:{{ s.dot }};"></button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- LENS -->
+        <div style="margin-top:30px;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash);">Lens</span>
+            <a href="Icegler Contact.dc.html" style="font-size:13px;color:var(--glacial);text-decoration:underline;text-underline-offset:2px;">Lens guide</a>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <sc-for list="{{ lensOpts }}" as="l" hint-placeholder-count="3">
+              <button class="pdp-lens" data-on="{{ l.onStr }}" data-key="{{ l.key }}" onClick="{{ selectLens }}">
+                <span>{{ l.key }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ash);">{{ l.upStr }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button onClick="{{ addToBag }}" style="width:100%;margin-top:32px;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:18px;border-radius:2px;cursor:pointer;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Add to bag — {{ priceFmt }}</button>
+        <div style="display:flex;gap:12px;margin-top:12px;">
+          <a href="Icegler Contact.dc.html" style="flex:1;text-align:center;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--basalt);text-decoration:none;border:1px solid var(--mist);background:var(--snow);padding:14px;border-radius:2px;transition:border-color 0.2s;" style-hover="border-color:var(--basalt);">Find in stores</a>
+          <a href="Icegler Contact.dc.html" style="flex:1;text-align:center;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--basalt);text-decoration:none;border:1px solid var(--mist);background:var(--snow);padding:14px;border-radius:2px;transition:border-color 0.2s;" style-hover="border-color:var(--basalt);">Book a fitting</a>
+        </div>
+
+        <!-- TRUST -->
+        <div style="margin-top:26px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--slate);"><span style="width:6px;height:6px;border-radius:50%;background:var(--glacial);flex:none;"></span>Ships in 2–3 days from Reykjavík · free over €250</div>
+          <div style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--slate);"><span style="width:6px;height:6px;border-radius:50%;background:var(--glacial);flex:none;"></span>Two-year guarantee · 30-day free returns</div>
+          <div style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--slate);"><span style="width:6px;height:6px;border-radius:50%;background:var(--glacial);flex:none;"></span>100% UV400 · Carl Zeiss lenses as standard</div>
+        </div>
+
+        <!-- ACCORDIONS -->
+        <div style="margin-top:32px;border-top:1px solid var(--mist);">
+          <sc-for list="{{ accordions }}" as="a" hint-placeholder-count="3">
+            <div style="border-bottom:1px solid var(--mist);">
+              <button class="pdp-acc-head" data-key="{{ a.key }}" onClick="{{ toggleAcc }}">
+                <span style="font-weight:600;font-size:16px;">{{ a.title }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--slate);">{{ a.sign }}</span>
+              </button>
+              <sc-if value="{{ a.open }}" hint-placeholder-val="">
+                <div style="padding:0 0 26px;">
+                  <!-- spec table -->
+                  <sc-if value="{{ a.isSpec }}" hint-placeholder-val="">
+                    <div style="border-top:1px solid var(--mist);">
+                      <sc-for list="{{ specs }}" as="r" hint-placeholder-count="6">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--mist);">
+                          <span style="font-size:14px;color:var(--slate);">{{ r.k }}</span>
+                          <span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;">{{ r.v }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ a.isText }}" hint-placeholder-val="">
+                    <p style="font-size:15px;line-height:1.65;color:var(--slate);margin:0;">{{ a.body }}</p>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOU MAY ALSO LIKE -->
+  <section style="padding:clamp(56px,9vh,110px) clamp(20px,5vw,72px) clamp(72px,11vh,120px);border-top:1px solid var(--mist);">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:clamp(32px,5vh,52px);">
+      <h2 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(28px,3.6vw,46px);line-height:1.0;letter-spacing:-0.015em;margin:0;">Pairs with</h2>
+      <a href="Icegler Collection.dc.html" style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--basalt);text-decoration:none;background:linear-gradient(var(--glacial),var(--glacial)) no-repeat left 100% / 0% 1.5px;padding-bottom:5px;transition:background-size 0.28s cubic-bezier(0.4,0,0.2,1);white-space:nowrap;" style-hover="background-size:100% 1.5px;">View all frames →</a>
+    </div>
+    <div class="pdp-also" style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,40px);">
+      <sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
+        <a href="{{ p.href }}" onMouseEnter="{{ onCardEnter }}" onMouseLeave="{{ onCardLeave }}" style="display:block;text-decoration:none;color:inherit;transition:transform 0.42s cubic-bezier(0.22,1,0.36,1);">
+          <div style="position:relative;aspect-ratio:1/1;background:var(--snow);border:1px solid var(--mist);overflow:hidden;">
+            <img loading="lazy" src="{{ p.img }}" alt="{{ p.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:16px;gap:12px;">
+            <div><div style="font-weight:600;font-size:16px;">{{ p.name }}</div><div style="font-size:13.5px;color:var(--slate);margin-top:3px;">{{ p.colorway }} · {{ p.shape }}</div></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;white-space:nowrap;">{{ p.price }}</div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" newsletter="false" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  FRAMES = {
+    solstice: { slug: 'solstice', name: 'The Solstice', price: 245, model: 'ICG-SOL', shape: 'Angular',
+      blurb: 'Our sharpest silhouette — a double-bridge geometric cut drawn from glacier facets. Lightweight bio-acetate, set with blue-gradient Zeiss lenses for the long northern dusk.',
+      iceImg: 'assets/solstice-angle.jpeg',
+      colorways: [
+        { key: 'Glacier', dot: 'linear-gradient(135deg,#cfe2e7,#eef2f3)', front: 'assets/solstice-front.jpeg', angle: 'assets/solstice-angle.jpeg', real: true },
+        { key: 'Basalt', dot: '#15191B', front: '', angle: '', real: false },
+        { key: 'Meltwater', dot: '#9aa6a9', front: '', angle: '', real: false },
+      ],
+      specs: [['Lens width', '52 mm'], ['Bridge', '18 mm'], ['Temple', '145 mm'], ['Total width', '142 mm'], ['Lens height', '44 mm'], ['Weight', '28 g'], ['Base curve', '6']],
+      details: 'Handcrafted from plant-based bio-acetate, tumble-polished over three days for a warm, glassy finish. Five-barrel stainless hinges. Adjustable acetate nose pads. Each pair is hand-finished and inspected in our Reykjavík studio.',
+      shipping: 'Free carbon-considered shipping on orders over €250, tracked from Reykjavík and delivered in 2–3 working days across Europe. Returns are free within 30 days, unworn and in the original case. Every frame carries a two-year guarantee against manufacturing faults.' },
+    drift: { slug: 'drift', name: 'The Drift', price: 210, model: 'ICG-DRF', shape: 'Rounded',
+      blurb: 'A soft, rounded oval that sits quiet on the face. Our lightest frame — easy, unisex, and understated, with polarized Zeiss lenses cut for low winter glare.',
+      iceImg: 'assets/drift-basalt.jpeg',
+      colorways: [
+        { key: 'Basalt', dot: '#15191B', front: 'assets/drift-basalt.jpeg', angle: '', real: true },
+        { key: 'Glacier', dot: 'linear-gradient(135deg,#e7d9da,#f1ecec)', front: 'assets/drift-glacier.jpeg', angle: '', real: true },
+        { key: 'Driftwood', dot: '#7a6a52', front: '', angle: '', real: false },
+      ],
+      specs: [['Lens width', '49 mm'], ['Bridge', '21 mm'], ['Temple', '145 mm'], ['Total width', '140 mm'], ['Lens height', '46 mm'], ['Weight', '26 g'], ['Base curve', '6']],
+      details: 'Plant-based bio-acetate, hand-polished to a soft sheen. Lightweight stainless core wire runs the length of each temple for a gentle, lasting fit. Hand-finished in Reykjavík.',
+      shipping: 'Free carbon-considered shipping on orders over €250, tracked from Reykjavík and delivered in 2–3 working days across Europe. Returns are free within 30 days, unworn and in the original case. Every frame carries a two-year guarantee against manufacturing faults.' },
+    basalt: { slug: 'basalt', name: 'The Basalt', price: 230, model: 'ICG-BAS', shape: 'Square',
+      blurb: 'A bold, square keyhole frame named for Iceland\u2019s black basalt columns. Confident and architectural, warmed by hand-finished acetate and Zeiss polarized lenses.',
+      iceImg: 'assets/basalt-driftwood.jpeg',
+      colorways: [
+        { key: 'Driftwood', dot: '#7a6a52', front: 'assets/basalt-driftwood.jpeg', angle: '', real: true },
+        { key: 'Meltwater', dot: '#9aa6a9', front: 'assets/basalt-meltwater.jpeg', angle: '', real: true },
+        { key: 'Basalt', dot: '#15191B', front: '', angle: '', real: false },
+      ],
+      specs: [['Lens width', '50 mm'], ['Bridge', '20 mm'], ['Temple', '148 mm'], ['Total width', '146 mm'], ['Lens height', '45 mm'], ['Weight', '30 g'], ['Base curve', '8']],
+      details: 'Bold sheet bio-acetate, bevelled by hand and polished to a deep shine. Reinforced five-barrel hinges and a keyhole bridge. Hand-finished and inspected in Reykjavík.',
+      shipping: 'Free carbon-considered shipping on orders over €250, tracked from Reykjavík and delivered in 2–3 working days across Europe. Returns are free within 30 days, unworn and in the original case. Every frame carries a two-year guarantee against manufacturing faults.' },
+  };
+  LENSES = [{ key: 'Blue gradient', up: 0 }, { key: 'Polarized grey', up: 20 }, { key: 'Smoke', up: 0 }];
+
+  state = { frame: 'solstice', color: 'Glacier', lens: 'Blue gradient', view: 'front', acc: { details: true, specs: false, shipping: false } };
+
+  componentDidMount() {
+    try {
+      const q = new URLSearchParams(location.search);
+      const f = q.get('frame');
+      const c = q.get('color');
+      const upd = {};
+      if (f && this.FRAMES[f]) {
+        upd.frame = f;
+        const cw = this.FRAMES[f].colorways;
+        upd.color = (c && cw.find(x => x.key === c)) ? c : cw[0].key;
+        upd.view = 'front';
+      }
+      if (Object.keys(upd).length) this.setState(upd);
+    } catch (e) {}
+  }
+
+  fmt(n) { return '€' + n.toLocaleString('de-DE'); }
+  curFrame() { return this.FRAMES[this.state.frame]; }
+  curColor() { const f = this.curFrame(); return f.colorways.find(c => c.key === this.state.color) || f.colorways[0]; }
+
+  selectColor = (e) => { const key = e.currentTarget.getAttribute('data-key'); this.setState({ color: key, view: 'front' }); };
+  selectLens = (e) => { const key = e.currentTarget.getAttribute('data-key'); this.setState({ lens: key }); };
+  toggleAcc = (e) => { const key = e.currentTarget.getAttribute('data-key'); this.setState(s => ({ acc: { ...s.acc, [key]: !s.acc[key] } })); };
+  addToBag = () => {
+    const f = this.curFrame(); const cw = this.curColor();
+    const lens = this.LENSES.find(l => l.key === this.state.lens) || this.LENSES[0];
+    const price = f.price + lens.up;
+    const img = cw.real ? cw.front : f.iceImg;
+    window.dispatchEvent(new CustomEvent('icegler:add', { detail: {
+      id: f.slug + '|' + cw.key + '|' + lens.key, name: f.name, colorway: cw.key, lens: lens.key, price, img, qty: 1,
+    } }));
+  };
+  onCardEnter = (e) => { const b = e.currentTarget.querySelector('img'); if (b) b.style.transform = 'scale(1.04)'; e.currentTarget.style.transform = 'translateY(-6px)'; };
+  onCardLeave = (e) => { const b = e.currentTarget.querySelector('img'); if (b) b.style.transform = 'scale(1)'; e.currentTarget.style.transform = 'translateY(0)'; };
+
+  renderVals() {
+    const f = this.curFrame(); const cw = this.curColor();
+    const lens = this.LENSES.find(l => l.key === this.state.lens) || this.LENSES[0];
+    const price = f.price + lens.up;
+
+    const mainReal = cw.real;
+    const main = mainReal
+      ? { real: true, placeholder: false, src: cw.front, alt: f.name + ' in ' + cw.key + ', front view', label: 'Front' }
+      : { real: false, placeholder: true, label: 'Front' };
+    const angleReal = !!cw.angle;
+    const angle = angleReal
+      ? { real: true, placeholder: false, src: cw.angle, alt: f.name + ' in ' + cw.key + ', three-quarter view' }
+      : { real: false, placeholder: true };
+
+    const related = [];
+    Object.values(this.FRAMES).filter(x => x.slug !== f.slug).forEach(x => {
+      x.colorways.filter(c => c.real).forEach(rc => {
+        related.push({ name: x.name, colorway: rc.key, shape: x.shape, price: this.fmt(x.price),
+          img: rc.front, alt: x.name + ' in ' + rc.key,
+          href: 'Icegler Product.dc.html?frame=' + x.slug + '&color=' + encodeURIComponent(rc.key) });
+      });
+    });
+
+    return {
+      name: f.name, modelNo: f.model + '-' + cw.key.slice(0, 3).toUpperCase(), colorway: cw.key,
+      priceFmt: this.fmt(price), blurb: f.blurb, iceImg: f.iceImg,
+      main, angle,
+      swatches: f.colorways.map(c => ({ key: c.key, dot: c.dot, onStr: c.key === cw.key ? '1' : '0' })),
+      lensOpts: this.LENSES.map(l => ({ key: l.key, onStr: l.key === lens.key ? '1' : '0', upStr: l.up ? '+' + this.fmt(l.up) : 'Included' })),
+      specs: f.specs.map(r => ({ k: r[0], v: r[1] })),
+      accordions: [
+        { key: 'details', title: 'Details & craft', sign: this.state.acc.details ? '–' : '+', open: this.state.acc.details, isText: true, isSpec: false, body: f.details },
+        { key: 'specs', title: 'Specifications', sign: this.state.acc.specs ? '–' : '+', open: this.state.acc.specs, isText: false, isSpec: true, body: '' },
+        { key: 'shipping', title: 'Shipping & returns', sign: this.state.acc.shipping ? '–' : '+', open: this.state.acc.shipping, isText: true, isSpec: false, body: f.shipping },
+      ],
+      related: related.slice(0, 3),
+      selectColor: this.selectColor, selectLens: this.selectLens, toggleAcc: this.toggleAcc, addToBag: this.addToBag,
+      onCardEnter: this.onCardEnter, onCardLeave: this.onCardLeave,
+    };
+  }
+}
+</script>
+</body>
+</html>

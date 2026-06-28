@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  ::selection{background:#3E6E79;color:#FCFDFD;}
+  .cf-in{width:100%;font-family:'Schibsted Grotesk',sans-serif;font-size:15px;color:#15191B;background:#FCFDFD;border:1px solid #DBE0E1;border-radius:2px;padding:13px 14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+  .cf-in:focus{border-color:#3E6E79;box-shadow:0 0 0 3px rgba(62,110,121,0.13);}
+  .cf-in::placeholder{color:#A7B0B3;}
+  textarea.cf-in{resize:vertical;min-height:128px;line-height:1.55;}
+  select.cf-in{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2315191B' stroke-width='1.6'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;}
+  .cf-lbl{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8A9296;margin-bottom:8px;}
+  .reg-tab{font-family:'Schibsted Grotesk',sans-serif;font-size:14px;font-weight:500;color:#586065;background:none;border:none;border-bottom:1.5px solid transparent;padding:8px 2px;cursor:pointer;transition:color 0.2s,border-color 0.2s;}
+  .reg-tab:hover{color:#15191B;}
+  .reg-tab[data-on="1"]{color:#15191B;border-color:#15191B;}
+  .faq-q{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;background:none;border:none;cursor:pointer;padding:22px 0;text-align:left;font-family:'Schibsted Grotesk',sans-serif;color:#15191B;}
+  @media (max-width:880px){ .cf-grid{grid-template-columns:1fr !important;gap:48px !important;} .stores-grid{grid-template-columns:1fr !important;} .faq-grid{grid-template-columns:1fr !important;gap:8px !important;} }
+  @media (max-width:560px){ .cf-two{grid-template-columns:1fr !important;} .stores-list{grid-template-columns:1fr !important;} }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</helmet>
+<div data-screen-label="Contact / FAQ / Stores" style="--glacier:#F2F4F4;--snow:#FCFDFD;--basalt:#15191B;--slate:#586065;--ash:#8A9296;--mist:#DBE0E1;--meltwater:#DCE8EB;--ice:#BFD9DE;--glacial:#3E6E79;--driftwood:#E7E1D6;background:var(--glacier);color:var(--basalt);font-family:'Schibsted Grotesk',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;">
+
+  <dc-import name="SiteNav" current="stores" solid="true" hint-size="100%,66px"></dc-import>
+
+  <!-- HEADER -->
+  <header style="padding:clamp(116px,15vh,168px) clamp(20px,5vw,72px) clamp(36px,5vh,56px);border-bottom:1px solid var(--mist);">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,40px);align-items:end;">
+      <div style="grid-column:1 / span 8;min-width:0;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--glacial);margin-bottom:26px;">Contact · Stores · FAQ</div>
+        <h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(44px,7vw,92px);line-height:0.94;letter-spacing:-0.022em;margin:0;">We'd love to<br>hear from you.</h1>
+      </div>
+      <div style="grid-column:10 / span 3;min-width:0;">
+        <p style="font-size:16px;line-height:1.6;color:var(--slate);margin:0;">A small team in Reykjavík, happy to help with fit, lenses, orders, or anything else. We reply within one working day.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTACT -->
+  <section class="cf-grid" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:clamp(40px,6vw,96px);padding:clamp(56px,8vh,100px) clamp(20px,5vw,72px);">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:28px;">Send a message</div>
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:18px;max-width:560px;">
+          <div class="cf-two" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div><label class="cf-lbl">Name</label><input class="cf-in" data-field="name" required placeholder="Your name" /></div>
+            <div><label class="cf-lbl">Email</label><input class="cf-in" type="email" data-field="email" required placeholder="your@email.com" /></div>
+          </div>
+          <div><label class="cf-lbl">Subject</label>
+            <select class="cf-in" data-field="subject"><option>A question about fit</option><option>Lenses &amp; prescriptions</option><option>An existing order</option><option>Press &amp; partnerships</option><option>Something else</option></select>
+          </div>
+          <div><label class="cf-lbl">Message</label><textarea class="cf-in" data-field="message" required placeholder="How can we help?"></textarea></div>
+          <button type="submit" style="align-self:flex-start;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:15px 32px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Send message</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{ sent }}" hint-placeholder-val="">
+        <div style="max-width:560px;border:1px solid var(--mist);background:var(--snow);padding:40px 36px;display:flex;flex-direction:column;align-items:flex-start;gap:14px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--meltwater);display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3E6E79" stroke-width="1.5"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div style="font-family:'Fraunces',serif;font-weight:300;font-size:28px;">Message sent.</div>
+          <p style="font-size:15px;line-height:1.6;color:var(--slate);margin:0;">Thank you, {{ sentName }}. We've got your note and will reply to {{ sentEmail }} within one working day.</p>
+          <button onClick="{{ reset }}" style="margin-top:6px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--glacial);text-decoration:underline;text-underline-offset:3px;padding:0;">Send another →</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:28px;">Direct</div>
+      <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--mist);">
+        <div style="padding:20px 0;border-bottom:1px solid var(--mist);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;">Email</div>
+          <a href="#" style="font-size:18px;color:var(--basalt);text-decoration:none;" style-hover="color:var(--glacial);">hello@icegler.is</a>
+        </div>
+        <div style="padding:20px 0;border-bottom:1px solid var(--mist);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;">Phone</div>
+          <a href="#" style="font-size:18px;color:var(--basalt);text-decoration:none;" style-hover="color:var(--glacial);">+354 555 0142</a>
+        </div>
+        <div style="padding:20px 0;border-bottom:1px solid var(--mist);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;">Studio</div>
+          <div style="font-size:16px;line-height:1.5;color:var(--basalt);">Grandagarður 7<br>101 Reykjavík, Iceland</div>
+        </div>
+        <div style="padding:20px 0;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;">Hours</div>
+          <div style="font-size:16px;line-height:1.5;color:var(--basalt);">Mon–Fri · 9:00–17:00 GMT</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORES -->
+  <section style="padding:clamp(56px,8vh,100px) clamp(20px,5vw,72px);border-top:1px solid var(--mist);">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:clamp(32px,5vh,52px);">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:22px;">Find us</div>
+        <h2 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(30px,4.4vw,56px);line-height:1.0;letter-spacing:-0.018em;margin:0;">Stores &amp; stockists.</h2>
+      </div>
+      <div style="display:flex;gap:24px;">
+        <button class="reg-tab" data-on="{{ allOn }}" data-region="all" onClick="{{ setRegion }}">All</button>
+        <button class="reg-tab" data-on="{{ iceOn }}" data-region="Iceland" onClick="{{ setRegion }}">Iceland</button>
+        <button class="reg-tab" data-on="{{ euOn }}" data-region="Europe" onClick="{{ setRegion }}">Europe</button>
+      </div>
+    </div>
+
+    <div class="stores-grid" style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:clamp(28px,4vw,56px);align-items:start;">
+      <div class="stores-list" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mist);border:1px solid var(--mist);">
+        <sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
+          <div style="background:var(--snow);padding:26px 24px;display:flex;flex-direction:column;min-height:188px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:{{ s.flagColor }};border:1px solid var(--mist);padding:4px 8px;">{{ s.kind }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ash);">{{ s.country }}</span>
+            </div>
+            <div style="font-weight:600;font-size:18px;letter-spacing:-0.01em;">{{ s.name }}</div>
+            <div style="font-size:14px;color:var(--slate);margin-top:8px;line-height:1.5;flex:1;">{{ s.address }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ash);">{{ s.hours }}</span>
+              <a href="#" style="font-size:13px;font-weight:600;color:var(--glacial);text-decoration:none;" style-hover="text-decoration:underline;">Directions →</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- MAP PLACEHOLDER -->
+      <div style="position:sticky;top:92px;">
+        <div style="position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid var(--mist);background:repeating-linear-gradient(135deg,rgba(62,110,121,0.05) 0 2px,rgba(62,110,121,0) 2px 16px),radial-gradient(70% 60% at 38% 32%,rgba(191,217,222,0.5),rgba(220,232,235,0) 70%),linear-gradient(160deg,#E8EEEF 0%,#DCE6E8 100%);">
+          <div style="position:absolute;left:38%;top:32%;width:14px;height:14px;border-radius:50%;background:var(--glacial);box-shadow:0 0 0 6px rgba(62,110,121,0.18);"></div>
+          <div style="position:absolute;left:60%;top:54%;width:9px;height:9px;border-radius:50%;background:var(--slate);"></div>
+          <div style="position:absolute;left:48%;top:70%;width:9px;height:9px;border-radius:50%;background:var(--slate);"></div>
+          <span style="position:absolute;left:18px;top:16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);">[ Interactive map ]</span>
+          <span style="position:absolute;left:18px;bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--glacial);">Flagship — Reykjavík 64°N</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="padding:clamp(56px,8vh,100px) clamp(20px,5vw,72px) clamp(72px,11vh,120px);border-top:1px solid var(--mist);">
+    <div style="margin-bottom:clamp(36px,5vh,56px);">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:22px;">Questions</div>
+      <h2 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(30px,4.4vw,56px);line-height:1.0;letter-spacing:-0.018em;margin:0;">Good to know.</h2>
+    </div>
+    <div class="faq-grid" style="display:grid;grid-template-columns:200px 1fr;gap:clamp(28px,4vw,72px);align-items:start;">
+      <div style="position:sticky;top:92px;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+          <button data-cat="{{ c.key }}" onClick="{{ jumpCat }}" style="text-align:left;background:none;border:none;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);padding:7px 0;transition:color 0.2s;" style-hover="color:var(--glacial);">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div>
+        <sc-for list="{{ faqCats }}" as="cat" hint-placeholder-count="5">
+          <div id="{{ cat.anchor }}" style="margin-bottom:clamp(32px,5vh,52px);scroll-margin-top:92px;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--glacial);margin-bottom:6px;">{{ cat.label }}</div>
+            <sc-for list="{{ cat.items }}" as="q" hint-placeholder-count="2">
+              <div style="border-bottom:1px solid var(--mist);">
+                <button class="faq-q" data-id="{{ q.id }}" onClick="{{ toggleFaq }}">
+                  <span style="font-weight:600;font-size:17px;letter-spacing:-0.005em;">{{ q.q }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--slate);flex:none;">{{ q.sign }}</span>
+                </button>
+                <sc-if value="{{ q.open }}" hint-placeholder-val="">
+                  <p style="font-size:15.5px;line-height:1.65;color:var(--slate);margin:0;padding:0 0 24px;max-width:60ch;">{{ q.a }}</p>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+        <div style="margin-top:8px;font-size:15px;color:var(--slate);">Still stuck? <a href="#" style="color:var(--glacial);font-weight:600;text-decoration:none;" style-hover="text-decoration:underline;">Email us at hello@icegler.is →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" newsletter="true" hint-size="100%,640px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  STORES = [
+    { name: 'Icegler Reykjavík', kind: 'Flagship', country: 'Iceland', region: 'Iceland', address: 'Laugavegur 42, 101 Reykjavík', hours: 'Daily · 10–18' },
+    { name: 'Icegler Akureyri', kind: 'Store', country: 'Iceland', region: 'Iceland', address: 'Hafnarstræti 91, 600 Akureyri', hours: 'Mon–Sat · 11–17' },
+    { name: 'Designhús', kind: 'Stockist', country: 'Denmark', region: 'Europe', address: 'Bredgade 12, 1260 Copenhagen', hours: 'Mon–Sat · 10–18' },
+    { name: 'Optik Mitte', kind: 'Stockist', country: 'Germany', region: 'Europe', address: 'Torstraße 84, 10119 Berlin', hours: 'Tue–Sat · 11–19' },
+    { name: 'Galerie Optique', kind: 'Stockist', country: 'France', region: 'Europe', address: '18 Rue de Turenne, 75004 Paris', hours: 'Mon–Sat · 11–19' },
+    { name: 'Brillehuset', kind: 'Stockist', country: 'Norway', region: 'Europe', address: 'Bogstadveien 6, 0355 Oslo', hours: 'Mon–Fri · 10–18' },
+  ];
+  FAQS = [
+    { key: 'fit', label: 'Fit & sizing', items: [
+      { id: 'fit1', q: 'How do I find the right size?', a: 'Every product page lists full measurements in millimetres — lens width, bridge, and temple length. Compare them to a frame you already wear, or send us a photo and we\u2019ll recommend a fit. Our three frames run from 49mm (The Drift) to 52mm (The Solstice).' },
+      { id: 'fit2', q: 'Can the frames be adjusted?', a: 'Yes. Our bio-acetate can be gently heat-adjusted by any optician for a precise fit across the nose and temples. It\u2019s a two-minute job and we\u2019re happy to do it in-store in Reykjavík.' },
+    ]},
+    { key: 'lenses', label: 'Lenses', items: [
+      { id: 'len1', q: 'Can I order prescription lenses?', a: 'Most Icegler frames can be glazed with your prescription. Choose your frame, then book a fitting or email us your prescription and we\u2019ll arrange Zeiss lenses cut to your script.' },
+      { id: 'len2', q: 'What lens options come as standard?', a: 'Every frame ships with Carl Zeiss lenses — 100% UV400 protection — in your choice of blue gradient, polarized grey, or smoke. Polarized is a small upgrade and cuts glare beautifully on snow and water.' },
+    ]},
+    { key: 'shipping', label: 'Shipping', items: [
+      { id: 'ship1', q: 'Where do you ship, and how long does it take?', a: 'We ship across Europe from Reykjavík, tracked, in 2–3 working days. Shipping is free over €250; a flat €12 otherwise. Express next-day delivery is available at checkout.' },
+      { id: 'ship2', q: 'Do you ship outside Europe?', a: 'Not through the site just yet — but we\u2019d love to help. Email hello@icegler.is with your country and we\u2019ll arrange a shipment and a quote.' },
+    ]},
+    { key: 'returns', label: 'Returns', items: [
+      { id: 'ret1', q: 'What is your returns policy?', a: 'Return any unworn frame within 30 days, in its original case, for a full refund. Returns are free across Europe — we\u2019ll send a prepaid label. Prescription lenses are made to order and non-returnable.' },
+      { id: 'ret2', q: 'How do exchanges work?', a: 'Exchanges are free within 30 days. Start a return for your original frame and place a new order — we\u2019ll refund the first as soon as it\u2019s on its way back to us.' },
+    ]},
+    { key: 'care', label: 'Care & guarantee', items: [
+      { id: 'care1', q: 'How should I care for my frames?', a: 'Clean the lenses with the microfibre cloth included, a little warm water if needed — never paper or a shirt-tail. Store them in the cork case, and keep them out of hot cars and off the top of your head, which stretches the temples.' },
+      { id: 'care2', q: 'What does the guarantee cover?', a: 'Every Icegler frame and lens carries a two-year guarantee against manufacturing faults. If something fails through normal wear, we\u2019ll repair or replace it. Reach out and we\u2019ll make it right.' },
+    ]},
+  ];
+  state = { sent: false, sentName: '', sentEmail: '', region: 'all', open: {} };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const get = (f) => { const el = form.querySelector('[data-field="' + f + '"]'); return el ? el.value : ''; };
+    this.setState({ sent: true, sentName: (get('name') || 'friend').split(' ')[0], sentEmail: get('email') || 'your inbox' });
+    try { (document.scrollingElement || document.documentElement).scrollTop = 0; } catch (x) {}
+  };
+  reset = () => this.setState({ sent: false });
+  setRegion = (e) => this.setState({ region: e.currentTarget.getAttribute('data-region') });
+  toggleFaq = (e) => { const id = e.currentTarget.getAttribute('data-id'); this.setState(s => ({ open: { ...s.open, [id]: !s.open[id] } })); };
+  jumpCat = (e) => { const k = e.currentTarget.getAttribute('data-cat'); const el = document.getElementById('faq-' + k); if (el) { const top = el.getBoundingClientRect().top + (document.scrollingElement || document.documentElement).scrollTop - 92; window.scrollTo({ top, behavior: 'smooth' }); } };
+
+  renderVals() {
+    const region = this.state.region;
+    const stores = this.STORES.filter(s => region === 'all' || s.region === region).map(s => ({
+      ...s, flagColor: s.kind === 'Flagship' ? '#3E6E79' : '#8A9296',
+    }));
+    return {
+      notSent: !this.state.sent, sent: this.state.sent, sentName: this.state.sentName, sentEmail: this.state.sentEmail,
+      stores,
+      allOn: region === 'all' ? '1' : '0', iceOn: region === 'Iceland' ? '1' : '0', euOn: region === 'Europe' ? '1' : '0',
+      cats: this.FAQS.map(c => ({ key: c.key, label: c.label })),
+      faqCats: this.FAQS.map(c => ({
+        label: c.label, anchor: 'faq-' + c.key,
+        items: c.items.map(q => ({ ...q, sign: this.state.open[q.id] ? '–' : '+', open: !!this.state.open[q.id] })),
+      })),
+      onSubmit: this.onSubmit, reset: this.reset, setRegion: this.setRegion, toggleFaq: this.toggleFaq, jumpCat: this.jumpCat,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  .icg-foot a{transition:color 0.2s;}
+  @media (max-width:780px){ .icg-foot-grid{grid-template-columns:1fr 1fr !important;} .icg-news-grid{grid-template-columns:1fr !important;gap:32px !important;} }
+  @media (max-width:520px){ .icg-foot-grid{grid-template-columns:1fr 1fr !important;} }
+</style>
+</helmet>
+<div class="icg-foot" style="--glacier:#F2F4F4;--snow:#FCFDFD;--basalt:#15191B;--slate:#586065;--ash:#8A9296;--mist:#DBE0E1;--meltwater:#DCE8EB;--ice:#BFD9DE;--glacial:#3E6E79;font-family:'Schibsted Grotesk',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;">
+
+  <sc-if value="{{ showNews }}" hint-placeholder-val="">
+    <section style="background:var(--basalt);border-bottom:1px solid rgba(255,255,255,0.1);padding:clamp(64px,10vh,110px) clamp(20px,5vw,72px);">
+      <div class="icg-news-grid" style="display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,90px);align-items:center;max-width:1100px;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ice);margin-bottom:22px;">The newsletter</div>
+          <h2 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(30px,4vw,50px);line-height:1.0;letter-spacing:-0.018em;margin:0;color:var(--snow);">Join the Cold Club.</h2>
+          <p style="font-size:16px;line-height:1.6;color:#AEB7BB;max-width:42ch;margin:18px 0 0;">Early access to drops, the winter lookbook, and a little Reykjavík in your inbox. No noise.</p>
+        </div>
+        <div>
+          <form onSubmit="{{ onSubscribe }}" style="display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.4);">
+            <input type="email" required placeholder="your@email.com" style="flex:1;min-width:0;border:none;background:none;outline:none;font-family:'Schibsted Grotesk',sans-serif;font-size:16px;color:var(--snow);padding:12px 4px;" />
+            <button type="submit" style="background:none;border:none;cursor:pointer;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);padding:12px 4px 12px 20px;white-space:nowrap;transition:color 0.2s;" style-hover="color:var(--ice);">Subscribe →</button>
+          </form>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B767A;margin-top:14px;">{{ newsMsg }}</div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <footer id="footer" style="background:var(--basalt);color:#AEB7BB;padding:clamp(64px,9vh,110px) clamp(20px,5vw,72px) 40px;">
+    <div class="icg-foot-grid" style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:clamp(32px,4vw,64px);padding-bottom:clamp(48px,7vh,80px);border-bottom:1px solid rgba(255,255,255,0.1);">
+      <div style="max-width:300px;">
+        <img src="assets/logo-light.png" alt="Icegler" style="height:24px;width:auto;display:block;margin-bottom:22px;opacity:0.96;">
+        <p style="font-size:15px;line-height:1.6;color:#8A9296;margin:0;">Premium sunglasses designed in Reykjavík and shaped by Icelandic light.</p>
+        <div style="display:flex;gap:18px;margin-top:26px;">
+          <a href="Icegler Lookbook.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Instagram</a>
+          <a href="Icegler Lookbook.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Pinterest</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6B767A;margin-bottom:20px;">Shop</div>
+        <div style="display:flex;flex-direction:column;gap:13px;">
+          <a href="Icegler Product.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">The Solstice</a>
+          <a href="Icegler Collection.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">The Drift</a>
+          <a href="Icegler Collection.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">The Basalt</a>
+          <a href="Icegler Collection.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">All frames</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6B767A;margin-bottom:20px;">Brand</div>
+        <div style="display:flex;flex-direction:column;gap:13px;">
+          <a href="Icegler Story.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Our story</a>
+          <a href="Icegler Lookbook.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Lookbook</a>
+          <a href="Icegler Story.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Sustainability</a>
+          <a href="Icegler Contact.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Stores</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#6B767A;margin-bottom:20px;">Care</div>
+        <div style="display:flex;flex-direction:column;gap:13px;">
+          <a href="Icegler Contact.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Shipping &amp; returns</a>
+          <a href="Icegler Contact.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">FAQ</a>
+          <a href="Icegler Contact.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Lens guide</a>
+          <a href="Icegler Contact.dc.html" style="font-size:14.5px;color:#AEB7BB;text-decoration:none;" style-hover="color:#FCFDFD;">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:30px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;color:#6B767A;">© 2025 Icegler — Reykjavík, Iceland</div>
+      <div style="display:flex;gap:24px;align-items:center;">
+        <a href="Icegler Contact.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B767A;text-decoration:none;" style-hover="color:#AEB7BB;">Privacy</a>
+        <a href="Icegler Contact.dc.html" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B767A;text-decoration:none;" style-hover="color:#AEB7BB;">Terms</a>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B767A;">EUR €</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:420},&quot;newsletter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;true&quot;,&quot;false&quot;],&quot;default&quot;:&quot;false&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { newsMsg: 'We send rarely. Unsubscribe anytime.' };
+  renderVals() {
+    return {
+      showNews: String(this.props.newsletter) === 'true',
+      newsMsg: this.state.newsMsg,
+      onSubscribe: (e) => { e.preventDefault(); this.setState({ newsMsg: 'Welcome to the Cold Club. ❄  Check your inbox.' }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

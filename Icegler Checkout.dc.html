@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  ::selection{background:#3E6E79;color:#FCFDFD;}
+  .ck-in{width:100%;font-family:'Schibsted Grotesk',sans-serif;font-size:15px;color:#15191B;background:#FCFDFD;border:1px solid #DBE0E1;border-radius:2px;padding:13px 14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+  .ck-in:focus{border-color:#3E6E79;box-shadow:0 0 0 3px rgba(62,110,121,0.13);}
+  .ck-in::placeholder{color:#A7B0B3;}
+  select.ck-in{-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2315191B' stroke-width='1.6'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;}
+  .ck-lbl{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8A9296;margin-bottom:8px;}
+  @media (max-width:900px){ .ck-grid{grid-template-columns:1fr !important;} .ck-summary{position:static !important;border-left:none !important;border-top:1px solid #DBE0E1;} .ck-summary-inner{position:static !important;} }
+  @media (max-width:520px){ .ck-two{grid-template-columns:1fr !important;} .ck-three{grid-template-columns:1fr 1fr !important;} }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</helmet>
+<div data-screen-label="Checkout" style="--glacier:#F2F4F4;--snow:#FCFDFD;--basalt:#15191B;--slate:#586065;--ash:#8A9296;--mist:#DBE0E1;--meltwater:#DCE8EB;--ice:#BFD9DE;--glacial:#3E6E79;--driftwood:#E7E1D6;background:var(--snow);color:var(--basalt);font-family:'Schibsted Grotesk',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;">
+
+  <!-- MINIMAL HEADER -->
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px clamp(20px,5vw,72px);border-bottom:1px solid var(--mist);">
+    <a href="Icegler Home.dc.html" aria-label="Icegler — home"><img src="assets/logo-dark.png" alt="Icegler" style="height:24px;width:auto;display:block;"></a>
+    <div style="display:flex;align-items:center;gap:8px;color:var(--slate);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;">Secure checkout</span>
+    </div>
+  </header>
+
+  <sc-if value="{{ notPlaced }}" hint-placeholder-val="{{ true }}">
+  <div class="ck-grid" style="display:grid;grid-template-columns:1fr 440px;min-height:calc(100vh - 69px);">
+    <!-- FORM SIDE -->
+    <div style="min-width:0;padding:clamp(36px,6vh,72px) clamp(20px,5vw,72px);max-width:760px;width:100%;justify-self:end;">
+      <a href="Icegler Cart.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--slate);text-decoration:none;margin-bottom:30px;" style-hover="color:var(--basalt);">← Back to bag</a>
+
+      <!-- STEPPER -->
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:40px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ st.color }};">{{ st.num }}</span>
+            <span style="font-size:13px;font-weight:{{ st.weight }};color:{{ st.color }};letter-spacing:0.01em;">{{ st.label }}</span>
+            <sc-if value="{{ st.sep }}" hint-placeholder-val="{{ true }}"><span style="width:22px;height:1px;background:var(--mist);margin:0 6px;"></span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div id="checkout-form">
+      <!-- STEP 1 CONTACT -->
+      <section style="border-top:1px solid var(--mist);padding:26px 0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0;color:{{ s1.titleColor }};">1 · Contact</h2>
+          <sc-if value="{{ s1.done }}" hint-placeholder-val=""><button data-step="1" onClick="{{ editTo }}" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--glacial);text-decoration:underline;text-underline-offset:2px;">Edit</button></sc-if>
+        </div>
+        <sc-if value="{{ s1.active }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:20px;">
+            <label class="ck-lbl">Email address</label>
+            <input class="ck-in" type="email" data-field="email" defaultValue="sigrun@nordmail.is" placeholder="your@email.com" />
+            <label style="display:flex;align-items:center;gap:10px;margin-top:16px;cursor:pointer;font-size:14px;color:var(--slate);">
+              <input type="checkbox" data-field="news" defaultChecked style="width:16px;height:16px;accent-color:#3E6E79;" />
+              Email me Icegler news and early access to drops
+            </label>
+            <button onClick="{{ go2 }}" style="margin-top:22px;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:15px 30px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Continue to shipping</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ s1.done }}" hint-placeholder-val=""><div style="margin-top:12px;font-size:14.5px;color:var(--slate);">{{ cap.email }}</div></sc-if>
+      </section>
+
+      <!-- STEP 2 SHIPPING -->
+      <section style="border-top:1px solid var(--mist);padding:26px 0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0;color:{{ s2.titleColor }};">2 · Shipping</h2>
+          <sc-if value="{{ s2.done }}" hint-placeholder-val=""><button data-step="2" onClick="{{ editTo }}" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--glacial);text-decoration:underline;text-underline-offset:2px;">Edit</button></sc-if>
+        </div>
+        <sc-if value="{{ s2.active }}" hint-placeholder-val="">
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+            <div class="ck-two" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div><label class="ck-lbl">First name</label><input class="ck-in" data-field="firstName" defaultValue="Sigrún" /></div>
+              <div><label class="ck-lbl">Last name</label><input class="ck-in" data-field="lastName" defaultValue="Jónsdóttir" /></div>
+            </div>
+            <div><label class="ck-lbl">Address</label><input class="ck-in" data-field="address" defaultValue="Laugavegur 42" /></div>
+            <div class="ck-two" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div><label class="ck-lbl">Apartment (optional)</label><input class="ck-in" data-field="apt" defaultValue="" placeholder="Apt, suite, etc." /></div>
+              <div><label class="ck-lbl">Postal code</label><input class="ck-in" data-field="postal" defaultValue="101" /></div>
+            </div>
+            <div class="ck-two" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div><label class="ck-lbl">City</label><input class="ck-in" data-field="city" defaultValue="Reykjavík" /></div>
+              <div><label class="ck-lbl">Country</label>
+                <select class="ck-in" data-field="country">
+                  <option>Iceland</option><option>Denmark</option><option>Norway</option><option>Sweden</option><option>Finland</option><option>Germany</option><option>United Kingdom</option><option>France</option><option>Netherlands</option>
+                </select>
+              </div>
+            </div>
+            <div><label class="ck-lbl">Phone (for delivery updates)</label><input class="ck-in" data-field="phone" defaultValue="+354 555 0142" /></div>
+
+            <div style="margin-top:6px;">
+              <label class="ck-lbl">Delivery method</label>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <label style="display:flex;align-items:center;gap:12px;border:1px solid var(--mist);border-radius:2px;padding:14px 16px;cursor:pointer;">
+                  <input type="radio" name="ship" data-field="shipMethod" value="Standard — 2–3 days" defaultChecked style="width:16px;height:16px;accent-color:#3E6E79;" />
+                  <span style="flex:1;font-size:14.5px;">Standard <span style="color:var(--ash);">· 2–3 working days</span></span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;">Free</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:12px;border:1px solid var(--mist);border-radius:2px;padding:14px 16px;cursor:pointer;">
+                  <input type="radio" name="ship" data-field="shipMethod" value="Express — next day" style="width:16px;height:16px;accent-color:#3E6E79;" />
+                  <span style="flex:1;font-size:14.5px;">Express <span style="color:var(--ash);">· next working day</span></span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;">€15</span>
+                </label>
+              </div>
+            </div>
+            <button onClick="{{ go3 }}" style="margin-top:8px;align-self:flex-start;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:15px 30px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Continue to payment</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ s2.done }}" hint-placeholder-val=""><div style="margin-top:12px;font-size:14.5px;color:var(--slate);line-height:1.5;">{{ cap.shipName }}<br>{{ cap.shipAddr }}<br>{{ cap.shipMethod }}</div></sc-if>
+      </section>
+
+      <!-- STEP 3 PAYMENT -->
+      <section style="border-top:1px solid var(--mist);padding:26px 0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0;color:{{ s3.titleColor }};">3 · Payment</h2>
+          <sc-if value="{{ s3.done }}" hint-placeholder-val=""><button data-step="3" onClick="{{ editTo }}" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--glacial);text-decoration:underline;text-underline-offset:2px;">Edit</button></sc-if>
+        </div>
+        <sc-if value="{{ s3.active }}" hint-placeholder-val="">
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:center;gap:10px;background:var(--meltwater);padding:11px 14px;border-radius:2px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3E6E79" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+              <span style="font-size:13px;color:var(--slate);">Visual prototype — no payment is taken.</span>
+            </div>
+            <div><label class="ck-lbl">Card number</label><input class="ck-in" data-field="card" defaultValue="4929 1234 5678 9010" inputmode="numeric" /></div>
+            <div class="ck-three" style="display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:14px;">
+              <div><label class="ck-lbl">Expiry</label><input class="ck-in" data-field="exp" defaultValue="09 / 27" /></div>
+              <div><label class="ck-lbl">CVC</label><input class="ck-in" data-field="cvc" defaultValue="•••" /></div>
+              <div><label class="ck-lbl">Name on card</label><input class="ck-in" data-field="cardName" defaultValue="Sigrún Jónsdóttir" /></div>
+            </div>
+            <label style="display:flex;align-items:center;gap:10px;margin-top:2px;cursor:pointer;font-size:14px;color:var(--slate);">
+              <input type="checkbox" data-field="billingSame" defaultChecked style="width:16px;height:16px;accent-color:#3E6E79;" />
+              Billing address same as shipping
+            </label>
+            <button onClick="{{ go4 }}" style="margin-top:8px;align-self:flex-start;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:15px 30px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Review order</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ s3.done }}" hint-placeholder-val=""><div style="margin-top:12px;font-size:14.5px;color:var(--slate);">{{ cap.cardMasked }}</div></sc-if>
+      </section>
+
+      <!-- STEP 4 REVIEW -->
+      <section style="border-top:1px solid var(--mist);border-bottom:1px solid var(--mist);padding:26px 0;">
+        <h2 style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:18px;margin:0;color:{{ s4.titleColor }};">4 · Review</h2>
+        <sc-if value="{{ s4.active }}" hint-placeholder-val="">
+          <div style="margin-top:20px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div style="border:1px solid var(--mist);padding:16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ash);margin-bottom:8px;">Contact</div><div style="font-size:14px;color:var(--slate);">{{ cap.email }}</div></div>
+              <div style="border:1px solid var(--mist);padding:16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ash);margin-bottom:8px;">Ship to</div><div style="font-size:14px;color:var(--slate);line-height:1.5;">{{ cap.shipName }}<br>{{ cap.shipAddr }}</div></div>
+              <div style="border:1px solid var(--mist);padding:16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ash);margin-bottom:8px;">Method</div><div style="font-size:14px;color:var(--slate);">{{ cap.shipMethod }}</div></div>
+              <div style="border:1px solid var(--mist);padding:16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ash);margin-bottom:8px;">Payment</div><div style="font-size:14px;color:var(--slate);">{{ cap.cardMasked }}</div></div>
+            </div>
+            <button onClick="{{ place }}" style="width:100%;margin-top:22px;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:18px;border-radius:2px;cursor:pointer;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Place order — {{ totalFmt }}</button>
+            <div style="font-size:12.5px;color:var(--ash);text-align:center;margin-top:14px;line-height:1.5;">By placing this order you agree to Icegler's terms and privacy policy. This is a visual prototype.</div>
+          </div>
+        </sc-if>
+      </section>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <aside class="ck-summary" style="min-width:0;background:var(--glacier);border-left:1px solid var(--mist);padding:clamp(36px,6vh,72px) clamp(20px,4vw,48px);">
+      <div class="ck-summary-inner" style="position:sticky;top:40px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:22px;">In your bag</div>
+        <div style="display:flex;flex-direction:column;gap:18px;margin-bottom:24px;">
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="2">
+            <div style="display:flex;gap:14px;align-items:center;">
+              <div style="position:relative;width:60px;height:60px;flex:none;background:var(--snow);border:1px solid var(--mist);overflow:hidden;">
+                <img loading="lazy" src="{{ it.img }}" alt="{{ it.name }}" style="width:100%;height:100%;object-fit:cover;">
+                <span style="position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--slate);color:var(--snow);font-family:'IBM Plex Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">{{ it.qty }}</span>
+              </div>
+              <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:14.5px;">{{ it.name }}</div><div style="font-size:12.5px;color:var(--ash);">{{ it.colorway }} · {{ it.lens }}</div></div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;white-space:nowrap;">{{ it.lineFmt }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;padding:16px 0;border-top:1px solid var(--mist);">
+          <input class="ck-in" placeholder="Discount code" style="flex:1;" />
+          <button style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:14px;color:var(--basalt);background:var(--snow);border:1px solid var(--mist);border-radius:2px;padding:0 18px;cursor:pointer;transition:border-color 0.2s;" style-hover="border-color:var(--basalt);">Apply</button>
+        </div>
+        <div style="border-top:1px solid var(--mist);padding-top:16px;">
+          <div style="display:flex;justify-content:space-between;padding:7px 0;"><span style="font-size:14.5px;color:var(--slate);">Subtotal</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;">{{ subtotalFmt }}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:7px 0;"><span style="font-size:14.5px;color:var(--slate);">Shipping</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;">{{ shipFmt }}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:7px 0;"><span style="font-size:14.5px;color:var(--slate);">VAT (incl. 24%)</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:var(--ash);">{{ vatFmt }}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 0;margin-top:9px;border-top:1px solid var(--mist);"><span style="font-weight:600;font-size:17px;">Total</span><span style="font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:500;">{{ totalFmt }}</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:24px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--slate);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3E6E79" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Two-year guarantee on every frame</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--slate);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3E6E79" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Free 30-day returns from Reykjavík</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+  </sc-if>
+
+  <!-- SUCCESS -->
+  <sc-if value="{{ placed }}" hint-placeholder-val="">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(64px,14vh,150px) 24px;min-height:calc(100vh - 69px);">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--meltwater);display:flex;align-items:center;justify-content:center;margin-bottom:28px;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3E6E79" stroke-width="1.5"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--glacial);margin-bottom:20px;">Order {{ orderNo }}</div>
+      <h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(40px,6vw,72px);line-height:0.98;letter-spacing:-0.02em;margin:0;">Thank you, {{ firstName }}.</h1>
+      <p style="font-size:17px;line-height:1.6;color:var(--slate);max-width:46ch;margin:24px 0 0;">Your frames are being hand-checked in Reykjavík. We've sent a confirmation to <span style="color:var(--basalt);">{{ cap.email }}</span> — you'll get tracking when they ship, in 2–3 days.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:38px;">
+        <a href="Icegler Home.dc.html" style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);text-decoration:none;border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:15px 32px;border-radius:2px;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Back to home</a>
+        <a href="Icegler Collection.dc.html" style="font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--basalt);text-decoration:none;border:1px solid var(--mist);background:var(--snow);padding:15px 32px;border-radius:2px;white-space:nowrap;transition:border-color 0.2s;" style-hover="border-color:var(--basalt);">Continue shopping</a>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  KEY = 'icegler_cart_v1';
+  FREE_SHIP = 250;
+  state = { step: 1, cart: [], cap: {}, placed: false, shipMethodCost: 0 };
+
+  componentDidMount() {
+    this.read();
+    this.onStorage = (e) => { if (e.key === this.KEY) this.read(); };
+    window.addEventListener('storage', this.onStorage);
+    this.captureStep();
+  }
+  componentWillUnmount() { window.removeEventListener('storage', this.onStorage); }
+  read() { try { this.setState({ cart: JSON.parse(localStorage.getItem(this.KEY)) || [] }); } catch (e) { this.setState({ cart: [] }); } }
+
+  captureStep() {
+    const form = document.getElementById('checkout-form');
+    if (!form) return;
+    const cap = { ...this.state.cap };
+    form.querySelectorAll('[data-field]').forEach(el => {
+      if (el.type === 'checkbox') cap[el.getAttribute('data-field')] = el.checked;
+      else if (el.type === 'radio') { if (el.checked) cap[el.getAttribute('data-field')] = el.value; }
+      else cap[el.getAttribute('data-field')] = el.value;
+    });
+    this.setState({ cap });
+    return cap;
+  }
+  advance(to) {
+    this.captureStep();
+    this.setState({ step: to });
+    try { (document.scrollingElement || document.documentElement).scrollTop = 0; } catch (e) {}
+  }
+  go2 = () => this.advance(2);
+  go3 = () => this.advance(3);
+  go4 = () => this.advance(4);
+  editTo = (e) => { this.captureStep(); this.setState({ step: parseInt(e.currentTarget.getAttribute('data-step'), 10) }); };
+  place = () => { this.captureStep(); this.setState({ placed: true }); };
+
+  fmt(n) { return '€' + n.toLocaleString('de-DE'); }
+
+  renderVals() {
+    const cap = this.state.cap || {};
+    const cart = this.state.cart;
+    const subtotal = cart.reduce((a, i) => a + i.price * i.qty, 0);
+    const expressCost = (cap.shipMethod && cap.shipMethod.indexOf('Express') >= 0) ? 15 : 0;
+    const shipFree = subtotal >= this.FREE_SHIP || subtotal === 0;
+    const ship = (shipFree ? 0 : 12) + expressCost;
+    const total = subtotal + ship;
+    const vat = Math.round(total - total / 1.24);
+
+    const step = this.state.step;
+    const ACCENT = '#15191B', MUTE = '#A7B0B3', GLAC = '#3E6E79';
+    const stepMeta = (n, label, sep) => ({
+      num: step > n ? '✓' : String(n), label,
+      color: step === n ? GLAC : (step > n ? ACCENT : MUTE),
+      weight: step === n ? '600' : '400', sep,
+    });
+
+    const shipName = ((cap.firstName || '') + ' ' + (cap.lastName || '')).trim() || '—';
+    const shipAddr = [cap.address, [cap.postal, cap.city].filter(Boolean).join(' '), cap.country].filter(Boolean).join(', ') || '—';
+    const card = cap.card || '';
+    const last4 = card.replace(/\s/g, '').slice(-4);
+    const cardMasked = last4 ? ('Card ending ' + last4) : '—';
+
+    return {
+      steps: [stepMeta(1, 'Contact', true), stepMeta(2, 'Shipping', true), stepMeta(3, 'Payment', true), stepMeta(4, 'Review', false)],
+      s1: { active: step === 1, done: step > 1, titleColor: step >= 1 ? ACCENT : MUTE },
+      s2: { active: step === 2, done: step > 2, titleColor: step >= 2 ? ACCENT : MUTE },
+      s3: { active: step === 3, done: step > 3, titleColor: step >= 3 ? ACCENT : MUTE },
+      s4: { active: step === 4, titleColor: step >= 4 ? ACCENT : MUTE },
+      cap: { email: cap.email || '—', shipName, shipAddr, shipMethod: cap.shipMethod || 'Standard — 2–3 days', cardMasked },
+      items: cart.map(it => ({ ...it, lineFmt: this.fmt(it.price * it.qty) })),
+      subtotalFmt: this.fmt(subtotal),
+      shipFmt: ship === 0 ? 'Free' : this.fmt(ship),
+      vatFmt: this.fmt(vat),
+      totalFmt: this.fmt(total),
+      notPlaced: !this.state.placed,
+      placed: this.state.placed,
+      orderNo: 'ICG-2025-0814',
+      firstName: cap.firstName || 'friend',
+      go2: this.go2, go3: this.go3, go4: this.go4, editTo: this.editTo, place: this.place,
+    };
+  }
+}
+</script>
+</body>
+</html>

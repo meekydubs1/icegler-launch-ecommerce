@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  ::selection{background:#3E6E79;color:#FCFDFD;}
+  .facet-opt{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;cursor:pointer;padding:8px 0;text-align:left;color:#15191B;font-family:'Schibsted Grotesk',sans-serif;font-size:14.5px;transition:color 0.18s;}
+  .facet-opt:hover{color:#3E6E79;}
+  .facet-box{width:15px;height:15px;flex:none;border:1px solid #B9C2C5;border-radius:2px;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+  .facet-box svg{opacity:0;transition:opacity 0.18s;}
+  .facet-opt[data-checked="1"] .facet-box{background:#3E6E79;border-color:#3E6E79;}
+  .facet-opt[data-checked="1"] .facet-box svg{opacity:1;}
+  .facet-opt[data-checked="1"]{color:#15191B;font-weight:600;}
+  select.icg-sort{font-family:'Schibsted Grotesk',sans-serif;font-size:14px;font-weight:500;color:#15191B;background:transparent;border:1px solid #DBE0E1;border-radius:2px;padding:9px 34px 9px 14px;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2315191B' stroke-width='1.6'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color 0.2s;}
+  select.icg-sort:hover{border-color:#8A9296;}
+  select.icg-sort:focus-visible{outline:2px solid #3E6E79;outline-offset:1px;}
+  @media (max-width:860px){
+    .plp-body{grid-template-columns:1fr !important;gap:0 !important;}
+    #plp-rail{display:none;border-right:none !important;padding-right:0 !important;border-bottom:1px solid #DBE0E1;padding-bottom:24px;margin-bottom:24px;}
+    #plp-rail[data-open="1"]{display:block;}
+    .plp-filterbtn{display:inline-flex !important;}
+  }
+  @media (min-width:861px){ .plp-filterbtn{display:none !important;} }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</helmet>
+<div data-screen-label="Collection / PLP" style="--glacier:#F2F4F4;--snow:#FCFDFD;--basalt:#15191B;--slate:#586065;--ash:#8A9296;--mist:#DBE0E1;--meltwater:#DCE8EB;--ice:#BFD9DE;--glacial:#3E6E79;--driftwood:#E7E1D6;background:var(--glacier);color:var(--basalt);font-family:'Schibsted Grotesk',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;">
+
+  <dc-import name="SiteNav" current="shop" solid="true" hint-size="100%,66px"></dc-import>
+
+  <!-- EDITORIAL HEADER -->
+  <header style="padding:clamp(116px,15vh,168px) clamp(20px,5vw,72px) clamp(36px,5vh,56px);border-bottom:1px solid var(--mist);">
+    <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,40px);align-items:end;">
+      <div style="grid-column:1 / span 8;min-width:0;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--glacial);margin-bottom:26px;">The collection — Winter 25</div>
+        <h1 style="font-family:'Fraunces',serif;font-weight:300;font-size:clamp(44px,7vw,92px);line-height:0.94;letter-spacing:-0.022em;margin:0;">Frames for the<br>northern light.</h1>
+      </div>
+      <div style="grid-column:10 / span 3;min-width:0;">
+        <p style="font-size:16px;line-height:1.6;color:var(--slate);margin:0;">Three silhouettes, eight finishes. Each cut from handcrafted bio-acetate and set with Carl Zeiss lenses — made to carry the cold.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- SUB-BAR -->
+  <div style="position:sticky;top:0;z-index:40;background:rgba(242,244,244,0.86);backdrop-filter:saturate(1.2) blur(14px);-webkit-backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid var(--mist);">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(20px,5vw,72px);">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--slate);"><span style="color:var(--basalt);font-weight:500;">{{ resultCount }}</span> {{ resultNoun }}</span>
+        <button class="plp-filterbtn" onClick="{{ toggleMobileFilters }}" style="display:none;align-items:center;gap:8px;background:none;border:1px solid var(--mist);border-radius:2px;padding:8px 14px;cursor:pointer;font-family:'Schibsted Grotesk',sans-serif;font-size:14px;font-weight:500;color:var(--basalt);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="17" x2="14" y2="17"/></svg>
+          Filters {{ activeCountLabel }}
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ash);">Sort</span>
+        <select class="icg-sort" onChange="{{ onSort }}" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price — low to high</option>
+          <option value="price-desc">Price — high to low</option>
+          <option value="newest">Newest</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="plp-body" style="display:grid;grid-template-columns:236px 1fr;gap:clamp(32px,4vw,64px);padding:clamp(32px,5vh,56px) clamp(20px,5vw,72px) clamp(72px,11vh,120px);">
+
+    <!-- FILTER RAIL -->
+    <aside id="plp-rail" style="border-right:1px solid var(--mist);padding-right:clamp(20px,2.5vw,36px);">
+      <div style="position:sticky;top:78px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);">Filter</span>
+          <sc-if value="{{ hasActive }}" hint-placeholder-val=""><button onClick="{{ clearAll }}" style="background:none;border:none;cursor:pointer;font-size:12.5px;color:var(--glacial);text-decoration:underline;text-underline-offset:2px;padding:0;">Clear</button></sc-if>
+        </div>
+        <sc-for list="{{ facetGroups }}" as="g" hint-placeholder-count="4">
+          <div style="padding:22px 0;border-top:1px solid var(--mist);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;">{{ g.label }}</div>
+            <sc-for list="{{ g.options }}" as="o" hint-placeholder-count="3">
+              <button class="facet-opt" data-checked="{{ o.checkedStr }}" data-key="{{ g.key }}" data-val="{{ o.val }}" onClick="{{ toggleFacet }}">
+                <span class="facet-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FCFDFD" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span>
+                <span style="flex:1;">{{ o.label }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ash);">{{ o.count }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </aside>
+
+    <!-- GRID -->
+    <div style="min-width:0;">
+      <sc-if value="{{ hasActive }}" hint-placeholder-val="">
+        <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px;">
+          <sc-for list="{{ activeChips }}" as="c" hint-placeholder-count="2">
+            <button data-key="{{ c.key }}" data-val="{{ c.val }}" onClick="{{ toggleFacet }}" style="display:inline-flex;align-items:center;gap:8px;background:var(--snow);border:1px solid var(--mist);border-radius:2px;padding:7px 11px;cursor:pointer;font-family:'Schibsted Grotesk',sans-serif;font-size:13px;color:var(--basalt);transition:border-color 0.2s;" style-hover="border-color:var(--basalt);">
+              {{ c.label }}
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:clamp(18px,2.4vw,40px);">
+          <sc-for list="{{ visible }}" as="p" hint-placeholder-count="6">
+            <div onMouseEnter="{{ onCardEnter }}" onMouseLeave="{{ onCardLeave }}" style="position:relative;transition:transform 0.42s cubic-bezier(0.22,1,0.36,1);">
+              <a href="{{ p.href }}" style="display:block;text-decoration:none;color:inherit;">
+                <div style="position:relative;aspect-ratio:1/1;background:var(--snow);border:1px solid var(--mist);overflow:hidden;">
+                  <sc-if value="{{ p.real }}" hint-placeholder-val="{{ true }}">
+                    <img loading="lazy" src="{{ p.img }}" alt="{{ p.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.22,1,0.36,1);">
+                    <img data-swap loading="lazy" src="{{ p.swap }}" alt="{{ p.altSwap }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s cubic-bezier(0.22,1,0.36,1);">
+                  </sc-if>
+                  <sc-if value="{{ p.placeholder }}" hint-placeholder-val="">
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:repeating-linear-gradient(135deg,rgba(138,146,150,0.05) 0 2px,rgba(138,146,150,0) 2px 14px);">
+                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B9C2C5" stroke-width="1.2"><path d="M3 16l5-6 4 4 3-4 6 7"/><circle cx="8" cy="7" r="2"/><rect x="2.5" y="3" width="19" height="18"/></svg>
+                      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ash);text-align:center;line-height:1.7;">Studio shot<br>pending</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ p.badge }}" hint-placeholder-val=""><span style="position:absolute;top:13px;left:13px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--glacial);background:var(--snow);padding:5px 9px;">{{ p.badge }}</span></sc-if>
+                </div>
+              </a>
+              <!-- quick add -->
+              <div data-quick style="position:absolute;left:10px;right:10px;bottom:10px;opacity:0;transform:translateY(8px);transition:opacity 0.28s cubic-bezier(0.22,1,0.36,1),transform 0.28s cubic-bezier(0.22,1,0.36,1);pointer-events:none;">
+                <sc-if value="{{ p.real }}" hint-placeholder-val="{{ true }}">
+                  <button data-id="{{ p.id }}" onClick="{{ quickAdd }}" style="width:100%;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:13.5px;color:var(--snow);border:none;background:var(--basalt);padding:12px;border-radius:2px;cursor:pointer;transition:background 0.2s;" style-hover="background:var(--glacial);">Add to bag — {{ p.priceShort }}</button>
+                </sc-if>
+                <sc-if value="{{ p.placeholder }}" hint-placeholder-val="">
+                  <button style="width:100%;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:13.5px;color:var(--basalt);border:1px solid var(--basalt);background:var(--snow);padding:12px;border-radius:2px;cursor:pointer;">Notify me</button>
+                </sc-if>
+              </div>
+              <a href="{{ p.href }}" style="display:block;text-decoration:none;color:inherit;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:16px;gap:12px;">
+                  <div>
+                    <div style="font-weight:600;font-size:16.5px;letter-spacing:-0.01em;">{{ p.name }}</div>
+                    <div style="font-size:13.5px;color:var(--slate);margin-top:3px;">{{ p.colorway }} · {{ p.shape }}</div>
+                  </div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;white-space:nowrap;">{{ p.price }}</div>
+                </div>
+              </a>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <!-- NO RESULTS -->
+      <sc-if value="{{ noResults }}" hint-placeholder-val="">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(56px,12vh,120px) 24px;border:1px solid var(--mist);background:var(--snow);">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#C3CBCD" stroke-width="1.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <div style="font-family:'Fraunces',serif;font-weight:300;font-size:30px;margin-top:18px;">Nothing matches — yet.</div>
+          <div style="font-size:15px;color:var(--slate);max-width:34ch;line-height:1.55;margin-top:10px;">No frames fit this combination. Loosen a filter, or explore the full collection.</div>
+          <button onClick="{{ clearAll }}" style="margin-top:24px;font-family:'Schibsted Grotesk',sans-serif;font-weight:600;font-size:15px;color:var(--snow);border:1px solid var(--basalt);background:linear-gradient(90deg,var(--meltwater) 0 50%,var(--basalt) 50% 100%);background-size:200% 100%;background-position:100% 0;padding:14px 30px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-position 0.34s cubic-bezier(0.4,0,0.2,1),color 0.34s;" style-hover="background-position:0% 0;color:var(--basalt);">Clear all filters</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <dc-import name="SiteFooter" newsletter="true" hint-size="100%,640px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  CATALOG = [
+    { id: 'solstice|Glacier|Blue gradient', frame: 'solstice', name: 'The Solstice', colorway: 'Glacier', price: 245, shape: 'Angular', color: 'Glacier', material: 'Bio-acetate', lens: 'Blue gradient', order: 1, badge: 'New',
+      img: 'assets/solstice-front.jpeg', swap: 'assets/solstice-angle.jpeg', real: true },
+    { id: 'drift|Basalt|Polarized grey', frame: 'drift', name: 'The Drift', colorway: 'Basalt', price: 210, shape: 'Rounded', color: 'Basalt', material: 'Bio-acetate', lens: 'Polarized grey', order: 4, badge: '',
+      img: 'assets/drift-basalt.jpeg', swap: 'assets/drift-glacier.jpeg', real: true },
+    { id: 'drift|Glacier|Smoke', frame: 'drift', name: 'The Drift', colorway: 'Glacier', price: 210, shape: 'Rounded', color: 'Glacier', material: 'Bio-acetate', lens: 'Smoke', order: 5, badge: '',
+      img: 'assets/drift-glacier.jpeg', swap: 'assets/drift-basalt.jpeg', real: true },
+    { id: 'basalt|Driftwood|Polarized grey', frame: 'basalt', name: 'The Basalt', colorway: 'Driftwood', price: 230, shape: 'Square', color: 'Driftwood', material: 'Bio-acetate', lens: 'Polarized grey', order: 2, badge: '',
+      img: 'assets/basalt-driftwood.jpeg', swap: 'assets/basalt-meltwater.jpeg', real: true },
+    { id: 'basalt|Meltwater|Smoke', frame: 'basalt', name: 'The Basalt', colorway: 'Meltwater', price: 230, shape: 'Square', color: 'Meltwater', material: 'Bio-acetate', lens: 'Smoke', order: 3, badge: '',
+      img: 'assets/basalt-meltwater.jpeg', swap: 'assets/basalt-driftwood.jpeg', real: true },
+    { id: 'solstice|Eclipse|Blue gradient', frame: 'solstice', name: 'The Solstice', colorway: 'Eclipse', price: 245, shape: 'Angular', color: 'Eclipse', material: 'Titanium', lens: 'Blue gradient', order: 6, badge: 'Coming soon',
+      img: '', swap: '', real: false },
+  ];
+  FACETS = [
+    { key: 'shape', label: 'Shape', vals: ['Angular', 'Rounded', 'Square'] },
+    { key: 'color', label: 'Colour', vals: ['Glacier', 'Basalt', 'Meltwater', 'Driftwood', 'Eclipse'] },
+    { key: 'material', label: 'Material', vals: ['Bio-acetate', 'Titanium'] },
+    { key: 'lens', label: 'Lens', vals: ['Blue gradient', 'Polarized grey', 'Smoke'] },
+  ];
+  state = { sel: { shape: [], color: [], material: [], lens: [] }, sort: 'featured' };
+
+  fmt(n) { return '€' + n.toLocaleString('de-DE'); }
+
+  onCardEnter = (e) => {
+    const sw = e.currentTarget.querySelector('[data-swap]');
+    const base = e.currentTarget.querySelector('img:not([data-swap])');
+    const q = e.currentTarget.querySelector('[data-quick]');
+    if (sw) sw.style.opacity = '1';
+    if (base) base.style.transform = 'scale(1.04)';
+    if (q) { q.style.opacity = '1'; q.style.transform = 'none'; q.style.pointerEvents = 'auto'; }
+    e.currentTarget.style.transform = 'translateY(-6px)';
+  };
+  onCardLeave = (e) => {
+    const sw = e.currentTarget.querySelector('[data-swap]');
+    const base = e.currentTarget.querySelector('img:not([data-swap])');
+    const q = e.currentTarget.querySelector('[data-quick]');
+    if (sw) sw.style.opacity = '0';
+    if (base) base.style.transform = 'scale(1)';
+    if (q) { q.style.opacity = '0'; q.style.transform = 'translateY(8px)'; q.style.pointerEvents = 'none'; }
+    e.currentTarget.style.transform = 'translateY(0)';
+  };
+
+  toggleFacet = (e) => {
+    const key = e.currentTarget.getAttribute('data-key');
+    const val = e.currentTarget.getAttribute('data-val');
+    this.setState(s => {
+      const arr = s.sel[key].slice();
+      const i = arr.indexOf(val);
+      if (i >= 0) arr.splice(i, 1); else arr.push(val);
+      return { sel: { ...s.sel, [key]: arr } };
+    });
+  };
+  clearAll = () => this.setState({ sel: { shape: [], color: [], material: [], lens: [] } });
+  onSort = (e) => this.setState({ sort: e.target.value });
+  toggleMobileFilters = () => { const r = document.getElementById('plp-rail'); if (r) r.setAttribute('data-open', r.getAttribute('data-open') === '1' ? '0' : '1'); };
+  quickAdd = (e) => {
+    e.preventDefault(); e.stopPropagation();
+    const id = e.currentTarget.getAttribute('data-id');
+    const p = this.CATALOG.find(x => x.id === id);
+    if (p) window.dispatchEvent(new CustomEvent('icegler:add', { detail: { id: p.id, name: p.name, colorway: p.colorway, lens: p.lens, price: p.price, img: p.img, qty: 1 } }));
+  };
+
+  renderVals() {
+    const sel = this.state.sel;
+    const match = (p) => this.FACETS.every(f => sel[f.key].length === 0 || sel[f.key].includes(p[f.key]));
+    let visible = this.CATALOG.filter(match);
+    const sort = this.state.sort;
+    visible = visible.slice().sort((a, b) => {
+      if (sort === 'price-asc') return a.price - b.price;
+      if (sort === 'price-desc') return b.price - a.price;
+      if (sort === 'newest') return b.order - a.order;
+      return a.order - b.order;
+    });
+
+    const facetGroups = this.FACETS.map(f => ({
+      key: f.key, label: f.label,
+      options: f.vals.map(v => ({
+        val: v, label: v,
+        count: this.CATALOG.filter(p => p[f.key] === v).length,
+        checkedStr: sel[f.key].includes(v) ? '1' : '0',
+      })),
+    }));
+
+    const activeChips = [];
+    this.FACETS.forEach(f => sel[f.key].forEach(v => activeChips.push({ key: f.key, val: v, label: v })));
+    const activeCount = activeChips.length;
+
+    return {
+      facetGroups,
+      visible: visible.map(p => ({
+        ...p,
+        price: this.fmt(p.price),
+        priceShort: this.fmt(p.price),
+        href: 'Icegler Product.dc.html?frame=' + p.frame + '&color=' + encodeURIComponent(p.colorway),
+        placeholder: !p.real,
+        alt: p.name + ' in ' + p.colorway + ', front',
+        altSwap: p.name + ' in ' + p.colorway + ', alternate view',
+      })),
+      resultCount: String(visible.length),
+      resultNoun: visible.length === 1 ? 'frame' : 'frames',
+      hasResults: visible.length > 0,
+      noResults: visible.length === 0,
+      activeChips, hasActive: activeCount > 0,
+      activeCountLabel: activeCount > 0 ? '(' + activeCount + ')' : '',
+      toggleFacet: this.toggleFacet, clearAll: this.clearAll, onSort: this.onSort,
+      toggleMobileFilters: this.toggleMobileFilters, quickAdd: this.quickAdd,
+      onCardEnter: this.onCardEnter, onCardLeave: this.onCardLeave,
+    };
+  }
+}
+</script>
+</body>
+</html>
