@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Solstice — Icegler</title>
+<meta name="description" content="A frame shaped by Icelandic light. Handcrafted bio-acetate, Carl Zeiss polarized lenses, finished by hand in Reykjavík.">
+<meta name="theme-color" content="#0D181E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/main.js" defer></script>
+<style id="page-css">
+/* ============ PRODUCT / PDP ============ */
+body[data-page="product"] .pdp-crumb{
+  padding-top:calc(var(--nav-h) + clamp(24px,4vh,44px));
+}
+body[data-page="product"] .crumb{
+  display:flex; gap:12px; align-items:center; font-family:var(--font-mono);
+  font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ash);
+}
+body[data-page="product"] .crumb a{text-decoration:none; color:var(--ash); transition:color .2s var(--ease);}
+body[data-page="product"] .crumb a:hover{color:var(--glacial);}
+body[data-page="product"] .crumb .sep{opacity:.55;}
+body[data-page="product"] .crumb .here{color:var(--basalt);}
+
+/* ---- the two-column stage ---- */
+body[data-page="product"] .pdp{
+  display:grid; grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
+  gap:clamp(36px,5vw,84px); align-items:start;
+  padding-top:clamp(28px,4vh,48px); padding-bottom:clamp(96px,12vh,150px);
+}
+
+/* ---- left: media column ---- */
+body[data-page="product"] .media-col{position:relative;}
+body[data-page="product"] .stage{
+  position:relative; border-radius:var(--r); overflow:hidden;
+  border:1px solid rgba(219,224,225,.7);
+}
+body[data-page="product"] .stage .ice-field{position:absolute; inset:0; z-index:0;}
+body[data-page="product"] .stage-label{
+  position:absolute; left:16px; top:15px; z-index:4;
+  font-family:var(--font-mono); font-size:10.5px; font-weight:500; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--glacial);
+  background:rgba(252,253,253,.82); padding:5px 10px; border-radius:var(--r);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+body[data-page="product"] .stage-coord{
+  position:absolute; right:16px; bottom:14px; z-index:4;
+  color:var(--slate); opacity:.8;
+}
+body[data-page="product"] .shot-wrap{
+  position:relative; z-index:2; aspect-ratio:1; padding:clamp(28px,5%,60px);
+}
+body[data-page="product"] .shot-wrap img{
+  width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;
+  transition:opacity .25s var(--ease);
+}
+body[data-page="product"] .shot-wrap.dimming img{opacity:0;}
+/* placeholder ice-scene when a colorway has no photography */
+body[data-page="product"] .shot-empty{
+  position:absolute; inset:0; z-index:3; display:none;
+  flex-direction:column; align-items:center; justify-content:center; gap:14px; text-align:center;
+  color:var(--glacial);
+}
+body[data-page="product"] .stage.is-empty .shot-empty{display:flex;}
+body[data-page="product"] .shot-empty .glyph{
+  width:52px; height:52px; border-radius:50%;
+  border:1px solid rgba(62,110,121,.4); display:grid; place-items:center;
+  background:rgba(252,253,253,.5);
+}
+body[data-page="product"] .shot-empty .glyph::before{
+  content:""; width:20px; height:15px; border:1.5px solid currentColor; border-radius:3px;
+}
+body[data-page="product"] .shot-empty p{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;}
+body[data-page="product"] .shot-empty p.sub{color:var(--slate); letter-spacing:.14em;}
+
+/* thumbnail row */
+body[data-page="product"] .thumbs{
+  display:flex; gap:14px; margin-top:16px; flex-wrap:wrap;
+}
+body[data-page="product"] .thumb{
+  position:relative; width:96px; aspect-ratio:1; border-radius:var(--r);
+  border:1px solid var(--mist); background:var(--snow); overflow:hidden; padding:12%;
+  transition:border-color .25s var(--ease), transform .25s var(--ease);
+}
+body[data-page="product"] .thumb img{width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;}
+body[data-page="product"] .thumb:hover{transform:translateY(-3px);}
+body[data-page="product"] .thumb.active{border-color:var(--glacial); box-shadow:0 0 0 1px var(--glacial);}
+body[data-page="product"] .thumb .thumb-tag{
+  position:absolute; left:7px; bottom:6px; font-family:var(--font-mono);
+  font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ash);
+}
+
+/* iceblock signature band under gallery */
+body[data-page="product"] .signature{
+  margin-top:clamp(28px,4vh,44px); display:grid;
+  grid-template-columns:minmax(0,.44fr) minmax(0,.56fr); gap:clamp(24px,3vw,44px);
+  align-items:center;
+}
+body[data-page="product"] .signature .iceblock{aspect-ratio:1; border-radius:12px; margin:0;}
+body[data-page="product"] .signature .iceblock-media{padding:11%;}
+body[data-page="product"] .sig-copy .eyebrow{color:var(--glacial);}
+body[data-page="product"] .sig-copy .d-m{margin-top:14px;}
+body[data-page="product"] .sig-copy p{margin-top:16px; max-width:36ch;}
+
+/* ---- right: sticky buy panel ---- */
+body[data-page="product"] .buy{
+  position:sticky; top:calc(var(--nav-h) + 26px); background:var(--snow);
+  border:1px solid var(--mist); border-radius:var(--r);
+  padding:clamp(26px,2.4vw,38px);
+}
+body[data-page="product"] .buy-head{
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+}
+body[data-page="product"] .buy-model{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ash);
+}
+body[data-page="product"] .buy-rating{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; color:var(--slate);
+  white-space:nowrap;
+}
+body[data-page="product"] .buy-rating .star{color:var(--glacial);}
+body[data-page="product"] .buy h1{margin-top:16px;}
+body[data-page="product"] .buy-shape{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--glacial); margin-top:12px;
+}
+body[data-page="product"] .buy-price{
+  display:flex; align-items:baseline; gap:12px; margin-top:20px;
+  padding-bottom:22px; border-bottom:1px solid var(--mist);
+}
+body[data-page="product"] .buy-price .amt{font-family:var(--font-mono); font-weight:500; font-size:24px; letter-spacing:.01em;}
+body[data-page="product"] .buy-price .vat{font-size:13px; color:var(--ash);}
+body[data-page="product"] .buy-blurb{margin-top:22px; font-size:16px; line-height:1.62; color:var(--slate);}
+
+/* colour block */
+body[data-page="product"] .opt{margin-top:26px;}
+body[data-page="product"] .opt-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px;}
+body[data-page="product"] .opt-head .val{font-weight:600; font-size:14px;}
+body[data-page="product"] .swatches{display:flex; gap:14px; margin-top:14px; align-items:center; flex-wrap:wrap;}
+body[data-page="product"] .swatch{display:grid; place-items:center; padding:4px; border-radius:50%; position:relative;}
+body[data-page="product"] .swatch i{
+  width:22px; height:22px; border-radius:50%; background:var(--dot,var(--mist));
+  border:1px solid rgba(21,25,27,.18); display:block;
+  transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+body[data-page="product"] .swatch:hover i{transform:scale(1.1);}
+body[data-page="product"] .swatch.active i{box-shadow:0 0 0 1.5px var(--snow), 0 0 0 3px var(--glacial);}
+body[data-page="product"] .swatch[aria-disabled="true"]{cursor:not-allowed;}
+body[data-page="product"] .swatch[aria-disabled="true"] i{opacity:.5;}
+body[data-page="product"] .swatch[aria-disabled="true"]:hover i{transform:none;}
+body[data-page="product"] .soon{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ash); margin-left:2px;
+}
+
+/* lens — fixed per colorway, shown as a mono spec line (not a selector) */
+body[data-page="product"] .lens-line{
+  margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:14px 16px; border:1px solid var(--mist); border-radius:var(--r);
+  background:var(--glacier);
+}
+body[data-page="product"] .lens-line .lbl{font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ash);}
+body[data-page="product"] .lens-line .lens-val{font-family:var(--font-mono); font-size:13.5px; font-weight:500; color:var(--basalt);}
+body[data-page="product"] .lens-line a{font-size:12.5px; color:var(--glacial);}
+
+/* CTA + secondary */
+body[data-page="product"] .buy-cta{margin-top:26px;}
+body[data-page="product"] .buy-cta[disabled]{opacity:.45; pointer-events:none;}
+body[data-page="product"] .buy-sub{
+  display:flex; gap:22px; margin-top:16px; flex-wrap:wrap;
+}
+body[data-page="product"] .trust{list-style:none; margin:26px 0 0; padding:22px 0 0; border-top:1px solid var(--mist); display:grid; gap:12px;}
+body[data-page="product"] .trust li{display:grid; grid-template-columns:16px 1fr; gap:10px; align-items:baseline; font-size:13.5px; color:var(--slate);}
+body[data-page="product"] .trust li::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--glacial); transform:translateY(-2px);}
+body[data-page="product"] .buy .acc{margin-top:28px;}
+
+/* ---- dusk pull-quote band ---- */
+body[data-page="product"] .dusk-band{position:relative; overflow:hidden;}
+body[data-page="product"] .dusk-band .aurora-veil{opacity:.4;}
+body[data-page="product"] .dusk-inner{
+  display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(32px,5vw,80px); align-items:center; color:var(--snow);
+}
+body[data-page="product"] .pull{
+  font-family:var(--font-serif); font-weight:320; font-optical-sizing:auto;
+  font-size:clamp(30px,4vw,58px); line-height:1.12; letter-spacing:-.02em;
+  position:relative; padding-left:.6em;
+}
+body[data-page="product"] .pull::before{
+  content:"\201C"; position:absolute; left:-.06em; top:-.02em;
+  font-style:italic; color:var(--ice); opacity:.85;
+}
+body[data-page="product"] .dusk-plate{
+  position:relative; background:var(--snow); padding:clamp(12px,1.4vw,20px);
+  border-radius:var(--r); box-shadow:0 50px 90px -42px rgba(0,0,0,.6); transform:rotate(-.7deg);
+}
+body[data-page="product"] .dusk-plate img{width:100%; aspect-ratio:1; object-fit:contain; mix-blend-mode:multiply; background:var(--snow);}
+body[data-page="product"] .dusk-plate figcaption{display:flex; justify-content:space-between; padding-top:12px;}
+
+/* ---- other frames ---- */
+body[data-page="product"] .others-head{display:flex; justify-content:space-between; align-items:flex-end; gap:32px; flex-wrap:wrap;}
+body[data-page="product"] .others-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(24px,3.4vw,56px); margin-top:clamp(40px,6vh,68px);
+}
+body[data-page="product"] .others-grid .other-2{margin-top:clamp(28px,5vh,72px);}
+
+/* ---- responsive ---- */
+@media (max-width:920px){
+  body[data-page="product"] .pdp{grid-template-columns:1fr; gap:44px;}
+  body[data-page="product"] .buy{position:static;}
+  body[data-page="product"] .signature{grid-template-columns:1fr; gap:26px;}
+  body[data-page="product"] .signature .iceblock{max-width:360px; margin-inline:auto;}
+  body[data-page="product"] .dusk-inner{grid-template-columns:1fr; gap:40px;}
+  body[data-page="product"] .dusk-plate{max-width:400px;}
+}
+@media (max-width:560px){
+  body[data-page="product"] .others-grid{grid-template-columns:1fr; gap:36px;}
+  body[data-page="product"] .others-grid .other-2{margin-top:0;}
+  body[data-page="product"] .thumb{width:78px;}
+  body[data-page="product"] .buy-price .amt{font-size:21px;}
+}
+</style>
+</head>
+<body data-page="product" data-newsletter="off">
+<main id="main">
+
+  <!-- ══════════ breadcrumb ══════════ -->
+  <div class="container pdp-crumb">
+    <nav class="crumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="collection.html">Shop</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span class="here" data-crumb-name>The Solstice</span>
+    </nav>
+  </div>
+
+  <!-- ══════════ two-column stage ══════════ -->
+  <section class="container pdp" aria-label="Product">
+
+    <!-- LEFT — media -->
+    <div class="media-col">
+      <div class="stage" data-stage data-reveal="fade">
+        <div class="ice-field" aria-hidden="true"></div>
+        <span class="stage-label" data-stage-label>Front</span>
+        <div class="shot-wrap" data-shot-wrap>
+          <img data-main-img src="assets/solstice-front.jpeg" alt="The Solstice in Glacier, front view" width="800" height="800" fetchpriority="high">
+        </div>
+        <div class="shot-empty" aria-hidden="true">
+          <span class="glyph"></span>
+          <p data-empty-name>Eclipse studio shot</p>
+          <p class="sub">In production</p>
+        </div>
+        <span class="coord stage-coord">64°08′N — 21°56′W</span>
+      </div>
+
+      <div class="thumbs" data-thumbs role="tablist" aria-label="Views"></div>
+
+      <!-- iceblock signature -->
+      <div class="signature">
+        <div data-reveal="fade">
+          <div data-float>
+            <figure class="iceblock" style="margin:0;">
+              <div class="iceblock-media">
+                <img data-ice-img src="assets/solstice-angle.jpeg" alt="The Solstice encased in a clear block of Icelandic ice" width="800" height="800" loading="lazy">
+              </div>
+            </figure>
+          </div>
+        </div>
+        <div class="sig-copy" data-reveal-group>
+          <p class="eyebrow">On ice — the signature</p>
+          <p class="d-m">Found in nature,<br>lit for the <em>light.</em></p>
+          <p class="muted">Every frame is photographed the way it was drawn — set in a block of clear Icelandic ice, condensation beading, cold blue-white light passing through.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — sticky buy panel -->
+    <aside class="buy" aria-label="Purchase">
+      <div class="buy-head">
+        <span class="buy-model" data-model>ICG-SOL-GLA</span>
+        <span class="buy-rating"><span class="star">★</span> 4.9 · 128 reviews</span>
+      </div>
+      <h1 class="d-l" data-name>The Solstice</h1>
+      <p class="buy-shape" data-shape>Angular — Double-bridge</p>
+
+      <div class="buy-price">
+        <span class="amt" data-price>€245</span>
+        <span class="vat">incl. VAT</span>
+      </div>
+
+      <p class="buy-blurb" data-blurb>Our sharpest silhouette — a double-bridge geometric cut drawn from glacier facets. Lightweight bio-acetate, set with blue-gradient Zeiss lenses for the long northern dusk.</p>
+
+      <!-- colour -->
+      <div class="opt">
+        <div class="opt-head">
+          <span class="eyebrow quiet">Colour</span>
+          <span class="val" data-color-name>Glacier</span>
+        </div>
+        <div class="swatches" data-swatches role="group" aria-label="Colour"></div>
+      </div>
+
+      <!-- lens — fixed per colorway, mono spec line -->
+      <div class="lens-line">
+        <span class="lbl">Lens</span>
+        <span class="lens-val" data-lens>Blue gradient</span>
+        <a class="link-underline" href="contact.html">Lens guide</a>
+      </div>
+
+      <!-- CTA -->
+      <button class="btn btn-primary btn-block buy-cta" data-cta data-add-to-cart="solstice:Glacier">Add to bag — <span data-cta-price>€245</span></button>
+      <div class="buy-sub">
+        <a class="link-arrow" href="contact.html">Find in stores <span class="arr">→</span></a>
+        <a class="link-arrow" href="contact.html">Book a fitting <span class="arr">→</span></a>
+      </div>
+
+      <ul class="trust">
+        <li>Ships in 2–3 days from Reykjavík · free over €250</li>
+        <li>Two-year guarantee · 30-day free returns</li>
+        <li>100% UV400 · Carl Zeiss lenses as standard</li>
+      </ul>
+
+      <!-- accordions -->
+      <div class="acc">
+        <div class="acc-item" data-open>
+          <button aria-expanded="true" data-acc>Details &amp; craft<span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div><p data-details>Handcrafted from plant-based bio-acetate, tumble-polished over three days for a warm, glassy finish. Five-barrel stainless hinges. Adjustable acetate nose pads. Each pair is hand-finished and inspected in our Reykjavík studio.</p></div></div>
+        </div>
+        <div class="acc-item">
+          <button aria-expanded="false" data-acc>Specifications<span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div>
+            <table class="spec-table"><tbody data-specs></tbody></table>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button aria-expanded="false" data-acc>Shipping &amp; returns<span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div><p>Free carbon-considered shipping on orders over €250, tracked from Reykjavík and delivered in 2–3 working days across Europe. Returns are free within 30 days, unworn and in the original case. Every frame carries a two-year guarantee against manufacturing faults.</p></div></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ══════════ marquee ══════════ -->
+  <div class="marquee" data-marquee>Handcrafted in Reykjavík ◦ Carl Zeiss polarized ◦ Plant-based bio-acetate ◦ Two-year guarantee ◦ </div>
+
+  <!-- ══════════ dusk pull-quote band ══════════ -->
+  <section class="section section-dusk scene dusk-band" aria-label="Worn in the dusk">
+    <div class="aurora-veil"></div>
+    <div class="container dusk-inner">
+      <blockquote class="pull" data-reveal>Worn in the long blue dusk, where the light is rare and the cold is honest.</blockquote>
+      <figure class="dusk-plate" data-reveal="scale" data-parallax="0.06" style="margin:0;">
+        <img data-dusk-img src="assets/solstice-front.jpeg" alt="The Solstice — worn in the winter dusk" width="800" height="800" loading="lazy">
+        <figcaption>
+          <span class="coord" style="color:var(--ash);" data-dusk-cap>The Solstice — Glacier</span>
+          <span class="coord" style="color:var(--ash);">Fig. 02</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══════════ the other frames ══════════ -->
+  <section class="section" aria-label="The other frames">
+    <div class="container">
+      <div class="others-head" data-reveal>
+        <div>
+          <p class="eyebrow">Pairs with — the other frames</p>
+          <h2 class="d-l" style="margin-top:16px;">Two more, cut for<br>the same <em>light.</em></h2>
+        </div>
+        <a class="link-arrow" href="collection.html">View all frames <span class="arr">→</span></a>
+      </div>
+      <div class="others-grid" data-others></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var RM = document.documentElement.classList.contains('rm');
+
+  function boot() {
+    var API = window.ICEGLER;
+    if (!API || !API.products) return;
+    var P = API.products, eur = API.eur;
+
+    /* per-frame data the JS catalog doesn't carry (from _content/product.md) */
+    var META = {
+      solstice: {
+        model: 'ICG-SOL',
+        blurb: 'Our sharpest silhouette — a double-bridge geometric cut drawn from glacier facets. Lightweight bio-acetate, set with blue-gradient Zeiss lenses for the long northern dusk.',
+        details: 'Handcrafted from plant-based bio-acetate, tumble-polished over three days for a warm, glassy finish. Five-barrel stainless hinges. Adjustable acetate nose pads. Each pair is hand-finished and inspected in our Reykjavík studio.',
+        specs: [['Lens width','52 mm'],['Bridge','18 mm'],['Temple','145 mm'],['Total width','142 mm'],['Lens height','44 mm'],['Weight','28 g'],['Base curve','6']]
+      },
+      drift: {
+        model: 'ICG-DRF',
+        blurb: 'A soft, rounded oval that sits quiet on the face. Our lightest frame — easy, unisex, and understated, with polarized Zeiss lenses cut for low winter glare.',
+        details: 'Plant-based bio-acetate, hand-polished to a soft sheen. Lightweight stainless core wire runs the length of each temple for a gentle, lasting fit. Hand-finished in Reykjavík.',
+        specs: [['Lens width','49 mm'],['Bridge','21 mm'],['Temple','145 mm'],['Total width','140 mm'],['Lens height','46 mm'],['Weight','26 g'],['Base curve','6']]
+      },
+      basalt: {
+        model: 'ICG-BAS',
+        blurb: 'A bold, square keyhole frame named for Iceland’s black basalt columns. Confident and architectural, warmed by hand-finished acetate and Zeiss polarized lenses.',
+        details: 'Bold sheet bio-acetate, bevelled by hand and polished to a deep shine. Reinforced five-barrel hinges and a keyhole bridge. Hand-finished and inspected in Reykjavík.',
+        specs: [['Lens width','50 mm'],['Bridge','20 mm'],['Temple','148 mm'],['Total width','146 mm'],['Lens height','45 mm'],['Weight','30 g'],['Base curve','8']]
+      }
+    };
+
+    /* ---- resolve frame + colorway from the URL, fall back silently ---- */
+    var params = new URLSearchParams(location.search);
+    var frameId = params.get('frame');
+    if (!P[frameId]) frameId = 'solstice';
+    var frame = P[frameId];
+    var meta = META[frameId];
+
+    function firstBuyable() {
+      return frame.colorways.find(function (c) { return !c.comingSoon; }) || frame.colorways[0];
+    }
+    var color = params.get('color');
+    var cw = API.findColorway(frameId, color) || firstBuyable();
+    if (cw.comingSoon) cw = firstBuyable(); // coming-soon colour requested → land on a purchasable one
+
+    /* ---- element refs ---- */
+    var $ = function (s, r) { return (r || document).querySelector(s); };
+    var stage = $('[data-stage]');
+    var stageLabel = $('[data-stage-label]');
+    var shotWrap = $('[data-shot-wrap]');
+    var mainImg = $('[data-main-img]');
+    var emptyName = $('[data-empty-name]');
+    var iceImg = $('[data-ice-img]');
+    var thumbsBox = $('[data-thumbs]');
+    var swatchBox = $('[data-swatches]');
+    var duskImg = $('[data-dusk-img]');
+    var duskCap = $('[data-dusk-cap]');
+
+    /* current view state: 'front' | 'angle' */
+    var view = 'front';
+
+    function firstThreeUpper(name) { return name.slice(0, 3).toUpperCase(); }
+    function skuModel() { return meta.model + '-' + firstThreeUpper(cw.name); }
+
+    /* ---- static frame-level fields (don't change on colour switch) ---- */
+    $('[data-crumb-name]').textContent = frame.name;
+    $('[data-name]').textContent = frame.name;
+    $('[data-shape]').textContent = frame.shape + ' — ' + frame.tagline;
+    $('[data-price]').textContent = eur(frame.price);
+    $('[data-cta-price]').textContent = eur(frame.price);
+    $('[data-blurb]').textContent = meta.blurb;
+    $('[data-details]').textContent = meta.details;
+    document.title = frame.name + ' — Icegler';
+
+    var specsBody = $('[data-specs]');
+    specsBody.innerHTML = meta.specs.map(function (row) {
+      return '<tr><th scope="row">' + row[0] + '</th><td>' + row[1] + '</td></tr>';
+    }).join('');
+
+    /* ---- build swatches ---- */
+    swatchBox.innerHTML = '';
+    frame.colorways.forEach(function (c) {
+      if (c.comingSoon) {
+        var span = document.createElement('span');
+        span.className = 'swatch';
+        span.setAttribute('aria-disabled', 'true');
+        span.setAttribute('aria-label', c.name + ' — coming soon');
+        span.innerHTML = '<i style="--dot:' + c.dot + '"></i>';
+        swatchBox.appendChild(span);
+        var soon = document.createElement('span');
+        soon.className = 'soon';
+        soon.textContent = c.name + ' · Coming soon';
+        swatchBox.appendChild(soon);
+        return;
+      }
+      var b = document.createElement('button');
+      b.className = 'swatch';
+      b.type = 'button';
+      b.setAttribute('data-color', c.name);
+      b.setAttribute('aria-label', c.name);
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = '<i style="--dot:' + c.dot + '"></i>';
+      b.addEventListener('click', function () { selectColor(c.name); });
+      swatchBox.appendChild(b);
+    });
+
+    /* ---- build thumbnails for current colorway ---- */
+    function buildThumbs() {
+      thumbsBox.innerHTML = '';
+      if (!cw.img) return;
+      var views = [{ key: 'front', src: cw.img, tag: 'Front' }];
+      if (cw.alt) views.push({ key: 'angle', src: cw.alt, tag: 'Profile' });
+      views.forEach(function (v) {
+        var b = document.createElement('button');
+        b.className = 'thumb' + (v.key === view ? ' active' : '');
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-selected', String(v.key === view));
+        b.setAttribute('aria-label', frame.name + ', ' + v.tag + ' view');
+        b.innerHTML = '<img src="' + v.src + '" alt="" width="800" height="800" loading="lazy"><span class="thumb-tag">' + v.tag + '</span>';
+        b.addEventListener('click', function () { setView(v.key); });
+        thumbsBox.appendChild(b);
+      });
+    }
+
+    function activeThumbs() {
+      thumbsBox.querySelectorAll('.thumb').forEach(function (t, i) {
+        var isFront = i === 0;
+        var on = (isFront && view === 'front') || (!isFront && view === 'angle');
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', String(on));
+      });
+    }
+
+    /* ---- swap main shot without a full re-render (used by view + colour) ---- */
+    function paintMain() {
+      var src = view === 'angle' && cw.alt ? cw.alt : cw.img;
+      var tag = view === 'angle' && cw.alt ? 'Profile' : 'Front';
+      if (!cw.img) {
+        stage.classList.add('is-empty');
+        stageLabel.textContent = 'Studio';
+        emptyName.textContent = cw.name + ' studio shot';
+        mainImg.removeAttribute('src');
+        mainImg.alt = '';
+      } else {
+        stage.classList.remove('is-empty');
+        stageLabel.textContent = tag;
+        mainImg.src = src;
+        mainImg.alt = frame.name + ' in ' + cw.name + ', ' + tag.toLowerCase() + ' view';
+      }
+    }
+
+    function setView(v) {
+      if (v === view) return;
+      view = v;
+      activeThumbs();
+      if (RM) { paintMain(); return; }
+      shotWrap.classList.add('dimming');
+      setTimeout(function () { paintMain(); shotWrap.classList.remove('dimming'); }, 250);
+    }
+
+    /* ---- colour switch: 250ms crossfade + replaceState + refresh panel ---- */
+    function paintColour() {
+      cw = API.findColorway(frameId, cw.name) || cw;
+      $('[data-color-name]').textContent = cw.name;
+      $('[data-lens]').textContent = cw.lens;
+      $('[data-model]').textContent = skuModel();
+      $('[data-cta]').setAttribute('data-add-to-cart', frameId + ':' + cw.name);
+      duskCap.textContent = frame.name + ' — ' + cw.name;
+      var dsrc = cw.img || frame.colorways[0].img;
+      if (dsrc) { duskImg.src = dsrc; duskImg.alt = frame.name + ' in ' + cw.name + ' — worn in the winter dusk'; }
+      // iceblock signature always shows a real shot of this frame
+      var isrc = cw.alt || cw.img || frame.colorways[0].alt || frame.colorways[0].img;
+      if (isrc) { iceImg.src = isrc; iceImg.alt = frame.name + ' encased in a clear block of Icelandic ice'; }
+      // swatch active state
+      swatchBox.querySelectorAll('button.swatch').forEach(function (b) {
+        var on = b.getAttribute('data-color') === cw.name;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      view = 'front';
+      buildThumbs();
+      paintMain();
+    }
+
+    function selectColor(name) {
+      var next = API.findColorway(frameId, name);
+      if (!next || next.comingSoon || next.name === cw.name) return;
+      cw = next;
+      var url = 'product.html?frame=' + frameId + '&color=' + encodeURIComponent(cw.name);
+      try { history.replaceState(null, '', url); } catch (e) {}
+      if (RM) { paintColour(); return; }
+      shotWrap.classList.add('dimming');
+      setTimeout(function () { paintColour(); shotWrap.classList.remove('dimming'); }, 250);
+    }
+
+    /* ---- initial paint ---- */
+    paintColour();
+
+    /* ---- accordions ---- */
+    document.querySelectorAll('.buy [data-acc]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.acc-item');
+        var open = item.hasAttribute('data-open');
+        if (open) item.removeAttribute('data-open'); else item.setAttribute('data-open', '');
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+    });
+
+    /* ---- "the other frames" — the two frames that aren't this one ---- */
+    var othersBox = $('[data-others]');
+    var order = ['solstice', 'drift', 'basalt'].filter(function (id) { return id !== frameId; });
+    othersBox.innerHTML = order.map(function (id, i) {
+      var f = P[id];
+      var c0 = f.colorways.find(function (c) { return !c.comingSoon && c.img; }) || f.colorways[0];
+      var swap = (c0.alt && c0.alt !== c0.img) ? ' data-swap-src="' + c0.alt + '"' : '';
+      var badge = f.badge ? '<span class="card-badge">' + f.badge + '</span>' : '';
+      var dots = f.colorways.map(function (c) {
+        return '<i style="--dot:' + c.dot + '"' + (c.comingSoon ? ' aria-hidden="true"' : '') + '></i>';
+      }).join('');
+      return '<a class="product-card other-' + (i + 1) + '" href="product.html?frame=' + id + '&color=' + encodeURIComponent(c0.name) + '" data-cursor="view" data-reveal data-reveal-delay="' + (i * 120) + '">' +
+        '<div class="card-media">' + badge +
+          '<img src="' + c0.img + '"' + swap + ' alt="' + f.name + ' in ' + c0.name + ', front view" width="800" height="800" loading="lazy">' +
+        '</div>' +
+        '<div class="card-info"><div>' +
+          '<p class="card-name">' + f.name + '</p>' +
+          '<p class="card-sub">' + f.shape + ' — ' + f.tagline + '</p>' +
+          '<div class="dots">' + dots + '</div>' +
+        '</div><span class="price">' + eur(f.price) + '</span></div>' +
+      '</a>';
+    }).join('');
+
+    /* wire swap-hover + reveal on the freshly-built cards (main.js already ran) */
+    othersBox.querySelectorAll('.product-card .card-media img[data-swap-src]').forEach(function (img) {
+      img.classList.add('swap-main');
+      var alt = document.createElement('img');
+      alt.src = img.getAttribute('data-swap-src');
+      alt.alt = ''; alt.setAttribute('aria-hidden', 'true');
+      alt.loading = 'lazy'; alt.className = 'swap-alt';
+      alt.width = 800; alt.height = 800;
+      img.parentElement.appendChild(alt);
+    });
+    if ('IntersectionObserver' in window && !RM) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      othersBox.querySelectorAll('[data-reveal]').forEach(function (n) { io.observe(n); });
+    } else {
+      othersBox.querySelectorAll('[data-reveal]').forEach(function (n) { n.classList.add('in'); });
+    }
+  }
+
+  if (window.ICEGLER) boot();
+  else if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</body>
+</html>

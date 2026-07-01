@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost in the dusk — Icegler</title>
+<meta name="description" content="This page has melted away.">
+<meta name="theme-color" content="#0D181E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/main.js" defer></script>
+<style id="page-css">
+body[data-page="404"] .lost{
+  position:relative; min-height:100svh; display:flex; align-items:center; overflow:hidden;
+  padding-block:calc(var(--nav-h) + 40px) 80px;
+}
+body[data-page="404"] .lost-code{
+  position:absolute; right:-2%; bottom:-6%; z-index:1;
+  font-size:clamp(180px,30vw,420px);
+}
+body[data-page="404"] .lost-copy{position:relative; z-index:2; max-width:640px;}
+</style>
+</head>
+<body data-page="404" data-newsletter="off">
+<main id="main">
+  <section class="lost section-dusk scene" aria-label="Page not found">
+    <div class="aurora-veil"></div>
+    <span class="ghost-num on-dark lost-code" data-parallax="0.1" aria-hidden="true">404</span>
+    <div class="container lost-copy" data-reveal-group>
+      <p class="eyebrow on-dark">64°08′46″N — nothing here</p>
+      <h1 class="d-xl" style="margin-top:22px;">Lost in the <em>dusk.</em></h1>
+      <p class="lead" style="margin-top:28px; max-width:44ch;">This page has melted away. The collection, though, is very much frozen in place.</p>
+      <div style="display:flex; gap:22px; align-items:center; flex-wrap:wrap; margin-top:40px;">
+        <a class="btn btn-ghost" href="index.html">Back to the light</a>
+        <a class="link-arrow" href="collection.html" style="color:var(--snow);">Shop the collection <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Bag — Icegler</title>
+<meta name="description" content="Review your Icegler bag — line items, free-shipping progress toward €250, and checkout.">
+<meta name="theme-color" content="#0D181E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/main.js" defer></script>
+<style id="page-css">
+/* ============ CART ============ */
+body[data-page="cart"] .bag-hero{padding-bottom:clamp(40px,6vh,72px);}
+body[data-page="cart"] .bag-hero-grid{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;
+}
+body[data-page="cart"] .bag-hero .d-xl{margin-top:16px;}
+body[data-page="cart"] .bag-count{white-space:nowrap; padding-bottom:8px;}
+
+/* two-column bag body */
+body[data-page="cart"] .bag-grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,360px);
+  gap:clamp(40px,6vw,88px); align-items:start;
+}
+
+/* line items */
+body[data-page="cart"] .line-list{list-style:none; margin:0; padding:0;}
+body[data-page="cart"] .line-item{
+  display:grid; grid-template-columns:132px minmax(0,1fr) auto; gap:clamp(20px,3vw,32px);
+  align-items:center; padding-block:clamp(28px,4vh,36px); border-bottom:1px solid var(--mist);
+  transition:opacity .28s var(--ease), transform .28s var(--ease), grid-template-rows .3s var(--ease);
+}
+body[data-page="cart"] .line-list > li:first-child .line-item{padding-top:0;}
+body[data-page="cart"] .line-item.removing{opacity:0; transform:translateX(28px);}
+body[data-page="cart"] .line-media{
+  position:relative; aspect-ratio:1; background:var(--snow); border-radius:var(--r);
+  border:1px solid rgba(219,224,225,.55); overflow:hidden;
+}
+body[data-page="cart"] .line-media img{width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;}
+body[data-page="cart"] .line-info a{text-decoration:none;}
+body[data-page="cart"] .line-name{font-weight:600; font-size:17px;}
+body[data-page="cart"] .line-sub{font-size:13.5px; color:var(--slate); margin-top:5px;}
+body[data-page="cart"] .line-sku{margin-top:8px; display:block; color:var(--ash);}
+body[data-page="cart"] .line-controls{
+  display:flex; align-items:center; gap:18px; margin-top:16px; flex-wrap:wrap;
+}
+body[data-page="cart"] .line-totals{text-align:right; display:grid; gap:8px; justify-items:end;}
+body[data-page="cart"] .line-unit{color:var(--ash); font-size:12.5px;}
+body[data-page="cart"] .continue-row{padding-top:clamp(28px,4vh,36px);}
+
+/* order summary rail */
+body[data-page="cart"] .summary-rail{
+  position:sticky; top:calc(var(--nav-h) + 24px); background:var(--snow);
+  border:1px solid var(--mist); border-radius:var(--r); padding:clamp(26px,3vw,34px);
+}
+body[data-page="cart"] .summary-ship{padding-bottom:22px; margin-bottom:20px; border-bottom:1px solid var(--mist);}
+body[data-page="cart"] .summary-ship p{font-size:14.5px;}
+body[data-page="cart"] .summary-rows{display:grid; gap:14px;}
+body[data-page="cart"] .summary-row{display:flex; justify-content:space-between; align-items:baseline; gap:16px; font-size:15px;}
+body[data-page="cart"] .summary-row.total{
+  padding-top:16px; margin-top:4px; border-top:1px solid var(--mist);
+  font-weight:600; font-size:18px;
+}
+body[data-page="cart"] .summary-row.total .price{font-size:20px;}
+body[data-page="cart"] .summary-tax{color:var(--ash); font-size:13px;}
+body[data-page="cart"] .summary-cta{margin-top:24px; display:grid; gap:16px;}
+body[data-page="cart"] .summary-trust{
+  display:flex; align-items:center; gap:9px; font-size:13px; color:var(--slate); justify-content:center;
+}
+body[data-page="cart"] .summary-trust svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.6; flex:none;}
+body[data-page="cart"] .summary-pay{
+  margin-top:18px; padding-top:18px; border-top:1px solid var(--mist);
+  text-align:center; display:grid; gap:5px;
+}
+body[data-page="cart"] .summary-pay p{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--ash);}
+
+/* empty state */
+body[data-page="cart"] .bag-empty{
+  display:grid; justify-items:center; text-align:center; gap:22px;
+  padding-block:clamp(40px,7vh,72px) clamp(24px,4vh,40px);
+}
+body[data-page="cart"] .bag-empty .iceblock{
+  width:min(220px,52vw); aspect-ratio:1; border-radius:12px; margin:0 0 6px;
+}
+body[data-page="cart"] .bag-empty .iceblock-media{
+  height:100%; display:grid; place-items:center; position:relative; z-index:2;
+}
+body[data-page="cart"] .bag-empty .iceblock-media svg{
+  width:38px; height:38px; stroke:var(--glacial); opacity:.55; fill:none; stroke-width:1.3;
+}
+body[data-page="cart"] .bag-empty .d-m{max-width:20ch;}
+body[data-page="cart"] .bag-empty p.lead{max-width:34ch;}
+
+/* complete the look */
+body[data-page="cart"] .related-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;}
+body[data-page="cart"] .related-grid{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,3vw,36px);
+  margin-top:clamp(36px,5vh,52px);
+}
+
+@media (max-width:920px){
+  body[data-page="cart"] .bag-grid{grid-template-columns:1fr; gap:48px;}
+  body[data-page="cart"] .summary-rail{position:static;}
+  body[data-page="cart"] .related-grid{grid-template-columns:1fr 1fr; gap:24px;}
+}
+@media (max-width:560px){
+  body[data-page="cart"] .line-item{grid-template-columns:92px 1fr; grid-template-rows:auto auto; gap:14px 16px;}
+  body[data-page="cart"] .line-media{width:92px;}
+  body[data-page="cart"] .line-totals{grid-column:1/-1; flex-direction:row; justify-content:space-between; display:flex; align-items:baseline;}
+  body[data-page="cart"] .related-grid{grid-template-columns:1fr; gap:28px;}
+  body[data-page="cart"] .bag-hero-grid{align-items:flex-start;}
+}
+</style>
+</head>
+<body data-page="cart">
+<main id="main">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <section class="section-tight bag-hero" aria-label="Your bag">
+    <div class="container bag-hero-grid">
+      <div data-reveal-group>
+        <p class="eyebrow">Cart</p>
+        <h1 class="d-xl">Your <em>bag.</em></h1>
+      </div>
+      <p class="coord bag-count" id="bag-count" data-reveal data-reveal-delay="100">0 items</p>
+    </div>
+  </section>
+
+  <!-- ══════════ BAG BODY (populated by page script) ══════════ -->
+  <section class="section section-tight" aria-label="Bag contents" id="bag-body">
+
+    <!-- filled state -->
+    <div class="container bag-grid" id="bag-filled" hidden>
+      <div>
+        <ul class="line-list" id="line-list"></ul>
+        <div class="continue-row">
+          <a class="link-arrow" href="collection.html"><span class="arr" style="transform:scaleX(-1);">→</span> Continue shopping</a>
+        </div>
+      </div>
+
+      <aside class="summary-rail" aria-label="Order summary">
+        <p class="eyebrow">Order summary</p>
+        <div class="summary-ship" style="margin-top:20px;">
+          <p id="ship-label"></p>
+          <div class="progress"><i id="ship-bar"></i></div>
+        </div>
+        <div class="summary-rows">
+          <div class="summary-row"><span>Subtotal</span><span class="price" id="sum-subtotal">€0</span></div>
+          <div class="summary-row"><span>Shipping</span><span class="price" id="sum-shipping">€0</span></div>
+          <div class="summary-row"><span class="summary-tax">Estimated tax</span><span class="small summary-tax">Calculated at checkout</span></div>
+          <div class="summary-row total"><span>Total</span><span class="price" id="sum-total">€0</span></div>
+        </div>
+        <div class="summary-cta">
+          <a class="btn btn-primary btn-block" href="checkout.html" id="checkout-cta">Checkout — €0</a>
+        </div>
+        <p class="summary-trust">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+          Secure checkout
+        </p>
+        <div class="summary-pay">
+          <p>VISA · MASTERCARD · AMEX</p>
+          <p>APPLE PAY · KLARNA</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- empty state -->
+    <div class="container" id="bag-empty-wrap" hidden>
+      <div class="bag-empty" data-reveal>
+        <figure class="iceblock" style="margin:0;">
+          <div class="iceblock-media">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          </div>
+        </figure>
+        <p class="d-m">Your bag is empty — the ice is waiting.</p>
+        <p class="lead">The cold is calling. Find a frame shaped for the northern light.</p>
+        <a class="btn btn-primary" href="collection.html">Shop the collection</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════ marquee ══════════ -->
+  <div class="marquee" data-marquee>Free shipping over €250 ◦ Two-year guarantee ◦ 30-day returns ◦ Designed in Reykjavík ◦ </div>
+
+  <!-- ══════════ COMPLETE THE LOOK ══════════ -->
+  <section class="section" aria-label="Complete the look">
+    <div class="container">
+      <div class="related-head" data-reveal>
+        <div>
+          <p class="eyebrow">You might also like</p>
+          <h2 class="d-l" style="margin-top:16px;">Complete the <em>look.</em></h2>
+        </div>
+      </div>
+
+      <div class="related-grid">
+        <a class="product-card" href="product.html?frame=drift&color=Glacier" data-cursor="view" data-reveal>
+          <div class="card-media">
+            <img src="assets/drift-glacier.jpeg" alt="The Drift in Glacier, front view" width="800" height="800" loading="lazy">
+          </div>
+          <div class="card-info">
+            <div>
+              <p class="card-name">The Drift</p>
+              <p class="card-sub">Glacier · Rounded</p>
+            </div>
+            <span class="price">€210</span>
+          </div>
+        </a>
+
+        <a class="product-card" href="product.html?frame=basalt&color=Meltwater" data-cursor="view" data-reveal data-reveal-delay="100">
+          <div class="card-media">
+            <img src="assets/basalt-meltwater.jpeg" alt="The Basalt in Meltwater, front view" width="800" height="800" loading="lazy">
+          </div>
+          <div class="card-info">
+            <div>
+              <p class="card-name">The Basalt</p>
+              <p class="card-sub">Meltwater · Square</p>
+            </div>
+            <span class="price">€230</span>
+          </div>
+        </a>
+
+        <a class="product-card" href="product.html?frame=solstice&color=Glacier" data-cursor="view" data-reveal data-reveal-delay="200">
+          <div class="card-media">
+            <span class="card-badge">New</span>
+            <img src="assets/solstice-front.jpeg" alt="The Solstice in Glacier, front view" width="800" height="800" loading="lazy">
+          </div>
+          <div class="card-info">
+            <div>
+              <p class="card-name">The Solstice</p>
+              <p class="card-sub">Glacier · Angular</p>
+            </div>
+            <span class="price">€245</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+(function(){
+  'use strict';
+  document.addEventListener('DOMContentLoaded', function(){
+    var ICE = window.ICEGLER;
+    if (!ICE) return;
+    var rm = document.documentElement.classList.contains('rm');
+
+    var countEl = document.getElementById('bag-count');
+    var filledWrap = document.getElementById('bag-filled');
+    var emptyWrap = document.getElementById('bag-empty-wrap');
+    var lineList = document.getElementById('line-list');
+    var shipLabel = document.getElementById('ship-label');
+    var shipBar = document.getElementById('ship-bar');
+    var sumSubtotal = document.getElementById('sum-subtotal');
+    var sumShipping = document.getElementById('sum-shipping');
+    var sumTotal = document.getElementById('sum-total');
+    var checkoutCta = document.getElementById('checkout-cta');
+
+    var SHIP_COST = 12;
+
+    function skuOf(frame, colorway){
+      return 'ICG-' + frame.slice(0, 3).toUpperCase() + '-' + colorway.slice(0, 3).toUpperCase();
+    }
+
+    function render(){
+      var items = ICE.cart.items();
+      var count = items.reduce(function(n, it){ return n + it.qty; }, 0);
+      countEl.textContent = count + (count === 1 ? ' item' : ' items');
+
+      var has = items.length > 0;
+      filledWrap.hidden = !has;
+      emptyWrap.hidden = has;
+      if (!has) return;
+
+      lineList.innerHTML = items.map(function(it){
+        var p = ICE.products[it.frame];
+        var cw = ICE.findColorway(it.frame, it.color);
+        if (!p || !cw) return '';
+        var lineTotal = p.price * it.qty;
+        var unitCaption = it.qty > 1 ? '<span class="small line-unit">' + ICE.eur(p.price) + ' each</span>' : '';
+        return (
+          '<li data-line="' + it.id + '">' +
+            '<div class="line-item">' +
+              '<a class="line-media" href="product.html?frame=' + it.frame + '&color=' + encodeURIComponent(cw.name) + '" data-cursor="view">' +
+                '<img src="' + cw.img + '" alt="' + p.name + ' — ' + cw.name + '" width="132" height="132" loading="lazy">' +
+              '</a>' +
+              '<div class="line-info">' +
+                '<a href="product.html?frame=' + it.frame + '&color=' + encodeURIComponent(cw.name) + '"><p class="line-name">' + p.name + '</p></a>' +
+                '<p class="line-sub">Colour — ' + cw.name + '<br>Lens — ' + cw.lens + '</p>' +
+                '<span class="coord line-sku">' + skuOf(it.frame, cw.name) + '</span>' +
+                '<div class="line-controls">' +
+                  '<span class="qty">' +
+                    '<button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>' +
+                    '<output>' + it.qty + '</output>' +
+                    '<button type="button" data-qty="1" aria-label="Increase quantity">+</button>' +
+                  '</span>' +
+                  '<button type="button" class="remove-link" data-remove>Remove</button>' +
+                '</div>' +
+              '</div>' +
+              '<div class="line-totals">' +
+                '<span class="price">' + ICE.eur(lineTotal) + '</span>' +
+                unitCaption +
+              '</div>' +
+            '</div>' +
+          '</li>'
+        );
+      }).join('');
+
+      var sub = ICE.cart.subtotal();
+      var freeShip = sub >= ICE.FREE_SHIP;
+      var shipping = sub === 0 ? 0 : (freeShip ? 0 : SHIP_COST);
+      var total = sub + shipping;
+      var pct = sub === 0 ? 0 : Math.min(100, Math.round(sub / ICE.FREE_SHIP * 100));
+
+      shipLabel.innerHTML = freeShip
+        ? 'You’ve unlocked <strong>free shipping</strong>. ❄'
+        : 'Add <strong class="mono">' + ICE.eur(ICE.FREE_SHIP - sub) + '</strong> for free shipping';
+      shipBar.style.width = pct + '%';
+
+      sumSubtotal.textContent = ICE.eur(sub);
+      sumShipping.textContent = shipping === 0 ? 'Free' : ICE.eur(shipping);
+      sumTotal.textContent = ICE.eur(total);
+      checkoutCta.textContent = 'Checkout — ' + ICE.eur(total);
+    }
+
+    document.addEventListener('click', function(e){
+      var t;
+      if ((t = e.target.closest('#line-list [data-qty]'))) {
+        var li = t.closest('li');
+        var id = li.getAttribute('data-line');
+        var line = ICE.cart.items().find(function(it){ return it.id === id; });
+        if (line) ICE.cart.setQty(id, line.qty + parseInt(t.getAttribute('data-qty'), 10));
+        return;
+      }
+      if ((t = e.target.closest('#line-list [data-remove]'))) {
+        var li2 = t.closest('li');
+        var lineItem = li2.querySelector('.line-item');
+        if (lineItem) lineItem.classList.add('removing');
+        var id2 = li2.getAttribute('data-line');
+        setTimeout(function(){ ICE.cart.remove(id2); }, rm ? 0 : 260);
+        return;
+      }
+    });
+
+    window.addEventListener('icegler:cart-changed', render);
+    render();
+  });
+})();
+</script>
+</body>
+</html>

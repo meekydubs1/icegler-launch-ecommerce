@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — Icegler</title>
+<meta name="description" content="A calm, three-step checkout — contact, shipping and payment — for your Icegler order.">
+<meta name="theme-color" content="#0D181E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/main.js" defer></script>
+<style id="page-css">
+/* ============ CHECKOUT ============ */
+body[data-page="checkout"] .co-hero{padding-bottom:clamp(28px,4vh,44px);}
+body[data-page="checkout"] .co-hero .d-l{margin-top:16px;}
+body[data-page="checkout"] .co-back{
+  display:inline-flex; align-items:center; gap:8px; font-size:13.5px; color:var(--slate);
+  text-decoration:none; margin-bottom:22px;
+}
+body[data-page="checkout"] .co-back .arr{display:inline-block; transform:scaleX(-1); transition:transform .25s var(--ease);}
+body[data-page="checkout"] .co-back:hover .arr{transform:scaleX(-1) translateX(4px);}
+
+/* two column: narrow form + sticky rail */
+body[data-page="checkout"] .co-grid{
+  display:grid; grid-template-columns:minmax(0,560px) minmax(0,1fr);
+  gap:clamp(48px,7vw,104px); align-items:start;
+}
+body[data-page="checkout"] .co-form-col{max-width:560px;}
+
+/* numbered hairline steps */
+body[data-page="checkout"] .co-step{border-top:1px solid var(--mist); padding-block:clamp(36px,5vh,52px);}
+body[data-page="checkout"] .co-step:last-of-type{border-bottom:1px solid var(--mist);}
+body[data-page="checkout"] .co-step-head{display:flex; align-items:baseline; gap:16px;}
+body[data-page="checkout"] .co-step-num{
+  font-family:var(--font-mono); font-size:13px; color:var(--glacial); letter-spacing:.04em; flex:none;
+}
+body[data-page="checkout"] .co-step-head h2{margin:0;}
+body[data-page="checkout"] .co-fields{display:grid; gap:26px; margin-top:clamp(28px,4vh,36px);}
+body[data-page="checkout"] .co-row-2{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+body[data-page="checkout"] .co-row-3{display:grid; grid-template-columns:1.6fr 1fr; gap:26px;}
+body[data-page="checkout"] .co-check{
+  display:flex; align-items:flex-start; gap:12px; font-size:14.5px; color:var(--slate);
+  cursor:pointer;
+}
+body[data-page="checkout"] .co-check input{
+  appearance:none; -webkit-appearance:none; width:17px; height:17px; flex:none; margin-top:1px;
+  border:1px solid var(--mist); border-radius:2px; position:relative; cursor:pointer;
+  transition:border-color .2s var(--ease), background-color .2s var(--ease);
+}
+body[data-page="checkout"] .co-check input:checked{background:var(--glacial); border-color:var(--glacial);}
+body[data-page="checkout"] .co-check input:checked::after{
+  content:""; position:absolute; left:4px; top:1px; width:5px; height:9px;
+  border-right:1.5px solid var(--snow); border-bottom:1.5px solid var(--snow); transform:rotate(40deg);
+}
+body[data-page="checkout"] .co-check input:focus-visible{outline:2px solid var(--glacial); outline-offset:2px;}
+
+/* delivery radio rows */
+body[data-page="checkout"] .co-ship-opts{display:grid; gap:2px;}
+body[data-page="checkout"] .co-ship-opt{
+  display:flex; align-items:center; gap:16px; padding:18px 4px; cursor:pointer;
+  border:1px solid var(--mist); border-radius:var(--r);
+}
+body[data-page="checkout"] .co-ship-opt + .co-ship-opt{margin-top:10px;}
+body[data-page="checkout"] .co-ship-opt input{
+  appearance:none; -webkit-appearance:none; width:17px; height:17px; flex:none; margin-left:12px;
+  border:1px solid var(--mist); border-radius:50%; position:relative;
+  transition:border-color .2s var(--ease);
+}
+body[data-page="checkout"] .co-ship-opt input:checked{border-color:var(--glacial); border-width:5px;}
+body[data-page="checkout"] .co-ship-opt input:focus-visible{outline:2px solid var(--glacial); outline-offset:2px;}
+body[data-page="checkout"] .co-ship-opt.checked{border-color:var(--glacial); background:rgba(62,110,121,.05);}
+body[data-page="checkout"] .co-ship-copy{flex:1;}
+body[data-page="checkout"] .co-ship-copy p{font-weight:600; font-size:15px;}
+body[data-page="checkout"] .co-ship-copy span{font-size:13px; color:var(--slate); display:block; margin-top:2px;}
+body[data-page="checkout"] .co-ship-price{font-family:var(--font-mono); font-size:14px; margin-right:6px;}
+
+/* payment notice */
+body[data-page="checkout"] .co-notice{
+  display:flex; align-items:center; gap:12px; font-size:13.5px; color:var(--glacial);
+  background:rgba(62,110,121,.07); border:1px solid rgba(62,110,121,.18); border-radius:var(--r);
+  padding:14px 16px;
+}
+body[data-page="checkout"] .co-notice svg{width:16px; height:16px; flex:none; stroke:currentColor; fill:none; stroke-width:1.6;}
+
+/* submit row */
+body[data-page="checkout"] .co-submit{margin-top:clamp(28px,4vh,36px);}
+body[data-page="checkout"] .co-fineprint{font-size:12.5px; color:var(--ash); margin-top:16px; max-width:44ch; line-height:1.55;}
+body[data-page="checkout"] .co-trust{
+  display:flex; flex-wrap:wrap; gap:18px 30px; margin-top:clamp(40px,5vh,56px);
+  padding-top:clamp(28px,4vh,36px); border-top:1px solid var(--mist);
+}
+body[data-page="checkout"] .co-trust-item{display:flex; align-items:center; gap:9px; font-size:13px; color:var(--slate);}
+body[data-page="checkout"] .co-trust-item svg{width:14px; height:14px; stroke:var(--glacial); fill:none; stroke-width:1.8; flex:none;}
+
+/* order summary rail */
+body[data-page="checkout"] .co-summary{
+  position:sticky; top:calc(var(--nav-h) + 28px); background:var(--snow);
+  border:1px solid var(--mist); border-radius:var(--r); padding:clamp(26px,3vw,34px);
+}
+body[data-page="checkout"] .co-summary-items{list-style:none; margin:22px 0 0; padding:0; display:grid; gap:18px;}
+body[data-page="checkout"] .co-summary-item{display:grid; grid-template-columns:60px 1fr auto; gap:14px; align-items:center;}
+body[data-page="checkout"] .co-summary-thumb{
+  position:relative; width:60px; height:60px; background:var(--glacier); border-radius:var(--r); overflow:hidden;
+}
+body[data-page="checkout"] .co-summary-thumb img{width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply;}
+body[data-page="checkout"] .co-summary-qty{
+  position:absolute; top:-6px; right:-6px; min-width:18px; height:18px; padding:0 4px;
+  border-radius:9px; background:var(--basalt); color:var(--snow); font-family:var(--font-mono);
+  font-size:10px; display:grid; place-items:center; line-height:1;
+}
+body[data-page="checkout"] .co-summary-name{font-weight:600; font-size:14.5px;}
+body[data-page="checkout"] .co-summary-sub{font-size:12.5px; color:var(--slate); margin-top:2px;}
+body[data-page="checkout"] .co-summary-rule{border:0; border-top:1px solid var(--mist); margin:22px 0;}
+body[data-page="checkout"] .co-costs{display:grid; gap:12px;}
+body[data-page="checkout"] .co-cost-row{display:flex; justify-content:space-between; align-items:baseline; font-size:14.5px;}
+body[data-page="checkout"] .co-cost-row.muted-row{color:var(--ash); font-size:13px;}
+body[data-page="checkout"] .co-cost-row.total{
+  font-size:19px; font-weight:600; padding-top:16px; margin-top:6px; border-top:1px solid var(--mist);
+}
+body[data-page="checkout"] .co-cost-row.total .price{font-size:19px;}
+
+/* step done-state (collapsed edit summary, currently unused but reserved) */
+body[data-page="checkout"] .co-step[data-done] .co-fields{display:none;}
+
+/* confirmation plate */
+body[data-page="checkout"] .co-confirm{
+  min-height:min(74vh,640px); display:grid; align-content:center; justify-items:start;
+  max-width:620px; margin-inline:auto; text-align:left;
+}
+body[data-page="checkout"] .co-confirm[hidden]{display:none;}
+body[data-page="checkout"] .co-confirm-mark{
+  width:56px; height:56px; border-radius:50%; border:1px solid var(--glacial); color:var(--glacial);
+  display:grid; place-items:center; opacity:0; transform:scale(.7);
+  transition:opacity .55s var(--ease-out), transform .55s var(--ease-out);
+}
+body[data-page="checkout"] .co-confirm.in .co-confirm-mark{opacity:1; transform:none;}
+body[data-page="checkout"] .co-confirm-mark svg{width:24px; height:24px; stroke:currentColor; stroke-width:1.6; fill:none;}
+body[data-page="checkout"] .co-confirm .eyebrow{
+  margin-top:26px; opacity:0; transform:translateY(14px);
+  transition:opacity .6s var(--ease-out) .08s, transform .6s var(--ease-out) .08s;
+}
+body[data-page="checkout"] .co-confirm.in .eyebrow{opacity:1; transform:none;}
+body[data-page="checkout"] .co-confirm .d-l{
+  margin-top:16px; opacity:0; transform:translateY(16px);
+  transition:opacity .65s var(--ease-out) .16s, transform .65s var(--ease-out) .16s;
+}
+body[data-page="checkout"] .co-confirm.in .d-l{opacity:1; transform:none;}
+body[data-page="checkout"] .co-confirm .lead{
+  margin-top:22px; max-width:46ch; opacity:0; transform:translateY(16px);
+  transition:opacity .65s var(--ease-out) .24s, transform .65s var(--ease-out) .24s;
+}
+body[data-page="checkout"] .co-confirm.in .lead{opacity:1; transform:none;}
+body[data-page="checkout"] .co-confirm-ctas{
+  display:flex; flex-wrap:wrap; gap:18px; margin-top:38px;
+  opacity:0; transform:translateY(16px);
+  transition:opacity .65s var(--ease-out) .32s, transform .65s var(--ease-out) .32s;
+}
+body[data-page="checkout"] .co-confirm.in .co-confirm-ctas{opacity:1; transform:none;}
+
+/* empty-cart guard */
+body[data-page="checkout"] .co-empty{
+  min-height:min(60vh,520px); display:grid; align-content:center; justify-items:start; max-width:560px;
+}
+body[data-page="checkout"] .co-empty .iceblock{width:120px; aspect-ratio:1; margin-bottom:8px;}
+body[data-page="checkout"] .co-empty .iceblock-media{padding:18%;}
+
+@media (max-width:920px){
+  body[data-page="checkout"] .co-grid{grid-template-columns:1fr; gap:48px;}
+  body[data-page="checkout"] .co-summary{position:static;}
+  body[data-page="checkout"] .co-form-col{max-width:none;}
+}
+@media (max-width:560px){
+  body[data-page="checkout"] .co-row-2,body[data-page="checkout"] .co-row-3{grid-template-columns:1fr;}
+  body[data-page="checkout"] .co-trust{gap:14px 22px;}
+  body[data-page="checkout"] .co-ship-opt{align-items:flex-start;}
+}
+</style>
+</head>
+<body data-page="checkout">
+<main id="main">
+
+  <!-- ══════════ HEADER ══════════ -->
+  <section class="section-tight section co-hero" aria-label="Checkout">
+    <div class="container">
+      <a class="co-back link-underline" href="cart.html" style="text-decoration:none;"><span class="arr">→</span> Back to bag</a>
+      <p class="eyebrow">Checkout</p>
+      <h1 class="d-l">Almost there.</h1>
+    </div>
+  </section>
+
+  <!-- ══════════ EMPTY-CART GUARD ══════════ -->
+  <section class="section section-tight" id="co-empty-section" aria-label="Empty bag" hidden>
+    <div class="container co-empty" data-reveal>
+      <figure class="iceblock" style="margin:0 0 8px;">
+        <div class="iceblock-media"></div>
+      </figure>
+      <p class="d-m">Your bag is empty.</p>
+      <p class="lead" style="margin-top:16px; max-width:40ch;">There's nothing to check out yet — the ice is waiting for a frame to hold.</p>
+      <a class="btn btn-primary" href="collection.html" style="margin-top:32px;">Shop the collection</a>
+    </div>
+  </section>
+
+  <!-- ══════════ CHECKOUT FORM + SUMMARY ══════════ -->
+  <section class="section section-tight" id="co-main-section" aria-label="Checkout form and order summary">
+    <div class="container co-grid">
+
+      <!-- form column -->
+      <div class="co-form-col">
+        <form id="co-form" novalidate>
+
+          <!-- 01 CONTACT -->
+          <div class="co-step" data-reveal>
+            <div class="co-step-head">
+              <span class="co-step-num">01</span>
+              <h2 class="h2">Contact</h2>
+            </div>
+            <div class="co-fields">
+              <div class="field" data-field="email">
+                <label for="co-email">Email address</label>
+                <input id="co-email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
+                <p class="field-error" hidden>Please enter a valid email.</p>
+              </div>
+              <label class="co-check">
+                <input type="checkbox" name="news" checked>
+                <span>Email me Icegler news and early access to drops</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 02 SHIPPING -->
+          <div class="co-step" data-reveal>
+            <div class="co-step-head">
+              <span class="co-step-num">02</span>
+              <h2 class="h2">Shipping</h2>
+            </div>
+            <div class="co-fields">
+              <div class="co-row-2">
+                <div class="field" data-field="firstName">
+                  <label for="co-first">First name</label>
+                  <input id="co-first" name="firstName" type="text" placeholder="First name" autocomplete="given-name" required>
+                  <p class="field-error" hidden>Please tell us your first name.</p>
+                </div>
+                <div class="field" data-field="lastName">
+                  <label for="co-last">Last name</label>
+                  <input id="co-last" name="lastName" type="text" placeholder="Last name" autocomplete="family-name" required>
+                  <p class="field-error" hidden>Please tell us your last name.</p>
+                </div>
+              </div>
+              <div class="field" data-field="address">
+                <label for="co-address">Address</label>
+                <input id="co-address" name="address" type="text" placeholder="Street and number" autocomplete="address-line1" required>
+                <p class="field-error" hidden>Please enter your address.</p>
+              </div>
+              <div class="field">
+                <label for="co-apt">Apartment (optional)</label>
+                <input id="co-apt" name="apartment" type="text" placeholder="Apt, suite, etc." autocomplete="address-line2">
+              </div>
+              <div class="co-row-3">
+                <div class="field" data-field="city">
+                  <label for="co-city">City</label>
+                  <input id="co-city" name="city" type="text" placeholder="City" autocomplete="address-level2" required>
+                  <p class="field-error" hidden>Please enter your city.</p>
+                </div>
+                <div class="field" data-field="postal">
+                  <label for="co-postal">Postal code</label>
+                  <input id="co-postal" name="postal" type="text" placeholder="Postal code" autocomplete="postal-code" required>
+                  <p class="field-error" hidden>Required.</p>
+                </div>
+              </div>
+              <div class="field">
+                <label for="co-country">Country</label>
+                <select id="co-country" name="country" autocomplete="country-name">
+                  <option>Iceland</option>
+                  <option>Denmark</option>
+                  <option>Norway</option>
+                  <option>Sweden</option>
+                  <option>Finland</option>
+                  <option>Germany</option>
+                  <option>United Kingdom</option>
+                  <option>France</option>
+                  <option>Netherlands</option>
+                </select>
+              </div>
+              <div class="field" data-field="phone">
+                <label for="co-phone">Phone (for delivery updates)</label>
+                <input id="co-phone" name="phone" type="tel" placeholder="+354 555 0142" autocomplete="tel" required>
+                <p class="field-error" hidden>Please enter a phone number.</p>
+              </div>
+
+              <div class="field">
+                <label id="co-delivery-label">Delivery method</label>
+                <div class="co-ship-opts" role="radiogroup" aria-labelledby="co-delivery-label">
+                  <label class="co-ship-opt checked" data-ship-opt="standard">
+                    <div class="co-ship-copy">
+                      <p>Standard</p>
+                      <span>2–3 working days</span>
+                    </div>
+                    <span class="co-ship-price mono" data-ship-price="standard">Free</span>
+                    <input type="radio" name="shipping" value="standard" checked>
+                  </label>
+                  <label class="co-ship-opt" data-ship-opt="express">
+                    <div class="co-ship-copy">
+                      <p>Express</p>
+                      <span>Next working day</span>
+                    </div>
+                    <span class="co-ship-price mono" data-ship-price="express">€15</span>
+                    <input type="radio" name="shipping" value="express">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 PAYMENT -->
+          <div class="co-step" data-reveal>
+            <div class="co-step-head">
+              <span class="co-step-num">03</span>
+              <h2 class="h2">Payment</h2>
+            </div>
+            <div class="co-fields">
+              <div class="co-notice">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M11 12h1v5h1"/></svg>
+                <span>Visual prototype — no payment is taken.</span>
+              </div>
+              <div class="field" data-field="card">
+                <label for="co-card">Card number</label>
+                <input id="co-card" name="card" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" autocomplete="cc-number" maxlength="19" required>
+                <p class="field-error" hidden>Please enter a card number.</p>
+              </div>
+              <div class="co-row-2">
+                <div class="field" data-field="expiry">
+                  <label for="co-expiry">Expiry</label>
+                  <input id="co-expiry" name="expiry" type="text" placeholder="MM / YY" autocomplete="cc-exp" maxlength="7" required>
+                  <p class="field-error" hidden>Required.</p>
+                </div>
+                <div class="field" data-field="cvc">
+                  <label for="co-cvc">CVC</label>
+                  <input id="co-cvc" name="cvc" type="text" inputmode="numeric" placeholder="•••" autocomplete="cc-csc" maxlength="4" required>
+                  <p class="field-error" hidden>Required.</p>
+                </div>
+              </div>
+              <div class="field" data-field="cardName">
+                <label for="co-card-name">Name on card</label>
+                <input id="co-card-name" name="cardName" type="text" placeholder="Name as it appears on card" autocomplete="cc-name" required>
+                <p class="field-error" hidden>Required.</p>
+              </div>
+              <label class="co-check">
+                <input type="checkbox" name="billingSame" checked>
+                <span>Billing address same as shipping</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="co-submit">
+            <button class="btn btn-primary btn-block" type="submit" id="co-submit-btn">Place order — <span id="co-submit-total">€0</span></button>
+            <p class="co-fineprint">By placing this order you agree to Icegler's terms and privacy policy. This is a visual prototype.</p>
+          </div>
+        </form>
+
+        <div class="co-trust">
+          <span class="co-trust-item"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg>Two-year guarantee on every frame</span>
+          <span class="co-trust-item"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg>Free 30-day returns from Reykjavík</span>
+        </div>
+      </div>
+
+      <!-- order summary rail -->
+      <aside class="co-summary" data-reveal data-reveal-delay="120" aria-label="Order summary">
+        <p class="eyebrow">In your bag</p>
+        <ul class="co-summary-items" id="co-summary-items"></ul>
+        <hr class="co-summary-rule">
+        <div class="co-costs">
+          <div class="co-cost-row"><span>Subtotal</span><span class="price" id="co-subtotal">€0</span></div>
+          <div class="co-cost-row"><span>Shipping</span><span class="price" id="co-shipping">Free</span></div>
+          <div class="co-cost-row muted-row"><span>VAT (incl. 24%)</span><span class="price" id="co-vat">€0</span></div>
+          <div class="co-cost-row total"><span>Total</span><span class="price" id="co-total">€0</span></div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- ══════════ CONFIRMATION PLATE (hidden until submit) ══════════ -->
+  <section class="section" id="co-confirm-section" aria-label="Order confirmed" hidden>
+    <div class="container">
+      <div class="co-confirm" id="co-confirm">
+        <div class="co-confirm-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg>
+        </div>
+        <p class="eyebrow">Order <span id="co-order-no">ICE-2025-001</span></p>
+        <h2 class="d-l">Takk fyrir. <br>Your order is on its way.</h2>
+        <p class="lead" id="co-confirm-copy">Your frames are being hand-checked in Reykjavík. We've sent a confirmation to your inbox — you'll get tracking when they ship.</p>
+        <div class="co-confirm-ctas">
+          <a class="btn btn-primary" href="index.html">Back to home</a>
+          <a class="link-arrow" href="collection.html">Continue shopping <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+(function(){
+  'use strict';
+  document.addEventListener('DOMContentLoaded', function(){
+    var ICEGLER = window.ICEGLER;
+    if (!ICEGLER) return;
+    var rm = document.documentElement.classList.contains('rm');
+
+    var emptySection = document.getElementById('co-empty-section');
+    var mainSection = document.getElementById('co-main-section');
+    var confirmSection = document.getElementById('co-confirm-section');
+    var confirmPlate = document.getElementById('co-confirm');
+    var form = document.getElementById('co-form');
+
+    var items = ICEGLER.cart.items();
+    if (!items.length) {
+      emptySection.hidden = false;
+      mainSection.hidden = true;
+      return;
+    }
+
+    /* ---------- render order summary ---------- */
+    var EXPRESS_FEE = 15;
+    var summaryUl = document.getElementById('co-summary-items');
+    var subtotalEl = document.getElementById('co-subtotal');
+    var shippingEl = document.getElementById('co-shipping');
+    var vatEl = document.getElementById('co-vat');
+    var totalEl = document.getElementById('co-total');
+    var submitTotalEl = document.getElementById('co-submit-total');
+
+    function renderSummary(){
+      var subtotal = ICEGLER.cart.subtotal();
+      var express = form.querySelector('input[name="shipping"]:checked').value === 'express';
+      var shipCost = (subtotal >= ICEGLER.FREE_SHIP ? 0 : 12) + (express ? EXPRESS_FEE : 0);
+      var total = subtotal + shipCost;
+      var vat = Math.round(total - total / 1.24);
+
+      summaryUl.innerHTML = ICEGLER.cart.items().map(function(it){
+        var p = ICEGLER.products[it.frame];
+        var cw = ICEGLER.findColorway(it.frame, it.color);
+        if (!p || !cw) return '';
+        return '<li class="co-summary-item">' +
+          '<div class="co-summary-thumb"><img src="' + cw.img + '" alt="' + p.name + ' — ' + cw.name + '" width="60" height="60" loading="lazy">' +
+            '<span class="co-summary-qty">' + it.qty + '</span></div>' +
+          '<div><p class="co-summary-name">' + p.name + '</p><p class="co-summary-sub">' + cw.name + ' · ' + cw.lens + '</p></div>' +
+          '<span class="price">' + ICEGLER.eur(p.price * it.qty) + '</span>' +
+        '</li>';
+      }).join('');
+
+      subtotalEl.textContent = ICEGLER.eur(subtotal);
+      shippingEl.textContent = shipCost === 0 ? 'Free' : ICEGLER.eur(shipCost);
+      vatEl.textContent = ICEGLER.eur(vat);
+      totalEl.textContent = ICEGLER.eur(total);
+      submitTotalEl.textContent = ICEGLER.eur(total);
+    }
+    renderSummary();
+
+    /* ---------- shipping radio styling ---------- */
+    form.querySelectorAll('.co-ship-opt').forEach(function(opt){
+      var input = opt.querySelector('input');
+      input.addEventListener('change', function(){
+        form.querySelectorAll('.co-ship-opt').forEach(function(o){ o.classList.remove('checked'); });
+        opt.classList.add('checked');
+        renderSummary();
+      });
+    });
+
+    /* ---------- calm inline validation ---------- */
+    var REQUIRED = ['email','firstName','lastName','address','city','postal','phone','card','expiry','cvc','cardName'];
+
+    function fieldEl(name){ return form.querySelector('[data-field="' + name + '"]'); }
+    function setInvalid(name, invalid){
+      var f = fieldEl(name);
+      if (!f) return;
+      f.classList.toggle('invalid', invalid);
+      var err = f.querySelector('.field-error');
+      if (err) err.hidden = !invalid;
+    }
+    function fieldOk(name){
+      var f = fieldEl(name);
+      if (!f) return true;
+      var input = f.querySelector('input');
+      if (!input) return true;
+      if (input.type === 'email') return input.value.trim().length > 0 && input.validity.valid;
+      return input.value.trim().length > 0;
+    }
+    function validate(){
+      var ok = true;
+      REQUIRED.forEach(function(name){
+        var good = fieldOk(name);
+        setInvalid(name, !good);
+        if (!good) ok = false;
+      });
+      return ok;
+    }
+    form.addEventListener('input', function(e){
+      var field = e.target.closest('[data-field]');
+      if (field && field.classList.contains('invalid')) {
+        var name = field.getAttribute('data-field');
+        if (fieldOk(name)) setInvalid(name, false);
+      }
+    });
+
+    /* ---------- submit: demo confirmation ---------- */
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!validate()) {
+        var firstInvalid = form.querySelector('.field.invalid input');
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+      var firstName = form.querySelector('#co-first').value.trim() || 'friend';
+      var email = form.querySelector('#co-email').value.trim() || 'your inbox';
+
+      document.getElementById('co-confirm-copy').textContent =
+        'Your frames are being hand-checked in Reykjavík. We’ve sent a confirmation to ' + email + ' — you’ll get tracking when they ship, in 2–3 days.';
+
+      mainSection.hidden = true;
+      confirmSection.hidden = false;
+      void confirmPlate.offsetWidth;
+      confirmPlate.classList.add('in');
+
+      ICEGLER.cart.clear();
+
+      if (!rm) window.scrollTo({ top: 0, behavior: 'smooth' });
+      else window.scrollTo(0, 0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Collection — Icegler</title>
+<meta name="description" content="Three silhouettes, six finishes — frames cut from handcrafted bio-acetate and set with Carl Zeiss lenses, made to carry the cold.">
+<meta name="theme-color" content="#0D181E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/main.js" defer></script>
+<style id="page-css">
+/* ============ COLLECTION / PLP ============ */
+/* Opener — offset editorial header */
+body[data-page="collection"] .plp-head{
+  padding-block:calc(var(--nav-h) + clamp(48px,8vh,96px)) clamp(28px,5vh,48px);
+}
+body[data-page="collection"] .plp-head-grid{
+  display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);
+  gap:clamp(28px,5vw,72px); align-items:end;
+}
+body[data-page="collection"] .plp-head h1{margin-top:22px;}
+body[data-page="collection"] .plp-head-aside{padding-bottom:10px;}
+body[data-page="collection"] .plp-head-aside .lead{max-width:34ch;}
+body[data-page="collection"] .plp-count{
+  display:flex; align-items:baseline; gap:14px; margin-top:26px;
+}
+body[data-page="collection"] .plp-count b{
+  font-family:var(--font-serif); font-weight:340; font-size:clamp(30px,4vw,46px);
+  line-height:1; letter-spacing:-.02em;
+}
+
+/* Filter bar — shape pills */
+body[data-page="collection"] .plp-filter{
+  position:sticky; top:var(--nav-h); z-index:60;
+  display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  padding-block:16px; margin-top:clamp(24px,4vh,40px);
+  border-top:1px solid var(--mist); border-bottom:1px solid var(--mist);
+  background:rgba(242,244,244,.82); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+}
+body[data-page="collection"] .plp-pills{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+body[data-page="collection"] .pill{
+  font-family:var(--font-mono); font-weight:500; font-size:12px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--slate);
+  padding:9px 16px; border:1px solid var(--mist); border-radius:100px;
+  background:var(--snow); display:inline-flex; align-items:baseline; gap:8px;
+  transition:color .22s var(--ease), border-color .22s var(--ease), background-color .22s var(--ease);
+}
+body[data-page="collection"] .pill .pc{
+  font-size:10.5px; color:var(--ash); letter-spacing:.04em;
+  transition:color .22s var(--ease);
+}
+body[data-page="collection"] .pill:hover{border-color:var(--glacial); color:var(--basalt);}
+body[data-page="collection"] .pill[aria-pressed="true"]{
+  background:var(--basalt); border-color:var(--basalt); color:var(--snow);
+}
+body[data-page="collection"] .pill[aria-pressed="true"] .pc{color:rgba(252,253,253,.6);}
+body[data-page="collection"] .plp-filter-label{
+  display:inline-flex; align-items:center; gap:12px; color:var(--ash);
+}
+
+/* Grid — asymmetric editorial */
+body[data-page="collection"] .plp-grid-wrap{position:relative;}
+body[data-page="collection"] .plp-grid{
+  position:relative; display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:clamp(24px,3vw,52px) clamp(20px,3vw,44px);
+  margin-top:clamp(48px,7vh,88px); align-items:start;
+}
+body[data-page="collection"] .ghost-num{position:absolute; z-index:0; line-height:.8;}
+body[data-page="collection"] .gn-1{left:-3.5%; top:2%;}
+body[data-page="collection"] .gn-2{right:-3%; top:31%;}
+body[data-page="collection"] .gn-3{left:12%; bottom:-4%;}
+
+/* asymmetric placement + vertical rhythm */
+body[data-page="collection"] .cell{position:relative; z-index:1;}
+body[data-page="collection"] .cell-solstice{grid-column:1/8;}
+body[data-page="collection"] .cell-basalt-1{grid-column:8/13; margin-top:clamp(40px,8vh,104px);}
+body[data-page="collection"] .cell-basalt-2{grid-column:8/13; margin-top:clamp(20px,3vh,40px);}
+body[data-page="collection"] .cell-drift-1{grid-column:1/6; margin-top:clamp(28px,5vh,72px);}
+body[data-page="collection"] .cell-drift-2{grid-column:6/9; margin-top:clamp(52px,11vh,140px);}
+body[data-page="collection"] .cell-eclipse{grid-column:9/13; margin-top:clamp(28px,5vh,72px);}
+body[data-page="collection"] .cell-solstice .card-media{aspect-ratio:5/5.3;}
+
+/* filter transition — reflow fade (guarded in JS for .rm) */
+body[data-page="collection"] .cell{
+  transition:opacity .3s var(--ease), transform .34s var(--ease-out);
+}
+body[data-page="collection"] .cell.is-hidden{
+  opacity:0; transform:translateY(14px) scale(.985);
+  pointer-events:none; position:absolute; visibility:hidden;
+}
+html.rm body[data-page="collection"] .cell{transition:none;}
+
+/* Coming-soon designed card */
+body[data-page="collection"] .cs-media{
+  position:relative; aspect-ratio:1; border-radius:var(--r); overflow:hidden;
+  border:1px solid rgba(219,224,225,.55); display:grid; place-items:center;
+}
+body[data-page="collection"] .cs-media .aurora-veil{opacity:.4;}
+body[data-page="collection"] .cs-inner{
+  position:relative; z-index:3; text-align:center; display:grid; gap:18px; justify-items:center;
+  padding:24px;
+}
+body[data-page="collection"] .cs-frame{
+  width:clamp(84px,26%,132px); aspect-ratio:2/1; position:relative;
+}
+body[data-page="collection"] .cs-frame::before,
+body[data-page="collection"] .cs-frame::after{
+  content:""; position:absolute; top:6%; width:42%; height:88%;
+  border:1.5px solid rgba(21,25,27,.32); border-radius:44% 44% 40% 40%;
+  background:linear-gradient(160deg, rgba(252,253,253,.5), rgba(191,217,222,.28));
+}
+body[data-page="collection"] .cs-frame::before{left:0;}
+body[data-page="collection"] .cs-frame::after{right:0;}
+body[data-page="collection"] .cs-bridge{
+  position:absolute; top:22%; left:42%; width:16%; height:2px; z-index:2;
+  background:rgba(21,25,27,.32);
+}
+body[data-page="collection"] .cs-cap{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--slate); line-height:1.7;
+}
+body[data-page="collection"] .cs-cap span{display:block; color:var(--ash);}
+body[data-page="collection"] .btn-notify{
+  font-family:var(--font-mono); font-weight:500; font-size:11.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--slate);
+  padding:11px 22px; border:1px solid var(--mist); border-radius:100px;
+  background:var(--snow); opacity:.72; cursor:not-allowed;
+}
+body[data-page="collection"] .cell-eclipse .card-info{margin-top:16px;}
+
+/* Empty state (no matches) — designed */
+body[data-page="collection"] .plp-empty{
+  display:none; text-align:center; padding-block:clamp(56px,9vh,104px);
+  max-width:44ch; margin-inline:auto;
+}
+body[data-page="collection"] .plp-empty.show{display:block;}
+body[data-page="collection"] .plp-empty .d-m{margin-bottom:16px;}
+body[data-page="collection"] .plp-empty .btn{margin-top:28px;}
+
+/* Ice-field interlude */
+body[data-page="collection"] .interlude{
+  position:relative; min-height:min(48vh,420px);
+  display:flex; align-items:center;
+  margin-block:clamp(40px,7vh,96px);
+}
+body[data-page="collection"] .interlude .container{width:100%;}
+body[data-page="collection"] .interlude-line{
+  font-family:var(--font-serif); font-weight:320; font-optical-sizing:auto;
+  font-size:clamp(30px,4.4vw,60px); line-height:1.08; letter-spacing:-.02em;
+  max-width:20ch;
+}
+body[data-page="collection"] .interlude .coord{margin-top:26px; display:inline-block;}
+
+/* Dusk CTA band */
+body[data-page="collection"] .plp-cta{position:relative; overflow:hidden;}
+body[data-page="collection"] .plp-cta-inner{
+  position:relative; z-index:2; display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(32px,5vw,80px); align-items:end;
+}
+body[data-page="collection"] .plp-cta-inner .lead{max-width:42ch;}
+body[data-page="collection"] .plp-cta-actions{
+  justify-self:end; text-align:right; display:grid; gap:20px; justify-items:end;
+}
+
+/* Responsive */
+@media (max-width:920px){
+  body[data-page="collection"] .plp-head-grid{grid-template-columns:1fr; gap:28px; align-items:start;}
+  body[data-page="collection"] .plp-grid{grid-template-columns:1fr; gap:44px;}
+  body[data-page="collection"] .cell-solstice,
+  body[data-page="collection"] .cell-basalt-1,
+  body[data-page="collection"] .cell-basalt-2,
+  body[data-page="collection"] .cell-drift-1,
+  body[data-page="collection"] .cell-drift-2,
+  body[data-page="collection"] .cell-eclipse{grid-column:1/-1; margin-top:0;}
+  body[data-page="collection"] .cell-solstice .card-media{aspect-ratio:1;}
+  body[data-page="collection"] .ghost-num{display:none;}
+  body[data-page="collection"] .plp-cta-inner{grid-template-columns:1fr; gap:36px; align-items:start;}
+  body[data-page="collection"] .plp-cta-actions{justify-self:start; text-align:left; justify-items:start;}
+  body[data-page="collection"] .cell.is-hidden{position:static; height:0; margin:0; overflow:hidden;}
+}
+@media (max-width:560px){
+  body[data-page="collection"] .plp-filter{gap:12px;}
+  body[data-page="collection"] .plp-filter-label{display:none;}
+  body[data-page="collection"] .plp-pills{width:100%;}
+  body[data-page="collection"] .interlude-line{font-size:clamp(28px,8vw,40px);}
+}
+</style>
+</head>
+<body data-page="collection">
+<main id="main">
+
+  <!-- ══════════ EDITORIAL HEADER ══════════ -->
+  <section class="plp-head" aria-label="The collection">
+    <div class="container">
+      <div class="plp-head-grid">
+        <div data-reveal-group>
+          <p class="eyebrow">The collection — Winter 25</p>
+          <h1 class="d-l">Frames for the<br>northern <em>light.</em></h1>
+        </div>
+        <div class="plp-head-aside" data-reveal data-reveal-delay="140">
+          <p class="lead">Three silhouettes, eight finishes. Each cut from handcrafted bio-acetate and set with Carl Zeiss lenses — made to carry the cold.</p>
+          <p class="plp-count">
+            <b data-plp-count>06</b>
+            <span class="coord" data-plp-noun>Frames — Winter 25</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- shape filter -->
+      <div class="plp-filter">
+        <div class="plp-pills" role="group" aria-label="Filter frames by shape">
+          <button class="pill" type="button" data-shape="all" aria-pressed="true">All <span class="pc">06</span></button>
+          <button class="pill" type="button" data-shape="Angular" aria-pressed="false">Angular <span class="pc">02</span></button>
+          <button class="pill" type="button" data-shape="Rounded" aria-pressed="false">Rounded <span class="pc">02</span></button>
+          <button class="pill" type="button" data-shape="Square" aria-pressed="false">Square <span class="pc">02</span></button>
+        </div>
+        <p class="plp-filter-label coord">Shape — <span data-plp-filter-note>all frames</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ASYMMETRIC GRID ══════════ -->
+  <section aria-label="Frames" style="padding-bottom:clamp(24px,4vh,48px);">
+    <div class="container plp-grid-wrap">
+      <div class="plp-grid" data-plp-grid>
+        <span class="ghost-num gn-1" data-parallax="0.12" aria-hidden="true">01</span>
+        <span class="ghost-num gn-2" data-parallax="-0.09" aria-hidden="true">02</span>
+        <span class="ghost-num gn-3" data-parallax="0.06" aria-hidden="true">03</span>
+
+        <!-- The Solstice — Glacier (large, spans 7) -->
+        <div class="cell cell-solstice" data-shape="Angular" data-reveal>
+          <a class="product-card" href="product.html?frame=solstice&color=Glacier" data-cursor="view">
+            <div class="card-media">
+              <span class="card-badge">New</span>
+              <img src="assets/solstice-front.jpeg" data-swap-src="assets/solstice-angle.jpeg" alt="The Solstice in Glacier, front view" width="800" height="800">
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Solstice</p>
+                <p class="card-sub">Glacier · Angular</p>
+                <div class="dots">
+                  <i style="--dot:linear-gradient(135deg,#CFE2E7,#EEF2F3)"></i>
+                  <i style="--dot:#2B3238"></i>
+                </div>
+              </div>
+              <span class="price">€245</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- The Basalt — Driftwood -->
+        <div class="cell cell-basalt-1" data-shape="Square" data-reveal data-reveal-delay="80">
+          <a class="product-card" href="product.html?frame=basalt&color=Driftwood" data-cursor="view">
+            <div class="card-media">
+              <img src="assets/basalt-driftwood.jpeg" data-swap-src="assets/basalt-meltwater.jpeg" alt="The Basalt in Driftwood, front view" width="800" height="800" loading="lazy">
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Basalt</p>
+                <p class="card-sub">Driftwood · Square</p>
+                <div class="dots">
+                  <i style="--dot:#8A6B4F"></i>
+                  <i style="--dot:#9FB6BD"></i>
+                </div>
+              </div>
+              <span class="price">€230</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- The Basalt — Meltwater -->
+        <div class="cell cell-basalt-2" data-shape="Square" data-reveal data-reveal-delay="160">
+          <a class="product-card" href="product.html?frame=basalt&color=Meltwater" data-cursor="view">
+            <div class="card-media">
+              <img src="assets/basalt-meltwater.jpeg" data-swap-src="assets/basalt-driftwood.jpeg" alt="The Basalt in Meltwater, front view" width="800" height="800" loading="lazy">
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Basalt</p>
+                <p class="card-sub">Meltwater · Square</p>
+                <div class="dots">
+                  <i style="--dot:#9FB6BD"></i>
+                  <i style="--dot:#8A6B4F"></i>
+                </div>
+              </div>
+              <span class="price">€230</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- The Drift — Basalt -->
+        <div class="cell cell-drift-1" data-shape="Rounded" data-reveal data-reveal-delay="80">
+          <a class="product-card" href="product.html?frame=drift&color=Basalt" data-cursor="view">
+            <div class="card-media">
+              <img src="assets/drift-basalt.jpeg" data-swap-src="assets/drift-glacier.jpeg" alt="The Drift in Basalt, front view" width="800" height="800" loading="lazy">
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Drift</p>
+                <p class="card-sub">Basalt · Rounded</p>
+                <div class="dots">
+                  <i style="--dot:#15191B"></i>
+                  <i style="--dot:linear-gradient(135deg,#CFE2E7,#EEF2F3)"></i>
+                </div>
+              </div>
+              <span class="price">€210</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- The Drift — Glacier -->
+        <div class="cell cell-drift-2" data-shape="Rounded" data-reveal data-reveal-delay="160">
+          <a class="product-card" href="product.html?frame=drift&color=Glacier" data-cursor="view">
+            <div class="card-media">
+              <img src="assets/drift-glacier.jpeg" data-swap-src="assets/drift-basalt.jpeg" alt="The Drift in Glacier, front view" width="800" height="800" loading="lazy">
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Drift</p>
+                <p class="card-sub">Glacier · Rounded</p>
+                <div class="dots">
+                  <i style="--dot:linear-gradient(135deg,#CFE2E7,#EEF2F3)"></i>
+                  <i style="--dot:#15191B"></i>
+                </div>
+              </div>
+              <span class="price">€210</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- The Solstice — Eclipse (Coming soon, no photography) -->
+        <div class="cell cell-eclipse" data-shape="Angular" data-reveal data-reveal-delay="240">
+          <div class="product-card" aria-label="The Solstice in Eclipse — coming soon">
+            <div class="cs-media ice-field deep scene">
+              <div class="aurora-veil" aria-hidden="true"></div>
+              <span class="card-badge" style="color:var(--dusk); background:rgba(252,253,253,.9);">Coming soon</span>
+              <div class="cs-inner">
+                <div class="cs-frame" aria-hidden="true"><span class="cs-bridge"></span></div>
+                <p class="cs-cap">Studio shot<span>pending</span></p>
+              </div>
+            </div>
+            <div class="card-info">
+              <div>
+                <p class="card-name">The Solstice — Eclipse</p>
+                <p class="card-sub">Titanium · Angular</p>
+                <div class="dots">
+                  <i style="--dot:#2B3238"></i>
+                </div>
+              </div>
+              <span class="price">€245</span>
+            </div>
+            <div style="margin-top:16px;">
+              <button class="btn-notify" type="button" disabled aria-disabled="true">Notify me</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- no-results empty state -->
+      <div class="plp-empty" data-plp-empty aria-live="polite">
+        <p class="d-m">Nothing matches — <em>yet.</em></p>
+        <p class="lead">No frames fit this shape. Loosen the filter, or explore the full collection.</p>
+        <button class="btn btn-outline" type="button" data-plp-clear>Clear the filter</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ICE-FIELD INTERLUDE ══════════ -->
+  <section class="interlude ice-field bleed scene" aria-label="On the collection">
+    <div class="container">
+      <p class="interlude-line" data-reveal="mask">Cut for the low sun, worn in the long blue <em>dusk.</em></p>
+      <span class="coord" data-reveal data-reveal-delay="200">64°08′46″N — 21°56′24″W · Winter 25</span>
+    </div>
+  </section>
+
+  <!-- ══════════ DUSK CTA BAND ══════════ -->
+  <section class="plp-cta section section-dusk scene" aria-label="See the frames worn">
+    <div class="aurora-veil" style="opacity:.4;"></div>
+    <div class="container plp-cta-inner">
+      <div data-reveal-group>
+        <p class="eyebrow on-dark">Winter Light — the lookbook</p>
+        <h2 class="d-l" style="margin-top:18px;">See them worn<br>in the <em>dusk.</em></h2>
+        <p class="lead" style="margin-top:24px;">Frames on basalt, on driftwood, on ice — an immersive spread shot in the long blue light of a Reykjavík winter.</p>
+      </div>
+      <div class="plp-cta-actions" data-reveal data-reveal-delay="180">
+        <a class="btn btn-ghost" href="lookbook.html" data-cursor="view">Enter the lookbook <span class="arr">→</span></a>
+        <a class="link-arrow" href="story.html" style="color:var(--snow);">Read our story <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var RM = document.documentElement.classList.contains('rm');
+  var grid = document.querySelector('[data-plp-grid]');
+  if (!grid) return;
+
+  var cells = Array.prototype.slice.call(grid.querySelectorAll('.cell'));
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.pill[data-shape]'));
+  var countEl = document.querySelector('[data-plp-count]');
+  var nounEl = document.querySelector('[data-plp-noun]');
+  var noteEl = document.querySelector('[data-plp-filter-note]');
+  var emptyBox = document.querySelector('[data-plp-empty]');
+  var clearBtn = document.querySelector('[data-plp-clear]');
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  function apply(shape){
+    var shown = 0;
+    cells.forEach(function(cell){
+      var match = (shape === 'all') || (cell.getAttribute('data-shape') === shape);
+      cell.classList.toggle('is-hidden', !match);
+      cell.setAttribute('aria-hidden', String(!match));
+      if (match) shown++;
+    });
+
+    // counts + copy
+    if (countEl) countEl.textContent = pad(shown);
+    if (nounEl) nounEl.textContent = (shown === 1 ? 'Frame' : 'Frames') + ' — Winter 25';
+    if (noteEl) noteEl.textContent = (shape === 'all') ? 'all frames' : shape.toLowerCase();
+
+    // pressed state
+    pills.forEach(function(p){
+      p.setAttribute('aria-pressed', String(p.getAttribute('data-shape') === shape));
+    });
+
+    // empty state
+    if (emptyBox) emptyBox.classList.toggle('show', shown === 0);
+  }
+
+  pills.forEach(function(p){
+    p.addEventListener('click', function(){
+      apply(p.getAttribute('data-shape'));
+    });
+  });
+  if (clearBtn) clearBtn.addEventListener('click', function(){ apply('all'); });
+})();
+</script>
+</body>
+</html>
