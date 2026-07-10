@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Icegler — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<style>
+/* ============ ICEGLER BRAND GUIDE — print document ============ */
+:root{
+  --glacier:#F2F4F4; --snow:#FCFDFD; --basalt:#15191B; --slate:#586065;
+  --ash:#8A9296; --mist:#DBE0E1; --meltwater:#DCE8EB; --ice:#BFD9DE;
+  --glacial:#3E6E79; --driftwood:#E7E1D6;
+  --dusk:#0D181E; --dusk2:#122831; --dusk3:#1B3A46; --aurora:#7FB4A2;
+  --hairline-dark:rgba(252,253,253,.16);
+  --serif:'Fraunces',serif; --sans:'Schibsted Grotesk',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --iceimg:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='700' height='700'><filter id='i'><feTurbulence type='fractalNoise' baseFrequency='0.011 0.017' numOctaves='4' seed='7' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23i)'/></svg>");
+}
+*{box-sizing:border-box; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
+html,body{margin:0; padding:0;}
+body{font-family:var(--sans); color:var(--basalt); background:#888;}
+@page{size:297mm 210mm; margin:0;}
+
+.pg{
+  position:relative; width:297mm; height:210mm; overflow:hidden;
+  background:var(--glacier); page-break-after:always; break-after:page;
+  padding:16mm 18mm 14mm;
+}
+.pg:last-child{page-break-after:auto; break-after:auto;}
+.pg .grain{position:absolute; inset:-10mm; background:var(--grain); background-size:240px; opacity:.04; pointer-events:none; z-index:50;}
+.pg.dark .grain{opacity:.06;}
+.pg.dark{
+  background:radial-gradient(90% 70% at 78% 8%, rgba(27,58,70,.55), rgba(27,58,70,0) 62%),
+             linear-gradient(178deg, var(--dusk) 0%, var(--dusk2) 64%, var(--dusk) 100%);
+  color:var(--snow);
+}
+.aurora{
+  position:absolute; inset:-16%; pointer-events:none; opacity:.5; filter:blur(18mm);
+  background:
+    radial-gradient(38% 26% at 26% 32%, rgba(127,180,162,.5), rgba(127,180,162,0) 70%),
+    radial-gradient(42% 30% at 74% 22%, rgba(191,217,222,.36), rgba(191,217,222,0) 72%),
+    radial-gradient(30% 22% at 56% 62%, rgba(62,110,121,.4), rgba(62,110,121,0) 70%);
+}
+/* running furniture */
+.run{
+  position:absolute; left:18mm; right:18mm; top:9mm; display:flex; justify-content:space-between;
+  font-family:var(--mono); font-size:6.4pt; letter-spacing:.22em; text-transform:uppercase; color:var(--ash);
+  z-index:40;
+}
+.dark .run{color:rgba(252,253,253,.4);}
+.folio{
+  position:absolute; left:18mm; right:18mm; bottom:8mm; display:flex; justify-content:space-between;
+  border-top:.35pt solid var(--mist); padding-top:2.6mm;
+  font-family:var(--mono); font-size:6.4pt; letter-spacing:.2em; text-transform:uppercase; color:var(--ash);
+  z-index:40;
+}
+.dark .folio{border-color:var(--hairline-dark); color:rgba(252,253,253,.4);}
+/* type */
+.eyebrow{font-family:var(--mono); font-weight:500; font-size:7.5pt; letter-spacing:.22em; text-transform:uppercase; color:var(--glacial); margin:0 0 6mm;}
+.dark .eyebrow{color:var(--ice);}
+.dxl{font-family:var(--serif); font-weight:300; font-optical-sizing:auto; font-size:44pt; line-height:.98; letter-spacing:-.02em; margin:0;}
+.dl{font-family:var(--serif); font-weight:330; font-optical-sizing:auto; font-size:29pt; line-height:1.04; letter-spacing:-.018em; margin:0;}
+.dm{font-family:var(--serif); font-weight:360; font-size:16.5pt; line-height:1.16; letter-spacing:-.01em; margin:0;}
+em{font-style:italic; font-weight:320;}
+.lead{font-size:10.6pt; line-height:1.62; color:var(--slate); margin:0;}
+.dark .lead{color:rgba(252,253,253,.75);}
+p.body{font-size:9pt; line-height:1.6; color:var(--slate); margin:0;}
+.dark p.body{color:rgba(252,253,253,.72);}
+.coord{font-family:var(--mono); font-size:7pt; letter-spacing:.16em; text-transform:uppercase; color:var(--ash);}
+.dark .coord{color:rgba(252,253,253,.45);}
+.mono{font-family:var(--mono); font-weight:500;}
+.mark{
+  display:inline-block; font-family:var(--mono); font-size:6.4pt; letter-spacing:.14em;
+  color:var(--glacial); border:.35pt solid var(--glacial); border-radius:6pt; padding:1mm 2.6mm;
+  vertical-align:middle; text-transform:uppercase;
+}
+.dark .mark{color:var(--ice); border-color:rgba(191,217,222,.5);}
+.hair{border:0; border-top:.35pt solid var(--mist); margin:0;}
+.cols{display:grid; gap:12mm;}
+ul.rules{list-style:none; margin:0; padding:0;}
+ul.rules li{
+  font-size:8.6pt; line-height:1.5; color:var(--slate); padding:2.8mm 0;
+  border-top:.35pt solid var(--mist); display:grid; grid-template-columns:8mm 1fr; gap:3mm;
+}
+ul.rules li b{color:var(--basalt); font-weight:600;}
+ul.rules li .n{font-family:var(--mono); font-size:7pt; color:var(--ash); padding-top:.6mm;}
+.dark ul.rules li{color:rgba(252,253,253,.72); border-color:var(--hairline-dark);}
+.dark ul.rules li b{color:var(--snow);}
+
+/* iceblock recreation */
+.iceblock{
+  position:relative; border-radius:4mm; overflow:hidden;
+  background:linear-gradient(158deg,#F7FBFC 0%,#E3EEF1 28%,#C9DFE5 60%,#AECDD6 100%);
+  border:.5pt solid rgba(255,255,255,.65);
+  box-shadow:0 14mm 22mm -9mm rgba(13,24,30,.55), inset 0 .6mm .6mm rgba(255,255,255,.95),
+             inset 0 -14mm 20mm -10mm rgba(62,110,121,.5);
+}
+.iceblock::before{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    var(--iceimg) 0 0/140mm,
+    radial-gradient(circle at 17% 26%, rgba(255,255,255,.95) 0 .8mm, rgba(255,255,255,0) 2.6mm),
+    radial-gradient(circle at 79% 58%, rgba(255,255,255,.85) 0 .6mm, rgba(255,255,255,0) 2mm),
+    radial-gradient(circle at 30% 71%, rgba(255,255,255,.8) 0 .5mm, rgba(255,255,255,0) 1.6mm),
+    linear-gradient(36deg, rgba(255,255,255,0) 47.6%, rgba(255,255,255,.5) 48%, rgba(255,255,255,0) 48.5%),
+    linear-gradient(118deg, rgba(255,255,255,0) 63.7%, rgba(255,255,255,.38) 64%, rgba(255,255,255,0) 64.4%),
+    radial-gradient(84% 60% at 74% 14%, rgba(255,255,255,.5), rgba(255,255,255,0) 58%);
+  mix-blend-mode:screen; opacity:.85;
+}
+.iceblock .media{position:relative; z-index:2; height:100%; mix-blend-mode:multiply; display:grid; place-items:center; padding:9%;}
+.iceblock .media img{width:100%; height:100%; object-fit:contain;}
+
+/* chips */
+.chip-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:5mm 6mm;}
+.chip .sw{height:17mm; border-radius:1mm; border:.35pt solid rgba(21,25,27,.12);}
+.chip .nm{display:flex; justify-content:space-between; align-items:baseline; margin-top:2mm;}
+.chip .nm b{font-family:var(--mono); font-weight:500; font-size:7.4pt; letter-spacing:.06em;}
+.chip .nm span{font-family:var(--mono); font-size:6.8pt; color:var(--ash);}
+.chip .role{font-size:6.9pt; color:var(--slate); line-height:1.42; margin-top:1.2mm;}
+.grp{font-family:var(--mono); font-size:6.6pt; letter-spacing:.2em; text-transform:uppercase; color:var(--ash);
+  border-top:.35pt solid var(--mist); padding-top:2.4mm; margin:0 0 3.4mm;}
+
+.vign{background:var(--snow); padding:3mm; border-radius:.8mm; box-shadow:0 8mm 14mm -6mm rgba(13,24,30,.4);}
+.vign img{width:100%; display:block; border-radius:.4mm;}
+.vign .cap{display:flex; justify-content:space-between; padding-top:2.2mm;}
+
+table.spec{width:100%; border-collapse:collapse; font-size:8.2pt;}
+table.spec th{text-align:left; font-weight:500; color:var(--slate); padding:2.2mm 3mm 2.2mm 0; border-top:.35pt solid var(--mist); white-space:nowrap;}
+table.spec td{font-family:var(--mono); font-size:7.6pt; padding:2.2mm 0; border-top:.35pt solid var(--mist); color:var(--basalt);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ 01 · COVER ═══════════════════ -->
+<div class="pg dark" style="display:flex; flex-direction:column; justify-content:center;">
+  <div class="aurora"></div><div class="grain"></div>
+  <div class="run" style="border-bottom:.35pt solid var(--hairline-dark); padding-bottom:2.6mm;">
+    <span>Icegler® — Reykjavík</span><span>Brand guide · Vol. 01</span>
+  </div>
+  <div style="position:relative; z-index:2; margin-top:6mm;">
+    <div class="coord" style="margin-bottom:9mm;">The identity, set down</div>
+    <div style="font-family:var(--serif); font-weight:340; font-size:96pt; line-height:.9; letter-spacing:.002em;">Icegler</div>
+    <div class="dm" style="margin-top:9mm; color:rgba(252,253,253,.78);"><em>Shaped by light.</em></div>
+  </div>
+  <div class="folio"><span>64°08′46″N — 21°56′24″W</span><span>Winter 25 · System v2</span></div>
+</div>
+
+<!-- ═══════════════════ 02 · ESSENCE ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>01 — Essence</span></div>
+  <div class="cols" style="grid-template-columns:1.15fr .85fr; margin-top:12mm; align-items:start;">
+    <div>
+      <p class="eyebrow">01 — Brand essence</p>
+      <h1 class="dxl">Frozen <em>light,</em><br>made to wear.</h1>
+      <p class="lead" style="max-width:118mm; margin-top:8mm;">Icegler makes premium sunglasses designed in Reykjavík and shaped by Icelandic light — the long blue dusk, glacier clarity, black basalt, and the strange warmth of a cold place.</p>
+      <div style="display:flex; gap:3mm; margin-top:9mm;">
+        <span class="mark">Glacial</span><span class="mark">Considered</span><span class="mark">Quietly edgy</span>
+      </div>
+      <p class="body" style="margin-top:9mm; max-width:112mm;">The register is <b>cinematic restraint</b>: Scandinavian minimal luxury with a very slight edge. Editorial air, gallery-clean negative space — the architectural coldness always softened into something natural, ethereal, and a little poetic.</p>
+    </div>
+    <div>
+      <p class="grp">We are</p>
+      <ul class="rules" style="margin-bottom:7mm;">
+        <li><span class="n">→</span><span><b>Restrained and confident.</b> The product and the light do the speaking.</span></li>
+        <li><span class="n">→</span><span><b>Product-forward.</b> Photography of the frames is the design.</span></li>
+        <li><span class="n">→</span><span><b>Conscious.</b> Materials, repairs, and the cold, honestly told.</span></li>
+      </ul>
+      <p class="grp">We are not</p>
+      <ul class="rules">
+        <li><span class="n">✕</span><span>Loud, trendy, maximalist, or exclamatory. Never salesy.</span></li>
+        <li><span class="n">✕</span><span>“Techwear,” brutalist, clinical, or architectural. Warm where others are hard.</span></li>
+        <li><span class="n">✕</span><span>Ice as monument. Ice is a <b>living</b> element — wet, imperfect, melting.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="folio">
+    <span>Contents — 01 Essence · 02 The light · 03 Wordmark · 04 The iceblock · 05 Colour · 06 Type · 07 Voice · 08 Texture · 09 Motion · 10 In use</span>
+    <span>02</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ 03 · THE LIGHT NARRATIVE ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>02 — The light</span></div>
+  <div style="margin-top:12mm;">
+    <p class="eyebrow">02 — The organizing idea <span class="mark" style="margin-left:3mm;">Codified in v2</span></p>
+    <h2 class="dl" style="max-width:170mm;">Every Icegler surface moves through one Icelandic day of <em>light.</em></h2>
+    <p class="lead" style="max-width:150mm; margin-top:6mm;">Light is the narrative, and its order is the composition. A page, a lookbook, a campaign — each opens in the long blue dusk, clears into glacier daylight, warms briefly over driftwood, and settles into basalt night.</p>
+  </div>
+  <div style="display:grid; grid-template-columns:1.4fr 2.2fr .7fr .7fr; gap:1.2mm; height:52mm; margin-top:12mm; border-radius:1mm; overflow:hidden;">
+    <div style="background:linear-gradient(160deg,var(--dusk3),var(--dusk2) 55%,var(--dusk));"></div>
+    <div style="background:linear-gradient(160deg,#F5F7F7,var(--glacier) 50%,var(--meltwater));"></div>
+    <div style="background:linear-gradient(160deg,#EDE7DB,var(--driftwood));"></div>
+    <div style="background:linear-gradient(160deg,#1A2024,var(--basalt));"></div>
+  </div>
+  <div style="display:grid; grid-template-columns:1.4fr 2.2fr .7fr .7fr; gap:1.2mm; margin-top:4mm;">
+    <div><p class="coord">I — The long blue dusk</p><p class="body" style="margin-top:2mm;">Arrival and drama. Heroes, covers, closers. The iceblock glows here.</p></div>
+    <div><p class="coord">II — Glacier daylight</p><p class="body" style="margin-top:2mm;">Clarity and commerce. Shopping, reading, choosing — pale, airy, precise. The default.</p></div>
+    <div><p class="coord">III — Driftwood</p><p class="body" style="margin-top:2mm;">One warm breath. The human story. Once per journey.</p></div>
+    <div><p class="coord">IV — Basalt night</p><p class="body" style="margin-top:2mm;">The quiet close. Footers, colophons.</p></div>
+  </div>
+  <div class="folio"><span>The light is the narrative — the product is the subject</span><span>03</span></div>
+</div>
+
+<!-- ═══════════════════ 04 · WORDMARK ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>03 — Wordmark</span></div>
+  <div class="cols" style="grid-template-columns:1.5fr 1fr; margin-top:12mm; align-items:start;">
+    <div>
+      <p class="eyebrow">03 — The wordmark</p>
+      <div style="background:var(--snow); border:.35pt solid var(--mist); border-radius:1mm; padding:16mm 12mm; text-align:center;">
+        <div style="font-family:var(--serif); font-weight:380; font-size:58pt; line-height:1;">Icegler</div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:5mm; margin-top:5mm;">
+        <div style="background:var(--dusk); border-radius:1mm; padding:9mm; text-align:center;">
+          <div style="font-family:var(--serif); font-weight:380; font-size:24pt; color:var(--snow);">Icegler</div>
+          <p class="coord" style="margin-top:3mm; color:rgba(252,253,253,.45);">On dusk &amp; basalt — snow</p>
+        </div>
+        <div style="background:var(--glacier); border:.35pt solid var(--mist); border-radius:1mm; padding:9mm; text-align:center;">
+          <div style="font-family:var(--serif); font-weight:380; font-size:24pt;">Icegler</div>
+          <p class="coord" style="margin-top:3mm;">On light — basalt</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow" style="visibility:hidden;">—</p>
+      <ul class="rules">
+        <li><span class="n">3.1</span><span><b>Living type, not a picture.</b> The wordmark is set live in Fraunces (weight 340–400, optical sizing on, tracking +0.5%) so it is crisp at every size and recolours with the light.</span></li>
+        <li><span class="n">3.2</span><span><b>Clearspace</b> equals the cap-height of the “I” on all sides. Nothing enters it — not even the coordinates.</span></li>
+        <li><span class="n">3.3</span><span><b>Minimum size:</b> 24&nbsp;px on screen, 8&nbsp;mm in print.</span></li>
+        <li><span class="n">3.4</span><span><b>Two inks only.</b> Basalt on light surfaces; snow on dusk and basalt. Never glacial, never gradients, never outlined.</span></li>
+        <li><span class="n">3.5</span><span><b>Never</b> bolded, condensed, letter-spaced, italicised, or set in another face. The nav, packaging, and checkout all use this one mark.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="folio"><span>The mark is quiet — the ice around it is the theatre</span><span>04</span></div>
+</div>
+
+<!-- ═══════════════════ 05 · THE ICEBLOCK ═══════════════════ -->
+<div class="pg dark">
+  <div class="aurora"></div><div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>04 — The iceblock</span></div>
+  <div class="cols" style="grid-template-columns:1.05fr .95fr; margin-top:12mm; align-items:center;">
+    <div>
+      <p class="eyebrow">04 — The signature device</p>
+      <h2 class="dl">A pair of frames,<br>frozen in clear <em>ice.</em></h2>
+      <p class="lead" style="margin-top:6mm; max-width:112mm;">The brand’s recurring hero motif: Icegler frames encased in, or resting on, a literal block of ice. Translucent, slightly wet, light passing through — with the organic imperfections of the real thing: air bubbles, faint fracture lines, a soft melt at the edges.</p>
+      <ul class="rules" style="margin-top:8mm;">
+        <li><span class="n">4.1</span><span><b>Found in nature, lit beautifully.</b> Never carved, never rendered like CGI stone.</span></li>
+        <li><span class="n">4.2</span><span>Where photography doesn’t exist, the block is <b>built in light</b> — layered glacier gradients, a refraction ghost, a slow shimmer. Never a flat mock.</span></li>
+        <li><span class="n">4.3</span><span>One block per scene. It is a <b>presence</b>, not a pattern.</span></li>
+        <li><span class="n">4.4</span><span>In motion it drifts — a 9-second float, a passing light sweep. It never spins, bounces, or rotates.</span></li>
+      </ul>
+    </div>
+    <div style="position:relative; z-index:2;">
+      <div class="iceblock" style="aspect-ratio:5/5.6; max-width:88mm; margin:0 auto; transform:rotate(-1.2deg);">
+        <div class="media"><img src="../assets/solstice-front.jpeg" alt="The Solstice in the iceblock"></div>
+      </div>
+      <div style="max-width:88mm; margin:2mm auto 0; display:flex; justify-content:space-between; border-top:.35pt solid var(--hairline-dark); padding-top:2.6mm;">
+        <span class="coord">The Solstice — Glacier</span><span class="coord">Fig. 01</span>
+      </div>
+    </div>
+  </div>
+  <div class="folio"><span>Ice is a living element — wet, imperfect, melting</span><span>05</span></div>
+</div>
+
+<!-- ═══════════════════ 06 · COLOUR I ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>05 — Colour</span></div>
+  <div style="margin-top:11mm; display:grid; grid-template-columns:64mm 1fr; gap:12mm; align-items:start;">
+    <div>
+      <p class="eyebrow">05 — Colour</p>
+      <h2 class="dl">An Icelandic<br>palette, kept<br>on a <em>leash.</em></h2>
+      <p class="body" style="margin-top:6mm;">Fourteen tones, four families. The ice-white ↔ basalt-black contrast does the heavy lifting and is the edge; everything else is weather.</p>
+    </div>
+    <div>
+      <p class="grp">Ink &amp; canvas</p>
+      <div class="chip-grid" style="margin-bottom:6mm;">
+        <div class="chip"><div class="sw" style="background:var(--glacier);"></div><div class="nm"><b>glacier</b><span>#F2F4F4</span></div><p class="role">Primary canvas — soft, cool off-white.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--snow);"></div><div class="nm"><b>snow</b><span>#FCFDFD</span></div><p class="role">Cards, panels, elevated surfaces.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--basalt);"></div><div class="nm"><b>basalt</b><span>#15191B</span></div><p class="role">Ink. Never pure #000 — basalt is warmer.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--slate);"></div><div class="nm"><b>slate</b><span>#586065</span></div><p class="role">Secondary text.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--ash);"></div><div class="nm"><b>ash</b><span>#8A9296</span></div><p class="role">Captions and whispers only.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--mist);"></div><div class="nm"><b>mist</b><span>#DBE0E1</span></div><p class="role">Hairlines — the editorial skeleton.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--meltwater);"></div><div class="nm"><b>meltwater</b><span>#DCE8EB</span></div><p class="role">Pale ice fills, hover floods.</p></div>
+        <div class="chip"><div class="sw" style="background:var(--ice);"></div><div class="nm"><b>ice</b><span>#BFD9DE</span></div><p class="role">Deeper ice tint; accents on dusk.</p></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6mm;">
+        <div>
+          <p class="grp">Accent &amp; warmth — sparingly</p>
+          <div class="chip-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="chip"><div class="sw" style="background:var(--glacial);"></div><div class="nm"><b>glacial</b><span>#3E6E79</span></div><p class="role">The accent. Roughly 1 element in 8.</p></div>
+            <div class="chip"><div class="sw" style="background:var(--driftwood);"></div><div class="nm"><b>driftwood</b><span>#E7E1D6</span></div><p class="role">One warm band per journey.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="grp">The dusk <span class="mark" style="margin-left:2mm;">v2</span></p>
+          <div class="chip-grid" style="grid-template-columns:1fr 1fr; gap:4mm 6mm;">
+            <div class="chip"><div class="sw" style="background:var(--dusk); height:11mm;"></div><div class="nm"><b>dusk</b><span>#0D181E</span></div><p class="role">Night canvas.</p></div>
+            <div class="chip"><div class="sw" style="background:var(--dusk2); height:11mm;"></div><div class="nm"><b>dusk-2</b><span>#122831</span></div><p class="role">Depth.</p></div>
+            <div class="chip"><div class="sw" style="background:var(--dusk3); height:11mm;"></div><div class="nm"><b>dusk-3</b><span>#1B3A46</span></div><p class="role">Glow.</p></div>
+            <div class="chip"><div class="sw" style="background:var(--aurora); height:11mm;"></div><div class="nm"><b>aurora</b><span>#7FB4A2</span></div><p class="role">Veils, blurred.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="folio"><span>Restraint reads as luxury</span><span>06</span></div>
+</div>
+
+<!-- ═══════════════════ 07 · COLOUR II — RULES ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>05 — Colour</span></div>
+  <div style="margin-top:11mm;">
+    <p class="eyebrow">05.2 — Proportion &amp; rules</p>
+    <div style="display:flex; height:14mm; border-radius:1mm; overflow:hidden; margin-top:2mm;">
+      <div style="width:44%; background:var(--glacier); border-right:.35pt solid var(--mist);"></div>
+      <div style="width:16%; background:var(--snow); border-right:.35pt solid var(--mist);"></div>
+      <div style="width:22%; background:linear-gradient(120deg,var(--dusk3),var(--dusk));"></div>
+      <div style="width:7%; background:var(--basalt);"></div>
+      <div style="width:6%; background:var(--meltwater);"></div>
+      <div style="width:3%; background:var(--glacial);"></div>
+      <div style="width:2%; background:var(--driftwood);"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; margin-top:2mm;">
+      <span class="coord">glacier 44 · snow 16 · dusk 22 · basalt 7 · ice tints 6 · glacial 3 · driftwood 2</span>
+      <span class="coord">Proportions of a typical journey</span>
+    </div>
+  </div>
+  <div class="cols" style="grid-template-columns:1fr 1fr; margin-top:10mm; align-items:start;">
+    <ul class="rules">
+      <li><span class="n">5.1</span><span><b>Light by default.</b> Glacier canvas, basalt ink. Dusk and basalt carry the drama; they never carry the errands.</span></li>
+      <li><span class="n">5.2</span><span><b>The 1-in-8 rule.</b> Glacial touches roughly one element in eight — a link, a focus ring, a dot. If glacial is everywhere, it is nowhere.</span></li>
+      <li><span class="n">5.3</span><span><b>Never pure black.</b> #000 is banned on large areas. Basalt is warmer and more refined.</span></li>
+      <li><span class="n">5.4</span><span><b>Driftwood once.</b> A single warm band per page or spread — the antidote to coldness, ruined by repetition.</span></li>
+    </ul>
+    <div>
+      <p class="grp">Contrast — measured, not assumed</p>
+      <table class="spec">
+        <tr><th>basalt on glacier</th><td>16.0 : 1 — body ✓</td></tr>
+        <tr><th>basalt on snow</th><td>17.4 : 1 — body ✓</td></tr>
+        <tr><th>snow on dusk</th><td>17.7 : 1 — body ✓</td></tr>
+        <tr><th>ice on dusk</th><td>12.2 : 1 — body ✓</td></tr>
+        <tr><th>slate on glacier</th><td>5.8 : 1 — body ✓</td></tr>
+        <tr><th>glacial on glacier</th><td>5.1 : 1 — emphasis &amp; large ✓</td></tr>
+        <tr><th>ash on glacier</th><td>2.9 : 1 — captions ≥ 12 pt only</td></tr>
+      </table>
+      <p class="body" style="margin-top:4mm;">WCAG AA is the floor, not the ceiling. When in doubt, ink it in basalt.</p>
+    </div>
+  </div>
+  <div class="folio"><span>The contrast is the edge</span><span>07</span></div>
+</div>
+
+<!-- ═══════════════════ 08 · TYPE I — FRAUNCES ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>06 — Typography</span></div>
+  <div style="margin-top:11mm;">
+    <p class="eyebrow">06 — The editorial serif · Fraunces</p>
+    <div style="font-family:var(--serif); font-weight:300; font-optical-sizing:auto; font-size:57pt; line-height:1.02; letter-spacing:-.02em; margin-top:4mm;">
+      The long blue <em>dusk,</em><br>the honest <em>cold.</em>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:.35pt solid var(--mist); margin-top:9mm; padding-top:3mm;">
+      <span style="font-family:var(--serif); font-weight:300; font-size:13pt;">AaBbGgÞþÐð 0123456789 — <em>&amp; státt í dögun</em></span>
+      <span class="coord">Weights 300–400 · optical sizing on · leading ≤ 1.05</span>
+    </div>
+  </div>
+  <div class="cols" style="grid-template-columns:1fr 1fr; margin-top:9mm; align-items:start;">
+    <ul class="rules">
+      <li><span class="n">6.1</span><span><b>Display only, and generous.</b> Heroes, section openers, pull-quotes — at large optical sizes with tight leading and slight negative tracking. Never for UI, never small.</span></li>
+      <li><span class="n">6.2</span><span><b>Compose the rag.</b> Break display lines by meaning, left-anchored and asymmetric. Centered symmetry is the template look we exist to avoid.</span></li>
+    </ul>
+    <ul class="rules">
+      <li><span class="n">6.3</span><span><b>The italic accent <span class="mark">v2</span>.</b> At most one word per display setting carries the italic — and it is always the word where the light lives: <em>light, dusk, ice, cold, map.</em> The italic is the brand’s pulse; two per line is a flutter.</span></li>
+      <li><span class="n">6.4</span><span><b>Banned:</b> Inter, Roboto, Helvetica/Arial, system stacks, Space Grotesk, Playfair Display. They read as default — we are not a default.</span></li>
+    </ul>
+  </div>
+  <div class="folio"><span>Fraunces is what stops the brand reading generic</span><span>08</span></div>
+</div>
+
+<!-- ═══════════════════ 09 · TYPE II — WORKHORSE & MONO ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>06 — Typography</span></div>
+  <div class="cols" style="grid-template-columns:1fr 1fr; margin-top:11mm; align-items:start;">
+    <div>
+      <p class="eyebrow">06.2 — The workhorse · Schibsted Grotesk</p>
+      <p style="font-size:17pt; font-weight:600; line-height:1.3; margin:0;">Clean and unmistakably Nordic, with just enough character to avoid the default.</p>
+      <p class="body" style="margin-top:5mm; max-width:105mm;">Navigation, body, product names, buttons, forms. Body sits at 16–19&nbsp;px with generous leading. Spare, confident, a touch poetic. Short sentences.</p>
+      <div style="display:flex; gap:7mm; margin-top:6mm; align-items:baseline;">
+        <span style="font-weight:400; font-size:11pt;">Regular</span>
+        <span style="font-weight:500; font-size:11pt;">Medium</span>
+        <span style="font-weight:600; font-size:11pt;">Semibold</span>
+        <span style="font-weight:700; font-size:11pt;">Bold</span>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">06.3 — The precise edge · IBM Plex Mono</p>
+      <div style="display:flex; gap:3mm; flex-wrap:wrap;">
+        <span class="mark" style="font-size:8pt;">€245</span>
+        <span class="mark" style="font-size:8pt;">ICG-SOL-GLA</span>
+        <span class="mark" style="font-size:8pt;">UV400 · ZEISS</span>
+        <span class="mark" style="font-size:8pt;">64°08′46″N</span>
+      </div>
+      <p class="body" style="margin-top:5mm; max-width:105mm;">Prices, SKUs, spec tables, eyebrow labels, captions, coordinates. Small sizes only — never headlines. This is the “quietly edgy” signal.</p>
+      <p class="body" style="margin-top:4mm; max-width:105mm;"><b>The coordinates signature <span class="mark">v2</span>:</b> Reykjavík’s coordinates — <span class="mono" style="font-size:7.6pt;">64°08′46″N — 21°56′24″W</span> — recur as a maker’s mark in footers, captions, and plates. The coordinates <i>are</i> the map; we never embed one.</p>
+    </div>
+  </div>
+  <div style="margin-top:9mm;">
+    <p class="grp">The scale — big jumps and weight extremes, not timid steps</p>
+    <table class="spec" style="font-size:7.8pt;">
+      <tr><th style="width:34mm;">Display XL</th><td style="text-align:left;">Fraunces 300 · clamp(64px, 9vw, 132px) · leading 0.95 · tracking −0.025em</td></tr>
+      <tr><th>Display L</th><td style="text-align:left;">Fraunces 300–400 · 56–72px · section openers</td></tr>
+      <tr><th>H2 / H3</th><td style="text-align:left;">Schibsted 600 · 30px / 22px</td></tr>
+      <tr><th>Body L / Body</th><td style="text-align:left;">Schibsted 400 · 19px / 16.5px · leading 1.6</td></tr>
+      <tr><th>Eyebrow</th><td style="text-align:left;">Plex Mono 500 · 12px · caps · tracking 0.18em</td></tr>
+      <tr><th>Price / SKU / coord</th><td style="text-align:left;">Plex Mono 400–500 · 12–15px</td></tr>
+    </table>
+  </div>
+  <div class="folio"><span>Serif for the poetry · grotesque for the errands · mono for the precision</span><span>09</span></div>
+</div>
+
+<!-- ═══════════════════ 10 · VOICE ═══════════════════ -->
+<div class="pg" style="background:linear-gradient(180deg,#EDE7DB 0%,var(--driftwood) 52%,#EFEAE0 100%);">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>07 — Voice</span></div>
+  <div class="cols" style="grid-template-columns:1fr 1fr; margin-top:11mm; align-items:start;">
+    <div>
+      <p class="eyebrow">07 — Voice &amp; naming</p>
+      <h2 class="dl">Spare. Confident.<br>A touch <em>poetic.</em></h2>
+      <p class="body" style="margin-top:6mm; max-width:108mm;">Short sentences. Icelandic-inflected. The product and the light speak; the copy steps back. Never salesy, never exclamatory — an exclamation mark has never survived an Icegler review.</p>
+      <p class="grp" style="margin-top:8mm;">The lexicon — words we own</p>
+      <p style="font-family:var(--serif); font-weight:330; font-size:13.5pt; line-height:1.5; margin:2mm 0 0; max-width:118mm;">the long blue dusk · glacier clarity · the cold is honest · nothing hidden · frozen light · made to be kept · we come from the cold</p>
+    </div>
+    <div>
+      <p class="grp">Naming</p>
+      <ul class="rules" style="margin-bottom:6mm;">
+        <li><span class="n">7.1</span><span><b>Frames:</b> “The ___” + one evocative ice or light word. <span class="mono" style="font-size:7.4pt;">The Solstice · The Drift · The Basalt</span></span></li>
+        <li><span class="n">7.2</span><span><b>Colorways</b> come from the landscape: Glacier, Basalt, Meltwater, Driftwood, Eclipse, Snow, Aurora.</span></li>
+      </ul>
+      <p class="grp">Say it like this</p>
+      <table class="spec" style="font-size:8pt;">
+        <tr><th style="width:14mm; color:var(--ash);">Not</th><td style="text-align:left; font-family:var(--sans); color:var(--ash);">“Don’t miss out! Our best-selling shades — 20% off!!”</td></tr>
+        <tr><th style="color:var(--glacial);">But</th><td style="text-align:left; font-family:var(--sans); color:var(--basalt);">“Meet The Solstice. Cut for the low sun.”</td></tr>
+        <tr><th style="color:var(--ash);">Not</th><td style="text-align:left; font-family:var(--sans); color:var(--ash);">“Sign up for our newsletter to get updates!”</td></tr>
+        <tr><th style="color:var(--glacial);">But</th><td style="text-align:left; font-family:var(--sans); color:var(--basalt);">“Join the Cold Club. We send rarely.”</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="folio"><span>Takk fyrir — the voice stays calm even when it is grateful</span><span>10</span></div>
+</div>
+
+<!-- ═══════════════════ 11 · ART DIRECTION & TEXTURE ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>08 — Texture</span></div>
+  <div style="margin-top:11mm;">
+    <p class="eyebrow">08 — Art direction &amp; texture</p>
+    <h2 class="dl">Texture, never<br>a grey <em>box.</em></h2>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6mm; margin-top:8mm;">
+    <div>
+      <div style="height:44mm; border-radius:1mm; position:relative; overflow:hidden;
+        background:radial-gradient(70% 58% at 68% 30%, rgba(252,253,253,.5), rgba(252,253,253,0) 64%),
+                   linear-gradient(152deg, #EAF1F2 0%, var(--meltwater) 38%, var(--ice) 78%, #A9CBD3 100%);">
+        <div style="position:absolute; inset:-2%; background:var(--iceimg); background-size:120mm; mix-blend-mode:soft-light; opacity:.55;"></div>
+        <div style="position:absolute; inset:0; background:repeating-linear-gradient(116deg, rgba(252,253,253,.07) 0 .7mm, rgba(252,253,253,0) .7mm 9mm); mix-blend-mode:screen;"></div>
+      </div>
+      <div class="nm" style="display:flex; justify-content:space-between; margin-top:2mm;"><b class="mono" style="font-size:7.4pt;">ice-field</b><span class="coord">Recipe 01</span></div>
+      <p class="body" style="font-size:7.2pt; margin-top:1.4mm;">Layered glacier gradients, turbulence, refraction streaks. The daylight surface.</p>
+    </div>
+    <div>
+      <div style="height:44mm; border-radius:1mm; position:relative; overflow:hidden;
+        background:radial-gradient(72% 60% at 70% 24%, rgba(63,110,121,.5), rgba(63,110,121,0) 66%),
+                   linear-gradient(155deg, var(--dusk3) 0%, #14333F 44%, var(--dusk2) 100%);">
+        <div style="position:absolute; inset:-2%; background:var(--iceimg); background-size:120mm; mix-blend-mode:soft-light; opacity:.4;"></div>
+        <div style="position:absolute; inset:-16%; filter:blur(9mm); mix-blend-mode:screen; opacity:.6;
+          background:radial-gradient(38% 30% at 30% 36%, rgba(127,180,162,.5), rgba(127,180,162,0) 70%);"></div>
+      </div>
+      <div class="nm" style="display:flex; justify-content:space-between; margin-top:2mm;"><b class="mono" style="font-size:7.4pt;">deep dusk + aurora</b><span class="coord">Recipe 02</span></div>
+      <p class="body" style="font-size:7.2pt; margin-top:1.4mm;">The night surface, with a slow-drifting aurora veil. Screen-blended, never gimmicky.</p>
+    </div>
+    <div>
+      <div style="height:44mm; border-radius:1mm; position:relative; overflow:hidden; background:var(--glacier);">
+        <div style="position:absolute; inset:0; background:var(--grain); background-size:60mm; opacity:.5;"></div>
+      </div>
+      <div class="nm" style="display:flex; justify-content:space-between; margin-top:2mm;"><b class="mono" style="font-size:7.4pt;">grain</b><span class="coord">Recipe 03 · shown at 12×</span></div>
+      <p class="body" style="font-size:7.2pt; margin-top:1.4mm;">3–4% film grain over every surface. It is why nothing feels like a flat vector.</p>
+    </div>
+  </div>
+  <div class="cols" style="grid-template-columns:1fr 1fr; margin-top:7mm;">
+    <ul class="rules">
+      <li><span class="n">8.1</span><span><b>Photography:</b> cool, high-clarity, slightly desaturated — but keep warmth in skin. Glacier-blue shadows, clean whites, natural light.</span></li>
+      <li><span class="n">8.2</span><span><b>Product on light:</b> studio shots melt into snow surfaces (multiply). <b>On dusk:</b> mounted as a light print — never floated raw.</span></li>
+    </ul>
+    <ul class="rules">
+      <li><span class="n">8.3</span><span><b>Editorial captions</b> are mono footnotes: <span class="mono" style="font-size:7pt;">PLATE 01 — THE SOLSTICE · JÖKULSÁRLÓN</span>, <span class="mono" style="font-size:7pt;">FIG. 02</span>. Numbered, always.</span></li>
+      <li><span class="n">8.4</span><span><b>Avoid:</b> beach clichés, tropical palettes, lifestyle clutter, heavy drop shadows, fake CGI ice.</span></li>
+    </ul>
+  </div>
+  <div class="folio"><span>Every empty surface is composed — placeholder imagery is banned</span><span>11</span></div>
+</div>
+
+<!-- ═══════════════════ 12 · MOTION ═══════════════════ -->
+<div class="pg dark">
+  <div class="aurora" style="opacity:.35;"></div><div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>09 — Motion</span></div>
+  <div class="cols" style="grid-template-columns:1.1fr .9fr; margin-top:11mm; align-items:start;">
+    <div>
+      <p class="eyebrow">09 — Motion</p>
+      <h2 class="dl">The light is moving —<br>never an animation <em>playing.</em></h2>
+      <p class="lead" style="margin-top:6mm; max-width:112mm;">Subtle, slow, expensive-feeling. One orchestrated wow per page; calm confidence everywhere else. Nothing bounces, nothing spins, nothing shouts.</p>
+      <ul class="rules" style="margin-top:7mm;">
+        <li><span class="n">9.1</span><span><b>Reveals:</b> fade + 22&nbsp;px rise, 500–700&nbsp;ms, staggered 90&nbsp;ms. Images settle from 1.05×.</span></li>
+        <li><span class="n">9.2</span><span><b>Hovers:</b> 180–280&nbsp;ms. Buttons flood like meltwater from one edge; cards lift −4&nbsp;px as the photo swaps to the worn shot.</span></li>
+        <li><span class="n">9.3</span><span><b>The iceblock drifts</b> on a 9.5-second float with a passing light sweep. Parallax stays under a factor of 0.25.</span></li>
+        <li><span class="n">9.4</span><span><b>Reduced motion is honored everywhere.</b> The still page must be complete — motion is seasoning, not structure.</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="grp" style="border-color:var(--hairline-dark); color:rgba(252,253,253,.45);">The two curves</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6mm;">
+        <div>
+          <svg viewBox="0 0 100 100" style="width:100%; background:rgba(252,253,253,.05); border:.35pt solid var(--hairline-dark); border-radius:1mm;">
+            <path d="M0,100 C22,0 36,0 100,0" fill="none" stroke="#BFD9DE" stroke-width="2"/>
+            <path d="M0,100 L100,0" fill="none" stroke="rgba(252,253,253,.18)" stroke-width="1" stroke-dasharray="3 3"/>
+          </svg>
+          <p class="coord" style="margin-top:2mm;">Reveals — cubic-bezier(.22, 1, .36, 1)</p>
+        </div>
+        <div>
+          <svg viewBox="0 0 100 100" style="width:100%; background:rgba(252,253,253,.05); border:.35pt solid var(--hairline-dark); border-radius:1mm;">
+            <path d="M0,100 C40,100 20,0 100,0" fill="none" stroke="#7FB4A2" stroke-width="2"/>
+            <path d="M0,100 L100,0" fill="none" stroke="rgba(252,253,253,.18)" stroke-width="1" stroke-dasharray="3 3"/>
+          </svg>
+          <p class="coord" style="margin-top:2mm;">Hovers — cubic-bezier(.4, 0, .2, 1)</p>
+        </div>
+      </div>
+      <table class="spec" style="margin-top:6mm;">
+        <tr><th style="color:rgba(252,253,253,.6); border-color:var(--hairline-dark);">Big reveals</th><td style="color:var(--snow); border-color:var(--hairline-dark);">500–700 ms</td></tr>
+        <tr><th style="color:rgba(252,253,253,.6); border-color:var(--hairline-dark);">Hovers / UI</th><td style="color:var(--snow); border-color:var(--hairline-dark);">180–280 ms</td></tr>
+        <tr><th style="color:rgba(252,253,253,.6); border-color:var(--hairline-dark);">Iceblock float</th><td style="color:var(--snow); border-color:var(--hairline-dark);">9.5 s loop</td></tr>
+        <tr><th style="color:rgba(252,253,253,.6); border-color:var(--hairline-dark);">Aurora drift</th><td style="color:var(--snow); border-color:var(--hairline-dark);">26 s, alternating</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="folio"><span>Nothing elastic, nothing bouncy — the cold does not hurry</span><span>12</span></div>
+</div>
+
+<!-- ═══════════════════ 13 · IN USE ═══════════════════ -->
+<div class="pg">
+  <div class="grain"></div>
+  <div class="run"><span>Icegler — Brand guide</span><span>10 — In use</span></div>
+  <div style="margin-top:10mm; display:flex; justify-content:space-between; align-items:flex-end;">
+    <div>
+      <p class="eyebrow">10 — The system, living</p>
+      <h2 class="dl">In <em>use.</em></h2>
+    </div>
+    <span class="coord">icegler.is — Winter 25</span>
+  </div>
+  <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:6mm; margin-top:6mm;">
+    <div class="vign">
+      <img src="assets/vignette-hero.jpg" alt="Home hero — the long blue dusk" style="height:112mm; object-fit:cover; object-position:top;">
+      <div class="cap"><span class="coord">Home — the long blue dusk</span><span class="coord">Fig. 03</span></div>
+    </div>
+    <div style="display:grid; gap:6mm; align-content:start;">
+      <div class="vign">
+        <img src="assets/vignette-pdp.jpg" alt="Product page" style="height:50mm; object-fit:cover; object-position:top;">
+        <div class="cap"><span class="coord">Product — glacier daylight</span><span class="coord">Fig. 04</span></div>
+      </div>
+      <div class="vign">
+        <img src="assets/vignette-lookbook.jpg" alt="Lookbook plate" style="height:44mm; object-fit:cover; object-position:center;">
+        <div class="cap"><span class="coord">Lookbook — plate 01</span><span class="coord">Fig. 05</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="folio"><span>One system, from hero to checkout</span><span>13</span></div>
+</div>
+
+<!-- ═══════════════════ 14 · BACK COVER ═══════════════════ -->
+<div class="pg dark" style="display:flex; flex-direction:column; justify-content:space-between;">
+  <div class="aurora" style="opacity:.3;"></div><div class="grain"></div>
+  <div class="run" style="border-bottom:.35pt solid var(--hairline-dark); padding-bottom:2.6mm;">
+    <span>Icegler® — Reykjavík</span><span>Colophon</span>
+  </div>
+  <div style="position:relative; z-index:2; max-width:150mm;">
+    <p class="dm" style="color:rgba(252,253,253,.85);"><em>Designed in Reykjavík,</em><br>shaped by Icelandic light.</p>
+    <p class="body" style="margin-top:8mm; max-width:110mm; color:rgba(252,253,253,.55);">System v2 — “Shaped by Light” — codifies the working identity built for the Winter 25 site: the dusk family, the one-day-of-light narrative, the italic accent, and the coordinates signature now stand alongside the founding palette, type, and iceblock of v1.</p>
+    <p class="coord" style="margin-top:8mm;">Type — Fraunces · Schibsted Grotesk · IBM Plex Mono &nbsp;&nbsp;·&nbsp;&nbsp; Guide set in its own system</p>
+  </div>
+  <div style="position:relative; z-index:2;">
+    <div style="font-family:var(--serif); font-weight:340; font-size:120pt; line-height:.72; letter-spacing:-.02em;
+                color:transparent; -webkit-text-stroke:.5pt rgba(252,253,253,.12); white-space:nowrap; margin-left:-2mm;">Icegler</div>
+  </div>
+  <div class="folio"><span>64°08′46″N — 21°56′24″W</span><span>Winter 25 · Vol. 01</span></div>
+</div>
+
+</body>
+</html>
