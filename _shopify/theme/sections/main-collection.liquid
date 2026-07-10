@@ -1,0 +1,201 @@
+{%- comment -%}
+  Collection — asymmetric editorial grid with client-side shape filtering
+  driven by "shape:" tags. Works on any collection, including /collections/all.
+{%- endcomment -%}
+<style>
+body[data-page="collection"] .plp-head{padding-top:calc(var(--nav-h) + clamp(40px,7vh,72px));}
+body[data-page="collection"] .plp-head-grid{
+  display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+  gap:clamp(28px,4vw,72px); align-items:end;
+}
+body[data-page="collection"] .plp-head h1{margin-top:22px;}
+body[data-page="collection"] .plp-aside .lead{max-width:34ch;}
+body[data-page="collection"] .plp-count{
+  display:flex; align-items:baseline; gap:14px; margin-top:26px;
+}
+body[data-page="collection"] .plp-count b{
+  font-family:var(--font-serif); font-weight:340; font-size:clamp(40px,4vw,56px); line-height:1;
+}
+body[data-page="collection"] .plp-bar{
+  display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+  border-block:1px solid var(--mist); padding-block:16px; margin-top:clamp(36px,5vh,56px);
+}
+body[data-page="collection"] .plp-pills{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+body[data-page="collection"] .pill{
+  font-family:var(--font-mono); font-size:11.5px; font-weight:500; letter-spacing:.14em;
+  text-transform:uppercase; padding:9px 16px; border-radius:20px;
+  border:1px solid var(--mist); color:var(--slate); background:var(--snow);
+  transition:background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+body[data-page="collection"] .pill .n{opacity:.55; margin-left:6px;}
+body[data-page="collection"] .pill:hover{border-color:var(--slate);}
+body[data-page="collection"] .pill.active{background:var(--basalt); color:var(--snow); border-color:var(--basalt);}
+body[data-page="collection"] .plp-grid{
+  position:relative; display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:clamp(20px,3vw,44px); padding-block:clamp(48px,7vh,84px) clamp(72px,10vh,120px);
+  align-items:start;
+}
+body[data-page="collection"] .plp-grid .product-card{
+  transition:opacity .3s var(--ease), transform .34s var(--ease-out);
+}
+body[data-page="collection"] .plp-grid .product-card.filtered-out{display:none;}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n+1){grid-column:1/8;}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n+2){grid-column:8/13; margin-top:clamp(48px,8vh,110px);}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n+3){grid-column:8/13;}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n+4){grid-column:1/7; margin-top:clamp(-60px,-4vh,-20px);}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n+5){grid-column:7/11; margin-top:clamp(28px,5vh,64px);}
+body[data-page="collection"] .plp-grid .product-card:nth-child(6n){grid-column:4/10;}
+body[data-page="collection"] .plp-ghost{position:absolute; z-index:0; line-height:.8; right:-2%; top:6%;}
+body[data-page="collection"] .plp-empty{
+  grid-column:1/-1; text-align:center; padding-block:clamp(56px,10vh,110px); display:none;
+}
+body[data-page="collection"] .plp-empty.show{display:block;}
+body[data-page="collection"] .interlude{
+  position:relative; min-height:min(48vh,420px); display:flex; align-items:center; overflow:hidden;
+}
+body[data-page="collection"] .interlude-copy{position:relative; z-index:2;}
+body[data-page="collection"] .plp-cta{position:relative; overflow:hidden;}
+body[data-page="collection"] .plp-cta-inner{
+  position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+  gap:clamp(32px,5vw,80px); align-items:center;
+}
+body[data-page="collection"] .plp-cta-actions{display:flex; flex-direction:column; gap:20px; align-items:flex-start;}
+@media (max-width:920px){
+  body[data-page="collection"] .plp-head-grid{grid-template-columns:1fr;}
+  body[data-page="collection"] .plp-grid{grid-template-columns:1fr;}
+  body[data-page="collection"] .plp-grid .product-card{grid-column:1/-1 !important; margin-top:0 !important;}
+  body[data-page="collection"] .plp-ghost{display:none;}
+  body[data-page="collection"] .plp-cta-inner{grid-template-columns:1fr; gap:36px;}
+}
+</style>
+
+<header class="plp-head">
+  <div class="container plp-head-grid">
+    <div data-reveal-group>
+      <p class="eyebrow">The collection — Winter 25</p>
+      <h1 class="d-l">Frames for the<br>northern <em>light.</em></h1>
+    </div>
+    <div class="plp-aside" data-reveal data-reveal-delay="140">
+      <p class="lead">Three silhouettes, eight finishes. Each cut from handcrafted bio-acetate and set with Carl Zeiss lenses — made to carry the cold.</p>
+      <div class="plp-count">
+        <b data-plp-count>{{ collection.products_count }}</b>
+        <span class="coord"><span data-plp-noun>frames</span> — Winter 25</span>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="plp-bar">
+      <div class="plp-pills" role="group" aria-label="Filter by shape">
+        <button class="pill active" data-shape-filter="all">All <span class="n">{{ collection.products_count | prepend: '0' | slice: -2, 2 }}</span></button>
+        {%- assign shapes = 'Angular,Rounded,Square' | split: ',' -%}
+        {%- for s in shapes -%}
+          {%- liquid
+            assign n = 0
+            assign probe = 'shape:' | append: s
+            for product in collection.products
+              if product.tags contains probe
+                assign n = n | plus: 1
+              endif
+            endfor
+          -%}
+          {%- if n > 0 -%}
+          <button class="pill" data-shape-filter="{{ s }}">{{ s }} <span class="n">{{ n | prepend: '0' | slice: -2, 2 }}</span></button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <span class="coord" data-plp-label>Shape — all frames</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  {%- paginate collection.products by 24 -%}
+  <div class="plp-grid" id="plp-grid">
+    <span class="ghost-num plp-ghost" data-parallax="-0.08" aria-hidden="true">{{ collection.products_count | prepend: '0' | slice: -2, 2 }}</span>
+    {%- for product in collection.products -%}
+      {% render 'product-card', product: product, eager: forloop.first %}
+    {%- endfor -%}
+    {%- if collection.products_count == 0 -%}
+      <div class="plp-empty show">
+        <p class="d-m">Nothing here — yet.</p>
+        <p class="muted" style="margin-top:14px;">Import products.csv in your Shopify admin to fill the collection.</p>
+      </div>
+    {%- endif -%}
+    <div class="plp-empty" data-plp-empty>
+      <p class="d-m">Nothing matches — yet.</p>
+      <p class="muted" style="margin-top:14px; max-width:44ch; margin-inline:auto;">No frames fit this combination. Loosen a filter, or explore the full collection.</p>
+      <button class="btn btn-outline" style="margin-top:28px;" data-shape-filter="all">Clear all filters</button>
+    </div>
+  </div>
+  {%- if paginate.pages > 1 -%}
+  <nav class="coord" style="display:flex; gap:22px; justify-content:center; padding-bottom:64px;" aria-label="Pagination">
+    {%- if paginate.previous -%}<a class="link-underline" href="{{ paginate.previous.url }}">← Previous</a>{%- endif -%}
+    <span>Page {{ paginate.current_page }} / {{ paginate.pages }}</span>
+    {%- if paginate.next -%}<a class="link-underline" href="{{ paginate.next.url }}">Next →</a>{%- endif -%}
+  </nav>
+  {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+<!-- ══════════ interlude ══════════ -->
+<section class="interlude ice-field scene bleed" aria-label="Interlude">
+  <div class="container interlude-copy" data-reveal>
+    <h2 class="d-l" style="max-width:16ch;">Cut for the low sun, worn in the long blue <em>dusk.</em></h2>
+    <p class="coord" style="margin-top:22px;">64°08′46″N — 21°56′24″W · Winter 25</p>
+  </div>
+</section>
+
+<!-- ══════════ dusk CTA ══════════ -->
+<section class="section section-dusk scene plp-cta" aria-label="Lookbook">
+  <div class="aurora-veil"></div>
+  <div class="container plp-cta-inner">
+    <div data-reveal-group>
+      <p class="eyebrow on-dark">Winter light — the lookbook</p>
+      <h2 class="d-l" style="margin-top:16px;">See them worn<br>in the <em>dusk.</em></h2>
+      <p class="lead" style="margin-top:22px; max-width:42ch;">Frames on basalt, on driftwood, on ice — an immersive spread shot in the long blue light of a Reykjavík winter.</p>
+    </div>
+    <div class="plp-cta-actions" data-reveal data-reveal-delay="160">
+      <a class="btn btn-ghost" href="/pages/lookbook" data-cursor="view">Enter the lookbook <span class="arr">→</span></a>
+      <a class="link-arrow" href="/pages/story" style="color:var(--snow);">Read our story <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var grid = document.getElementById('plp-grid');
+  if (!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.product-card'));
+  var empty = grid.querySelector('[data-plp-empty]');
+  var countEl = document.querySelector('[data-plp-count]');
+  var nounEl = document.querySelector('[data-plp-noun]');
+  var labelEl = document.querySelector('[data-plp-label]');
+
+  function apply(shape) {
+    document.querySelectorAll('.pill[data-shape-filter]').forEach(function (p) {
+      p.classList.toggle('active', p.getAttribute('data-shape-filter') === shape);
+    });
+    var visible = 0;
+    cards.forEach(function (c) {
+      var ok = shape === 'all' || c.getAttribute('data-shape') === shape;
+      c.classList.toggle('filtered-out', !ok);
+      if (ok) visible++;
+    });
+    if (empty) empty.classList.toggle('show', visible === 0 && cards.length > 0);
+    if (countEl) countEl.textContent = String(visible).padStart(2, '0');
+    if (nounEl) nounEl.textContent = visible === 1 ? 'frame' : 'frames';
+    if (labelEl) labelEl.textContent = 'Shape — ' + (shape === 'all' ? 'all frames' : shape.toLowerCase());
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-shape-filter]');
+    if (b) apply(b.getAttribute('data-shape-filter'));
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,52 @@
+{%- comment -%}
+  Editorial product card. Usage:
+  {% render 'product-card', product: product, extra_class: 'show-1', reveal_delay: 120, eager: true %}
+  Hover swap uses the product's second image via main.js's data-swap builder.
+  Shape + tagline come from tags: "shape:Angular", "tagline:Double-bridge. The edge."
+{%- endcomment -%}
+{%- liquid
+  assign shape = ''
+  assign tagline = ''
+  assign is_new = false
+  for tag in product.tags
+    if tag contains 'shape:'
+      assign shape = tag | remove_first: 'shape:'
+    elsif tag contains 'tagline:'
+      assign tagline = tag | remove_first: 'tagline:'
+    elsif tag == 'new'
+      assign is_new = true
+    endif
+  endfor
+-%}
+<a class="product-card {{ extra_class }}" href="{{ product.url }}" data-cursor="view" data-reveal
+   {% if reveal_delay %}data-reveal-delay="{{ reveal_delay }}"{% endif %}
+   {% if shape != blank %}data-shape="{{ shape | escape }}"{% endif %}>
+  <div class="card-media">
+    {%- if is_new -%}<span class="card-badge">New</span>{%- endif -%}
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 800 }}"
+           {% if product.images[1] %}data-swap-src="{{ product.images[1] | image_url: width: 800 }}"{% endif %}
+           alt="{{ product.featured_image.alt | default: product.title | escape }}"
+           width="800" height="800" {% unless eager %}loading="lazy"{% endunless %}>
+    {%- else -%}
+      <div class="ice-field" style="position:absolute;inset:0;" aria-hidden="true"></div>
+    {%- endif -%}
+  </div>
+  <div class="card-info">
+    <div>
+      <p class="card-name">{{ product.title }}</p>
+      {%- if shape != blank or tagline != blank -%}
+      <p class="card-sub">{{ shape }}{% if shape != blank and tagline != blank %} — {% endif %}{{ tagline }}</p>
+      {%- endif -%}
+      {%- assign first_option = product.options_with_values.first -%}
+      {%- if first_option.name == 'Colour' or first_option.name == 'Color' -%}
+      <div class="dots">
+        {%- for value in first_option.values -%}
+          <i style="--dot:{% render 'dot-color', name: value %}"></i>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+    </div>
+    <span class="price">{{ product.price_min | money_without_trailing_zeros }}</span>
+  </div>
+</a>

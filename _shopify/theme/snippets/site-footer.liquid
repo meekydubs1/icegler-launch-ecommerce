@@ -1,0 +1,67 @@
+{%- comment -%}
+  Site footer. Pass hide_newsletter: true to suppress the Cold Club band
+  (pages that carry their own newsletter section).
+  The newsletter form is a real Shopify customer form — it captures emails
+  into Customers with the "newsletter" tag and marketing consent.
+{%- endcomment -%}
+<footer id="site-footer" class="section-dusk">
+  <div class="container">
+    {%- unless hide_newsletter -%}
+    <div class="footer-news">
+      <p class="eyebrow on-dark">The newsletter</p>
+      <h2 class="d-l" style="margin-top:18px;">Join the <em>Cold</em> Club.</h2>
+      <p class="lead" style="max-width:46ch;margin-top:20px;">Early access to drops, the winter lookbook, and a little Reykjavík in your inbox. No noise.</p>
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="news-form">
+          <input type="email" name="contact[email]" required placeholder="your@email.com" aria-label="Email address"
+                 value="{{ form.email }}" autocomplete="email">
+          <button type="submit">Subscribe <span class="arr">→</span></button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="small news-note" style="margin-top:12px;color:rgba(252,253,253,.45);">Welcome to the Cold Club. ❄ Check your inbox.</p>
+        {%- elsif form.errors -%}
+          <p class="small news-note" style="margin-top:12px;color:rgba(252,253,253,.45);">That email doesn’t look right. Please try again.</p>
+        {%- else -%}
+          <p class="small news-note" style="margin-top:12px;color:rgba(252,253,253,.45);">We send rarely. Unsubscribe anytime.</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+    {%- else -%}
+    <div style="height:clamp(56px,8vh,88px);"></div>
+    {%- endunless -%}
+
+    <div class="footer-cols">
+      <div>
+        <p style="max-width:30ch;font-size:15px;color:var(--snow-dim);">Premium sunglasses designed in Reykjavík and shaped by Icelandic light.</p>
+        <p class="coord" style="margin-top:22px;">64°08′46″N — 21°56′24″W</p>
+      </div>
+      <div><h4>Shop</h4><ul>
+        <li><a href="/products/the-solstice">The Solstice</a></li>
+        <li><a href="/products/the-drift">The Drift</a></li>
+        <li><a href="/products/the-basalt">The Basalt</a></li>
+        <li><a href="{{ routes.all_products_collection_url }}">All frames</a></li>
+      </ul></div>
+      <div><h4>Brand</h4><ul>
+        <li><a href="/pages/story">Our story</a></li>
+        <li><a href="/pages/lookbook">Lookbook</a></li>
+        <li><a href="/pages/story">Sustainability</a></li>
+        <li><a href="/pages/contact">Stores</a></li>
+      </ul></div>
+      <div><h4>Care</h4><ul>
+        <li><a href="/pages/contact">Shipping &amp; returns</a></li>
+        <li><a href="/pages/contact">FAQ</a></li>
+        <li><a href="/pages/contact">Lens guide</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+      </ul></div>
+    </div>
+
+    <div class="footer-meta">
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }} — Reykjavík, Iceland</span>
+      {%- if shop.privacy_policy -%}<a href="{{ shop.privacy_policy.url }}">Privacy</a>{%- else -%}<a href="/pages/contact">Privacy</a>{%- endif -%}
+      {%- if shop.terms_of_service -%}<a href="{{ shop.terms_of_service.url }}">Terms</a>{%- else -%}<a href="/pages/contact">Terms</a>{%- endif -%}
+      <span class="mono" style="margin-left:auto;">{{ cart.currency.iso_code }} {{ cart.currency.symbol }}</span>
+    </div>
+  </div>
+  <div class="footer-ghost" aria-hidden="true">Icegler</div>
+</footer>

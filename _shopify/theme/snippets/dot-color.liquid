@@ -1,0 +1,13 @@
+{%- comment -%}
+  Maps a colorway name to its swatch CSS value. Usage:
+  style="--dot:{% render 'dot-color', name: value %}"
+{%- endcomment -%}
+{%- assign n = name | downcase | strip -%}
+{%- case n -%}
+  {%- when 'glacier' -%}linear-gradient(135deg,#CFE2E7,#EEF2F3)
+  {%- when 'basalt' -%}#15191B
+  {%- when 'meltwater' -%}#9FB6BD
+  {%- when 'driftwood' -%}#8A6B4F
+  {%- when 'eclipse' -%}#2B3238
+  {%- else -%}var(--mist)
+{%- endcase -%}

@@ -1,0 +1,360 @@
+{%- comment -%}
+  Home — "Shaped by light". Ported 1:1 from the design preview's index.html.
+  Products are read by handle; before products.csv is imported the section
+  falls back to bundled theme images so the design never breaks.
+{%- endcomment -%}
+{%- liquid
+  assign p_solstice = all_products['the-solstice']
+  assign p_drift = all_products['the-drift']
+  assign p_basalt = all_products['the-basalt']
+
+  if p_solstice.featured_image
+    assign hero_img = p_solstice.featured_image | image_url: width: 800
+  else
+    assign hero_img = 'solstice-front.jpeg' | asset_url
+  endif
+  if p_solstice != blank
+    assign hero_price = p_solstice.price_min | money_without_trailing_zeros
+    assign hero_url = p_solstice.url
+  else
+    assign hero_price = '€245'
+    assign hero_url = routes.all_products_collection_url
+  endif
+-%}
+<style>
+body[data-page="home"] .hero{
+  position:relative; min-height:100svh; display:flex; align-items:center;
+  padding-block:calc(var(--nav-h) + clamp(40px,7vh,84px)) clamp(72px,9vh,110px);
+  overflow:hidden;
+}
+body[data-page="home"] .hero-grid{
+  display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:clamp(32px,5vw,84px); align-items:center; width:100%;
+}
+body[data-page="home"] .hero-copy{position:relative; z-index:3;}
+body[data-page="home"] .hero-copy .d-xl{margin-top:26px;}
+body[data-page="home"] .hero-copy .lead{margin-top:32px; max-width:44ch;}
+body[data-page="home"] .hero-ctas{display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-top:44px;}
+body[data-page="home"] .hero-coord{position:absolute; left:clamp(20px,5vw,72px); bottom:34px; z-index:3;}
+body[data-page="home"] .hero-cue{
+  position:absolute; left:50%; transform:translateX(-50%); bottom:30px; z-index:3;
+  color:rgba(252,253,253,.55);
+}
+body[data-page="home"] .hero-ice{position:relative; z-index:2;}
+body[data-page="home"] .hero-ice .iceblock{
+  aspect-ratio:5/5.6; max-width:478px; margin-inline:auto;
+  border-radius:10px; animation-name:iceFloatHero;
+}
+@keyframes iceFloatHero{
+  0%,100%{transform:translateY(0) rotate(-1.3deg);}
+  50%{transform:translateY(-13px) rotate(-.85deg);}
+}
+body[data-page="home"] .hero-ice .melt-floor{max-width:520px; margin-inline:auto;}
+body[data-page="home"] .ice-shard{
+  position:absolute; z-index:1; pointer-events:none;
+  background:linear-gradient(150deg, rgba(214,232,236,.32), rgba(174,205,214,.12));
+  border:1px solid rgba(255,255,255,.22); filter:blur(1px); opacity:.8;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.4), 0 18px 40px -20px rgba(13,24,30,.5);
+}
+body[data-page="home"] .shard-a{width:58px; height:40px; left:-9%; top:9%;
+  transform:rotate(-16deg); border-radius:12px 4px 10px 5px;}
+body[data-page="home"] .shard-b{width:34px; height:26px; right:-7%; bottom:26%;
+  transform:rotate(13deg); border-radius:5px 11px 4px 9px;}
+body[data-page="home"] .hero-meta{
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+  max-width:520px; margin:2px auto 0; padding-top:14px;
+  border-top:1px solid var(--hairline-dark);
+}
+body[data-page="home"] .show-head{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:32px; flex-wrap:wrap;
+}
+body[data-page="home"] .show-grid{
+  position:relative; display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:clamp(20px,3vw,44px); margin-top:clamp(48px,7vh,84px); align-items:start;
+}
+body[data-page="home"] .show-1{grid-column:1/8;}
+body[data-page="home"] .show-2{grid-column:8/13; margin-top:clamp(56px,9vh,120px);}
+body[data-page="home"] .show-3{grid-column:8/13; margin-top:clamp(28px,4vh,52px);}
+body[data-page="home"] .show-num{position:absolute; z-index:0; line-height:.8;}
+body[data-page="home"] .num-1{left:-3%; bottom:-7%;}
+body[data-page="home"] .num-2{right:-2%; top:-9%;}
+body[data-page="home"] .story-grid{
+  display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  gap:clamp(40px,6vw,96px); align-items:center;
+}
+body[data-page="home"] .story-quote{
+  font-family:var(--font-serif); font-weight:320; font-optical-sizing:auto;
+  font-size:clamp(30px,3.6vw,52px); line-height:1.18; letter-spacing:-.015em;
+  position:relative; padding-left:.62em;
+}
+body[data-page="home"] .story-quote::before{
+  content:"\201C"; position:absolute; left:-.08em; top:-.04em;
+  font-style:italic; color:var(--ice); opacity:.85;
+}
+body[data-page="home"] .story-plate{
+  position:relative; background:var(--snow); padding:clamp(14px,1.6vw,22px);
+  border-radius:var(--r); box-shadow:0 50px 90px -40px rgba(0,0,0,.6);
+  transform:rotate(.6deg);
+}
+body[data-page="home"] .story-plate img{width:100%; aspect-ratio:4/4.6; object-fit:cover; mix-blend-mode:multiply; background:var(--glacier);}
+body[data-page="home"] .story-plate figcaption{display:flex; justify-content:space-between; padding-top:12px;}
+body[data-page="home"] .idea-grid{
+  display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(40px,6vw,96px); align-items:center;
+}
+body[data-page="home"] .idea-list{list-style:none; margin:clamp(36px,5vh,56px) 0 0; padding:0;}
+body[data-page="home"] .idea-list li{
+  display:grid; grid-template-columns:64px 1fr; gap:20px; align-items:baseline;
+  padding-block:22px; border-top:1px solid var(--mist);
+}
+body[data-page="home"] .idea-list li:last-child{border-bottom:1px solid var(--mist);}
+body[data-page="home"] .idea-ice .iceblock{aspect-ratio:1; max-width:440px; margin-inline:auto;}
+body[data-page="home"] .idea-ice .melt-floor{max-width:440px; margin-inline:auto;}
+body[data-page="home"] .look{position:relative; overflow:hidden;}
+body[data-page="home"] .look-inner{
+  position:relative; z-index:2; min-height:min(72vh,680px);
+  display:flex; flex-direction:column; justify-content:center;
+}
+body[data-page="home"] .look-plate-label{position:absolute; right:clamp(20px,5vw,72px); top:34px; z-index:2;}
+body[data-page="home"] .look-copy{max-width:640px;}
+body[data-page="home"] .club-grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(40px,6vw,96px); align-items:center;
+}
+body[data-page="home"] .club-form{
+  display:flex; align-items:flex-end; gap:14px;
+  border-bottom:1px solid rgba(21,25,27,.35); padding-bottom:10px;
+  transition:border-color .3s var(--ease);
+}
+body[data-page="home"] .club-form:focus-within{border-color:var(--glacial);}
+body[data-page="home"] .club-form input{flex:1; background:none; border:0; font-size:16.5px; padding:6px 0;}
+body[data-page="home"] .club-form input::placeholder{color:var(--ash);}
+body[data-page="home"] .club-form button{
+  font-weight:600; font-size:14.5px; letter-spacing:.05em; color:var(--glacial);
+  display:inline-flex; gap:8px; align-items:center; padding:6px 2px;
+}
+body[data-page="home"] .props{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(20px,3vw,44px);
+  border-top:1px solid var(--mist); margin-top:clamp(56px,8vh,88px);
+  padding-top:clamp(36px,5vh,52px);
+}
+body[data-page="home"] .props h3{font-size:15.5px; font-weight:600; display:flex; gap:10px; align-items:baseline;}
+body[data-page="home"] .props h3::before{
+  content:""; width:7px; height:7px; border-radius:50%; background:var(--glacial); flex:none;
+  transform:translateY(-1px);
+}
+body[data-page="home"] .props p{font-size:13.5px; color:var(--slate); margin-top:8px; padding-left:17px;}
+@media (max-width:920px){
+  body[data-page="home"] .hero{min-height:auto;}
+  body[data-page="home"] .hero-grid{grid-template-columns:1fr; gap:56px;}
+  body[data-page="home"] .hero-coord,body[data-page="home"] .hero-cue{display:none;}
+  body[data-page="home"] .show-grid{grid-template-columns:1fr; gap:44px;}
+  body[data-page="home"] .show-1,body[data-page="home"] .show-2,body[data-page="home"] .show-3{grid-column:1/-1; margin-top:0;}
+  body[data-page="home"] .show-num{display:none;}
+  body[data-page="home"] .story-grid,body[data-page="home"] .idea-grid,body[data-page="home"] .club-grid{grid-template-columns:1fr; gap:48px;}
+  body[data-page="home"] .props{grid-template-columns:1fr 1fr; gap:28px;}
+  body[data-page="home"] .idea-grid .idea-ice{order:-1;}
+}
+@media (max-width:560px){
+  body[data-page="home"] .props{grid-template-columns:1fr;}
+  body[data-page="home"] .hero-ctas .btn{width:100%; justify-content:center;}
+}
+</style>
+
+<!-- ══════════ HERO — the long blue dusk ══════════ -->
+<section class="hero section-dusk scene" aria-label="Introduction">
+  <div class="aurora-veil"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy" data-reveal-group>
+      <p class="eyebrow on-dark">Designed in Reykjavík — Winter 25</p>
+      <h1 class="d-xl">Frozen <em>light,</em><br>made to wear.</h1>
+      <p class="lead">Premium sunglasses shaped by Icelandic light — the long blue dusk and glacier clarity. Meet <em style="color:var(--snow);">The Solstice</em>, our angular hero, set in a block of clear ice.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-ghost" href="{{ hero_url }}" data-cursor="shop">Shop The Solstice</a>
+        <a class="link-arrow" href="{{ routes.all_products_collection_url }}" style="color:var(--snow);">Explore the collection <span class="arr">→</span></a>
+      </div>
+    </div>
+
+    <div class="hero-ice" data-reveal="fade" data-reveal-delay="250">
+      <div class="ice-shard shard-a" data-parallax="0.22" aria-hidden="true"></div>
+      <div class="ice-shard shard-b" data-parallax="-0.14" aria-hidden="true"></div>
+      <div data-tilt>
+        <figure class="iceblock" data-float style="margin:0;">
+          <div class="refract" aria-hidden="true"><img src="{{ hero_img }}" alt="" width="800" height="800" fetchpriority="high"></div>
+          <div class="iceblock-media" style="padding:9%;">
+            <img src="{{ hero_img }}" alt="The Solstice in Glacier, encased in a clear block of Icelandic ice" width="800" height="800" fetchpriority="high">
+          </div>
+        </figure>
+      </div>
+      <div class="melt-floor" aria-hidden="true"></div>
+      <div class="hero-meta">
+        <span class="coord">The Solstice — Glacier</span>
+        <span class="price" style="color:var(--snow);">{{ hero_price }}</span>
+      </div>
+    </div>
+  </div>
+  <span class="coord hero-coord">64°08′46″N — 21°56′24″W</span>
+  <span class="scroll-cue hero-cue" aria-hidden="true">Scroll</span>
+</section>
+
+<!-- ══════════ marquee ══════════ -->
+<div class="marquee" data-marquee>Designed in Reykjavík — 64°08′N ◦ Handcrafted bio-acetate ◦ Carl Zeiss polarized lenses ◦ Two-year guarantee ◦ </div>
+
+<!-- ══════════ THE COLLECTION ══════════ -->
+<section class="section" aria-label="The collection">
+  <div class="container">
+    <div class="show-head" data-reveal>
+      <div>
+        <p class="eyebrow">The collection — three frames</p>
+        <h2 class="d-l" style="margin-top:16px;">Three frames for<br>the northern <em>light.</em></h2>
+      </div>
+      <a class="link-arrow" href="{{ routes.all_products_collection_url }}">View all frames <span class="arr">→</span></a>
+    </div>
+
+    <div class="show-grid">
+      <span class="ghost-num show-num num-1" data-parallax="0.12" aria-hidden="true">01</span>
+      <span class="ghost-num show-num num-2" data-parallax="-0.08" aria-hidden="true">03</span>
+
+      {%- if p_solstice != blank -%}
+        {% render 'product-card', product: p_solstice, extra_class: 'show-1', eager: true %}
+      {%- else -%}
+        <div class="show-1"><p class="coord">Import products.csv to populate The Solstice here.</p></div>
+      {%- endif -%}
+      {%- if p_drift != blank -%}
+        {% render 'product-card', product: p_drift, extra_class: 'show-2', reveal_delay: 120 %}
+      {%- else -%}
+        <div class="show-2"><p class="coord">Import products.csv to populate The Drift here.</p></div>
+      {%- endif -%}
+      {%- if p_basalt != blank -%}
+        {% render 'product-card', product: p_basalt, extra_class: 'show-3', reveal_delay: 220 %}
+      {%- else -%}
+        <div class="show-3"><p class="coord">Import products.csv to populate The Basalt here.</p></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STORY BAND — dusk ══════════ -->
+<section class="section section-dusk scene" aria-label="The story">
+  <div class="aurora-veil" style="opacity:.35;"></div>
+  <div class="container story-grid">
+    <div data-reveal-group>
+      <p class="eyebrow on-dark">The story</p>
+      <blockquote class="story-quote" style="margin:26px 0 0;">We come from a place where the light is rare and the cold is honest. Our frames are made to carry&nbsp;both.</blockquote>
+      <p class="lead" style="margin-top:30px; max-width:46ch;">Every Icegler frame begins in Reykjavík — drawn from glacier clarity, black basalt and the strange warmth of a northern winter. Handcrafted, considered, made to last.</p>
+      <a class="link-arrow" href="/pages/story" style="color:var(--snow); margin-top:34px; display:inline-flex;">Read our story <span class="arr">→</span></a>
+    </div>
+    <figure class="story-plate" data-reveal="scale" data-parallax="0.06" style="margin:0;">
+      {%- if p_drift.images[1] -%}
+      <img src="{{ p_drift.images[1] | image_url: width: 800 }}" alt="The Drift in Glacier — studio still life" width="800" height="800" loading="lazy">
+      {%- else -%}
+      <img src="{{ 'drift-glacier.jpeg' | asset_url }}" alt="The Drift in Glacier — studio still life" width="800" height="800" loading="lazy">
+      {%- endif -%}
+      <figcaption>
+        <span class="coord" style="color:var(--ash);">Glacier · basalt · light</span>
+        <span class="coord" style="color:var(--ash);">Fig. 01</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ MADE WELL — the iceblock idea ══════════ -->
+<section class="section" aria-label="Made well">
+  <div class="container idea-grid">
+    <div data-reveal-group>
+      <p class="eyebrow">Made well — the iceblock idea</p>
+      <h2 class="d-l" style="margin-top:16px;">Clarity you can<br>hold up to the <em>light.</em></h2>
+      <p class="lead" style="margin-top:24px; max-width:46ch;">The iceblock is more than an image. It is how we think about a frame: clear, honest, built from good material and finished by hand. Nothing hidden.</p>
+      <ul class="idea-list">
+        <li>
+          <span class="mono faint">01</span>
+          <div><h3 class="h3">Handcrafted bio-acetate</h3>
+          <p class="muted" style="font-size:15px; margin-top:6px;">Plant-based, polished over days — warm to the touch.</p></div>
+        </li>
+        <li>
+          <span class="mono faint">02</span>
+          <div><h3 class="h3">Carl Zeiss polarized lenses</h3>
+          <p class="muted" style="font-size:15px; margin-top:6px;">100% UV400, cut for low northern glare.</p></div>
+        </li>
+        <li>
+          <span class="mono faint">03</span>
+          <div><h3 class="h3">~28g, two-year guarantee</h3>
+          <p class="muted" style="font-size:15px; margin-top:6px;">Light on the face. Built to be kept.</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="idea-ice" data-reveal="fade">
+      <div data-float>
+        <figure class="iceblock" style="border-radius:12px; margin:0;">
+          <div class="iceblock-media" style="padding:10%;">
+            {%- if p_basalt.featured_image -%}
+            <img src="{{ p_basalt.featured_image | image_url: width: 800 }}" alt="The Basalt in Driftwood, resting on clear ice" width="800" height="800" loading="lazy">
+            {%- else -%}
+            <img src="{{ 'basalt-driftwood.jpeg' | asset_url }}" alt="The Basalt in Driftwood, resting on clear ice" width="800" height="800" loading="lazy">
+            {%- endif -%}
+          </div>
+        </figure>
+      </div>
+      <div class="melt-floor" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ marquee ══════════ -->
+<div class="marquee" data-marquee>The long blue dusk ◦ Glacier clarity ◦ Black basalt ◦ Winter 25 ◦ </div>
+
+<!-- ══════════ LOOKBOOK TEASER — dusk plate ══════════ -->
+<section class="look ice-field deep scene" aria-label="Lookbook">
+  <div class="aurora-veil"></div>
+  <span class="coord look-plate-label" style="color:rgba(252,253,253,.4);">Plate 00 — Winter light</span>
+  <div class="container look-inner section" style="color:var(--snow);">
+    <div class="look-copy" data-reveal-group>
+      <p class="eyebrow on-dark">Lookbook — Winter Light</p>
+      <h2 class="d-l" style="margin-top:18px;">The brand at its<br>most <em>magazine.</em></h2>
+      <p class="lead" style="margin-top:24px; color:var(--snow-dim); max-width:46ch;">An immersive, gallery-like spread. Frames on basalt, on driftwood, on ice — shot in the long blue dusk.</p>
+      <a class="btn btn-ghost" href="/pages/lookbook" style="margin-top:38px;" data-cursor="view">Enter the lookbook <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ COLD CLUB + value props ══════════ -->
+<section class="section section-drift" aria-label="Newsletter">
+  <div class="container">
+    <div class="club-grid">
+      <div data-reveal>
+        <p class="eyebrow">The newsletter</p>
+        <h2 class="d-l" style="margin-top:16px;">Join the <em>Cold</em> Club.</h2>
+      </div>
+      <div data-reveal data-reveal-delay="120">
+        <p class="lead" style="max-width:44ch;">Early access to drops, the winter lookbook, and a little Reykjavík in your inbox. No noise.</p>
+        {%- form 'customer' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="club-form" style="margin-top:30px;">
+            <input type="email" name="contact[email]" required placeholder="your@email.com" aria-label="Email address" value="{{ form.email }}" autocomplete="email">
+            <button type="submit">Subscribe <span class="arr">→</span></button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="small muted news-note" style="margin-top:12px;">Welcome to the Cold Club. ❄ Check your inbox.</p>
+          {%- elsif form.errors -%}
+            <p class="small muted news-note" style="margin-top:12px;">That email doesn’t look right. Please try again.</p>
+          {%- else -%}
+            <p class="small muted news-note" style="margin-top:12px;">We send rarely. Unsubscribe anytime.</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+    <div class="props" data-reveal-group>
+      <div><h3>Free shipping over {{ settings.free_shipping_threshold | default: 250 | times: 100 | money_without_trailing_zeros }}</h3><p>Carbon-considered, tracked.</p></div>
+      <div><h3>Two-year guarantee</h3><p>On every frame and lens.</p></div>
+      <div><h3>Designed in Reykjavík</h3><p>Handcrafted bio-acetate.</p></div>
+      <div><h3>30-day returns</h3><p>Free, no questions.</p></div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home",
+  "settings": []
+}
+{% endschema %}

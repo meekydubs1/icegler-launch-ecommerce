@@ -1,0 +1,715 @@
+<style>
+/* ============ FOUNDATIONS — the specimen book ============ */
+body[data-page="foundations"] .spec-open{
+  padding-block:calc(var(--nav-h) + clamp(56px,10vh,120px)) clamp(64px,9vh,110px);
+}
+body[data-page="foundations"] .open-grid{
+  display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);
+  gap:clamp(32px,5vw,72px); align-items:end;
+}
+body[data-page="foundations"] .open-grid h1{margin-top:22px; max-width:14ch;}
+body[data-page="foundations"] .open-lead{margin-top:30px; max-width:48ch;}
+body[data-page="foundations"] .chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:34px;}
+body[data-page="foundations"] .chip{
+  font-family:var(--font-mono); font-size:12px; font-weight:500; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--slate); padding:9px 15px;
+  border:1px solid var(--mist); border-radius:var(--r); background:var(--snow);
+  transition:border-color .25s var(--ease), color .25s var(--ease);
+}
+body[data-page="foundations"] .chip:hover{border-color:var(--glacial); color:var(--glacial);}
+body[data-page="foundations"] .open-meta{
+  border-top:1px solid var(--mist); padding-top:18px;
+  display:flex; flex-direction:column; gap:8px; text-align:right;
+}
+body[data-page="foundations"] .open-meta .g{color:var(--glacial);}
+
+/* numbered section headers */
+body[data-page="foundations"] .sec-head{
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,3vw,44px); align-items:baseline;
+}
+body[data-page="foundations"] .sec-num{
+  font-family:var(--font-mono); font-weight:500; font-size:13px; letter-spacing:.1em;
+  color:var(--glacial); padding-top:.5em;
+}
+body[data-page="foundations"] .sec-head h2{max-width:16ch;}
+body[data-page="foundations"] .sec-intro{
+  margin-top:22px; margin-left:clamp(0px,calc(3vw + 46px),90px); max-width:52ch;
+}
+
+/* iceblock signature */
+body[data-page="foundations"] .sig-grid{
+  display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:clamp(40px,6vw,96px); align-items:center; margin-top:clamp(48px,7vh,80px);
+}
+body[data-page="foundations"] .sig-ice .iceblock{aspect-ratio:1; max-width:440px; margin-inline:auto; border-radius:12px;}
+body[data-page="foundations"] .sig-ice .iceblock-media{padding:11%;}
+body[data-page="foundations"] .sig-ice .melt-floor{max-width:440px; margin-inline:auto;}
+body[data-page="foundations"] .sig-note{
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+  max-width:440px; margin:6px auto 0; padding-top:14px; border-top:1px solid var(--mist);
+}
+
+/* ---- palette ---- */
+body[data-page="foundations"] .swatch-groups{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(28px,4vw,64px); margin-top:clamp(44px,6vh,72px);
+}
+body[data-page="foundations"] .swatch-group h3{
+  font-family:var(--font-mono); font-weight:500; font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ash); padding-bottom:14px; margin-bottom:18px;
+  border-bottom:1px solid var(--mist);
+}
+body[data-page="foundations"] .swatch{
+  position:relative; display:grid; grid-template-columns:44px 1fr; gap:16px; align-items:center;
+  padding:12px 4px; border-radius:var(--r); overflow:hidden;
+  transition:background-color .25s var(--ease);
+}
+body[data-page="foundations"] .swatch:hover{background:var(--snow);}
+body[data-page="foundations"] .swatch .chipcolor{
+  width:44px; height:44px; border-radius:var(--r); flex:none;
+  border:1px solid rgba(21,25,27,.1); box-shadow:inset 0 1px 3px rgba(21,25,27,.06);
+}
+body[data-page="foundations"] .swatch .sw-token{font-family:var(--font-mono); font-size:13px; font-weight:500;}
+body[data-page="foundations"] .swatch .sw-hex{font-family:var(--font-mono); font-size:12px; color:var(--ash); margin-top:2px; letter-spacing:.04em;}
+body[data-page="foundations"] .swatch .sw-use{
+  font-size:12.5px; color:var(--slate); margin-top:4px;
+  opacity:0; max-height:0; transform:translateY(-3px);
+  transition:opacity .3s var(--ease), max-height .3s var(--ease), transform .3s var(--ease);
+}
+body[data-page="foundations"] .swatch:hover .sw-use,
+body[data-page="foundations"] .swatch:focus-within .sw-use{opacity:1; max-height:3em; transform:none;}
+body[data-page="foundations"] .palette-rule{
+  margin-top:clamp(40px,5vh,60px); padding-top:26px; border-top:1px solid var(--mist);
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(20px,3vw,44px); align-items:baseline;
+}
+body[data-page="foundations"] .palette-rule p{max-width:70ch; font-size:15px; color:var(--slate);}
+
+/* ---- type specimens ---- */
+body[data-page="foundations"] .specimens{margin-top:clamp(44px,6vh,72px); display:grid; gap:0;}
+body[data-page="foundations"] .specimen{
+  display:grid; grid-template-columns:minmax(0,180px) 1fr; gap:clamp(24px,4vw,64px);
+  padding-block:clamp(38px,5vh,56px); border-top:1px solid var(--mist);
+}
+body[data-page="foundations"] .specimen:last-child{border-bottom:1px solid var(--mist);}
+body[data-page="foundations"] .spec-label .name{font-weight:600; font-size:17px;}
+body[data-page="foundations"] .spec-label .weights{font-family:var(--font-mono); font-size:11.5px; color:var(--glacial); margin-top:6px; letter-spacing:.06em;}
+body[data-page="foundations"] .spec-label .use{font-size:13px; color:var(--slate); margin-top:14px; max-width:22ch;}
+body[data-page="foundations"] .spec-body{min-width:0;}
+body[data-page="foundations"] .spec-hero{margin-bottom:8px;}
+body[data-page="foundations"] .type-line{
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(16px,3vw,40px);
+  align-items:baseline; padding-block:14px; border-top:1px solid var(--mist);
+}
+body[data-page="foundations"] .type-line:first-of-type{border-top:0;}
+body[data-page="foundations"] .type-line .anno{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ash); white-space:nowrap; padding-top:.6em;
+}
+body[data-page="foundations"] .weight-row{display:flex; flex-wrap:wrap; gap:24px 40px; margin-top:20px;}
+body[data-page="foundations"] .weight-row span{font-size:22px;}
+body[data-page="foundations"] .weight-row .w4{font-weight:400;}
+body[data-page="foundations"] .weight-row .w5{font-weight:500;}
+body[data-page="foundations"] .weight-row .w6{font-weight:600;}
+body[data-page="foundations"] .weight-row .w7{font-weight:700;}
+body[data-page="foundations"] .weight-row small{display:block; font-family:var(--font-mono); font-size:10px; color:var(--ash); letter-spacing:.1em; margin-top:5px;}
+body[data-page="foundations"] .mono-specimen{display:grid; gap:22px;}
+body[data-page="foundations"] .mono-data{display:flex; flex-wrap:wrap; gap:12px 14px;}
+body[data-page="foundations"] .mono-data .m{
+  font-family:var(--font-mono); font-weight:500; font-size:15px; letter-spacing:.02em;
+  padding:8px 12px; background:var(--snow); border:1px solid var(--mist); border-radius:var(--r);
+}
+body[data-page="foundations"] .mono-spec table{width:100%; max-width:340px;}
+
+/* ---- ice scene exhibits ---- */
+body[data-page="foundations"] .scene-grid{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(20px,3vw,40px); margin-top:clamp(44px,6vh,72px);
+}
+body[data-page="foundations"] .exhibit{display:flex; flex-direction:column;}
+body[data-page="foundations"] .exhibit .frame{
+  position:relative; aspect-ratio:4/5; border-radius:var(--r); overflow:hidden;
+  border:1px solid var(--mist);
+}
+body[data-page="foundations"] .exhibit .frame.tall{aspect-ratio:4/5;}
+body[data-page="foundations"] .exhibit-iceblock{padding:14%; display:grid; place-items:center; background:var(--glacier);}
+body[data-page="foundations"] .exhibit-iceblock .iceblock{width:100%; aspect-ratio:1; border-radius:12px;}
+body[data-page="foundations"] .exhibit-iceblock .iceblock-media{padding:14%;}
+body[data-page="foundations"] .exhibit .cap{
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  padding-top:14px;
+}
+body[data-page="foundations"] .exhibit .cap .name{font-weight:600; font-size:15px;}
+body[data-page="foundations"] .exhibit .recipe{font-size:13px; color:var(--slate); margin-top:8px; max-width:34ch;}
+
+/* ---- motion demos ---- */
+body[data-page="foundations"] .motion-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(20px,3vw,40px); margin-top:clamp(44px,6vh,72px); align-items:stretch;
+}
+body[data-page="foundations"] .demo{
+  background:var(--snow); border:1px solid var(--mist); border-radius:var(--r);
+  padding:clamp(24px,3vw,36px); display:flex; flex-direction:column; gap:20px;
+}
+body[data-page="foundations"] .demo .demo-head{display:flex; justify-content:space-between; align-items:baseline; gap:16px;}
+body[data-page="foundations"] .demo .demo-name{font-weight:600; font-size:16px;}
+body[data-page="foundations"] .demo .demo-tag{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--glacial);}
+body[data-page="foundations"] .demo p{font-size:13.5px; color:var(--slate);}
+body[data-page="foundations"] .demo .stage{margin-top:auto; padding-top:8px;}
+body[data-page="foundations"] .demo .stage.buttons{display:flex; flex-wrap:wrap; gap:14px;}
+body[data-page="foundations"] .demo-card{max-width:240px;}
+body[data-page="foundations"] .demo-card .card-media{aspect-ratio:1;}
+/* float chip demo */
+body[data-page="foundations"] .float-stage{display:grid; place-items:center; padding:8px 0;}
+body[data-page="foundations"] .float-slab{
+  width:120px; aspect-ratio:1; border-radius:10px;
+}
+/* link nudge demo */
+body[data-page="foundations"] .link-stage{display:flex; gap:28px; flex-wrap:wrap; align-items:center;}
+
+/* ---- voice pull lines ---- */
+body[data-page="foundations"] .voice{margin-top:clamp(48px,6vh,80px); display:grid; gap:0;}
+body[data-page="foundations"] .voice-line{
+  display:grid; grid-template-columns:auto 1fr; gap:clamp(24px,4vw,64px); align-items:baseline;
+  padding-block:clamp(34px,4.5vh,52px); border-top:1px solid var(--hairline-dark);
+}
+body[data-page="foundations"] .voice-line:last-child{border-bottom:1px solid var(--hairline-dark);}
+body[data-page="foundations"] .voice-line .vn{font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; color:var(--aurora); padding-top:.7em;}
+body[data-page="foundations"] .voice-pull{
+  font-family:var(--font-serif); font-weight:320; font-optical-sizing:auto;
+  font-size:clamp(28px,4vw,52px); line-height:1.08; letter-spacing:-.015em; color:var(--snow);
+}
+body[data-page="foundations"] .voice-pull em{font-style:italic; font-weight:300; color:var(--ice);}
+body[data-page="foundations"] .voice-gloss{font-size:14px; color:var(--snow-dim); margin-top:16px; max-width:44ch;}
+
+/* ---- structure ---- */
+body[data-page="foundations"] .struct-grid{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(32px,4vw,64px); margin-top:clamp(44px,6vh,72px);
+}
+body[data-page="foundations"] .struct-col h3{
+  font-family:var(--font-mono); font-weight:500; font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ash); padding-bottom:16px; margin-bottom:20px;
+  border-bottom:1px solid var(--mist);
+}
+body[data-page="foundations"] .scale-row{display:grid; grid-template-columns:44px 1fr; gap:16px; align-items:center; margin-bottom:11px;}
+body[data-page="foundations"] .scale-row .n{font-family:var(--font-mono); font-size:12px; color:var(--slate); text-align:right;}
+body[data-page="foundations"] .scale-row .bar{height:11px; background:linear-gradient(90deg,var(--ice),var(--meltwater)); border-radius:1px;}
+body[data-page="foundations"] .radius-demo{display:flex; gap:18px; margin-bottom:22px;}
+body[data-page="foundations"] .radius-demo .box{width:64px; height:64px; background:var(--meltwater); border:1px solid var(--ice);}
+body[data-page="foundations"] .radius-demo .box.r2{border-radius:2px;}
+body[data-page="foundations"] .radius-demo .box.r0{border-radius:0;}
+body[data-page="foundations"] .radius-demo figcaption{font-family:var(--font-mono); font-size:10.5px; color:var(--ash); letter-spacing:.08em; margin-top:8px;}
+body[data-page="foundations"] .struct-note{font-size:13.5px; color:var(--slate); margin-top:8px;}
+body[data-page="foundations"] .mini-grid{display:grid; grid-template-columns:repeat(12,1fr); gap:4px; height:80px; margin-bottom:16px;}
+body[data-page="foundations"] .mini-grid span{background:var(--meltwater); border-radius:1px;}
+body[data-page="foundations"] .hairline-demo{border-top:1px solid var(--mist); border-bottom:1px solid var(--mist); padding-block:12px; margin-top:14px;}
+body[data-page="foundations"] .hairline-demo span{font-family:var(--font-mono); font-size:10.5px; color:var(--ash); letter-spacing:.1em;}
+
+/* ---- colophon strip ---- */
+body[data-page="foundations"] .colophon{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:32px; flex-wrap:wrap;
+}
+body[data-page="foundations"] .colophon .co-title{max-width:20ch;}
+
+/* ---------- responsive ---------- */
+@media (max-width:920px){
+  body[data-page="foundations"] .open-grid{grid-template-columns:1fr; gap:40px; align-items:start;}
+  body[data-page="foundations"] .open-meta{text-align:left; align-items:flex-start;}
+  body[data-page="foundations"] .sig-grid{grid-template-columns:1fr; gap:48px;}
+  body[data-page="foundations"] .sig-grid .sig-ice{order:-1;}
+  body[data-page="foundations"] .swatch-groups,
+  body[data-page="foundations"] .scene-grid,
+  body[data-page="foundations"] .struct-grid{grid-template-columns:1fr 1fr;}
+  body[data-page="foundations"] .motion-grid{grid-template-columns:1fr;}
+  body[data-page="foundations"] .sec-intro{margin-left:0;}
+}
+@media (max-width:560px){
+  body[data-page="foundations"] .sec-head{grid-template-columns:1fr; gap:10px;}
+  body[data-page="foundations"] .sec-num{padding-top:0;}
+  body[data-page="foundations"] .swatch-groups,
+  body[data-page="foundations"] .scene-grid,
+  body[data-page="foundations"] .struct-grid{grid-template-columns:1fr;}
+  body[data-page="foundations"] .specimen{grid-template-columns:1fr; gap:22px;}
+  body[data-page="foundations"] .type-line{grid-template-columns:1fr; gap:6px;}
+  body[data-page="foundations"] .type-line .anno{padding-top:0;}
+  body[data-page="foundations"] .voice-line{grid-template-columns:1fr; gap:10px;}
+  body[data-page="foundations"] .voice-line .vn{padding-top:0;}
+  body[data-page="foundations"] .colophon{align-items:flex-start;}
+}
+</style>
+
+  <!-- ══════════ 01 — INTRO ══════════ -->
+  <section class="section spec-open" aria-label="Foundations">
+    <div class="container">
+      <div class="open-grid">
+        <div data-reveal-group>
+          <p class="eyebrow">01 — Foundations</p>
+          <h1 class="d-xl">The system<br>behind the <em>cold.</em></h1>
+          <p class="lead open-lead">Icegler makes premium sunglasses designed in Reykjavík and shaped by Icelandic light — the long blue dusk, glacier clarity, black basalt, and the strange warmth of a cold place. This page locks the look.</p>
+          <div class="chips">
+            <span class="chip">Glacial</span>
+            <span class="chip">Considered</span>
+            <span class="chip">Quietly edgy</span>
+          </div>
+        </div>
+        <div class="open-meta" data-reveal data-reveal-delay="200">
+          <span class="coord">Design System — v1</span>
+          <span class="coord g">Reykjavík 64°N</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ marquee ══════════ -->
+  <div class="marquee" data-marquee>Palette ◦ Type ◦ Ice scenes ◦ Motion ◦ Voice ◦ Structure ◦ The source of truth ◦ </div>
+
+  <!-- ══════════ THE ICEBLOCK SIGNATURE ══════════ -->
+  <section class="section" aria-label="The iceblock signature">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">◦</span>
+        <div>
+          <p class="eyebrow quiet">The signature device</p>
+          <h2 class="d-l" style="margin-top:16px;">The <em>iceblock.</em></h2>
+        </div>
+      </div>
+
+      <div class="sig-grid">
+        <div data-reveal-group>
+          <p class="lead" style="max-width:46ch;">A pair of Icegler frames encased in, or resting on, a literal clear block of ice. Translucent, slightly wet, light passing through — with the organic imperfections of the real thing: air bubbles, faint fracture lines, a soft melt at the edges.</p>
+          <p style="margin-top:22px; max-width:46ch; color:var(--slate);">Found in nature and lit beautifully. Never carved, never rendered like stone. This is the recurring hero motif across the brand.</p>
+        </div>
+        <div class="sig-ice" data-reveal="fade" data-reveal-delay="150">
+          <div data-float>
+            <figure class="iceblock" style="margin:0;">
+              <div class="refract" aria-hidden="true"><img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="" width="800" height="800" loading="lazy"></div>
+              <div class="iceblock-media">
+                <img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="The Solstice frozen in a clear block of Icelandic ice" width="800" height="800" loading="lazy">
+              </div>
+            </figure>
+          </div>
+          <div class="melt-floor" aria-hidden="true"></div>
+          <div class="sig-note">
+            <span class="coord">The Solstice — Glacier</span>
+            <span class="coord">Fig. 00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ══════════ 02 — PALETTE ══════════ -->
+  <section class="section" aria-label="Colour">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">02</span>
+        <div>
+          <p class="eyebrow">Colour</p>
+          <h2 class="d-l" style="margin-top:16px;">A disciplined<br>Icelandic <em>palette.</em></h2>
+        </div>
+      </div>
+      <p class="sec-intro lead" data-reveal>The ice-white ↔ basalt-black contrast does the heavy lifting and <em>is</em> the edge. Accent is used sparingly — roughly one element in eight. Warmth arrives only through Driftwood. Hover a chip for its role.</p>
+
+      <div class="swatch-groups" data-reveal-group>
+        <div class="swatch-group">
+          <h3>Ink &amp; canvas</h3>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#F2F4F4"></span>
+            <div><span class="sw-token">--glacier</span><span class="sw-hex">#F2F4F4</span><span class="sw-use">Page canvas.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#FCFDFD"></span>
+            <div><span class="sw-token">--snow</span><span class="sw-hex">#FCFDFD</span><span class="sw-use">Surfaces, cards.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#15191B"></span>
+            <div><span class="sw-token">--basalt</span><span class="sw-hex">#15191B</span><span class="sw-use">Ink · dark sections.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#586065"></span>
+            <div><span class="sw-token">--slate</span><span class="sw-hex">#586065</span><span class="sw-use">Secondary text.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#8A9296"></span>
+            <div><span class="sw-token">--ash</span><span class="sw-hex">#8A9296</span><span class="sw-use">Muted · captions.</span></div>
+          </div>
+        </div>
+
+        <div class="swatch-group">
+          <h3>Ice tints</h3>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#DBE0E1"></span>
+            <div><span class="sw-token">--mist</span><span class="sw-hex">#DBE0E1</span><span class="sw-use">Hairlines, borders.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#DCE8EB"></span>
+            <div><span class="sw-token">--meltwater</span><span class="sw-hex">#DCE8EB</span><span class="sw-use">Soft fills, hovers.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#BFD9DE"></span>
+            <div><span class="sw-token">--ice</span><span class="sw-hex">#BFD9DE</span><span class="sw-use">Larger tint fills.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:linear-gradient(158deg,#F7FBFC,#AECDD6)"></span>
+            <div><span class="sw-token">iceblock</span><span class="sw-hex">gradient</span><span class="sw-use">The signature slab.</span></div>
+          </div>
+        </div>
+
+        <div class="swatch-group">
+          <h3>Accent &amp; warmth — use sparingly</h3>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#3E6E79"></span>
+            <div><span class="sw-token">--glacial</span><span class="sw-hex">#3E6E79</span><span class="sw-use">Primary accent.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#E7E1D6"></span>
+            <div><span class="sw-token">--driftwood</span><span class="sw-hex">#E7E1D6</span><span class="sw-use">Warm editorial only.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#0D181E"></span>
+            <div><span class="sw-token">--dusk</span><span class="sw-hex">#0D181E</span><span class="sw-use">Deep dusk scenes.</span></div>
+          </div>
+          <div class="swatch" tabindex="0">
+            <span class="chipcolor" style="background:#7FB4A2"></span>
+            <div><span class="sw-token">--aurora</span><span class="sw-hex">#7FB4A2</span><span class="sw-use">Aurora veil glow.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="palette-rule" data-reveal>
+        <span class="sec-num" aria-hidden="true">◦</span>
+        <p>Never pure #000 for large areas — basalt is warmer and more refined. Default mode is light; basalt full-bleed sections carry the drama. Maintain <strong>WCAG AA</strong> throughout.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ══════════ 03 — TYPOGRAPHY ══════════ -->
+  <section class="section" aria-label="Typography">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">03</span>
+        <div>
+          <p class="eyebrow">Typography</p>
+          <h2 class="d-l" style="margin-top:16px;">Editorial serif.<br>Nordic grotesque.<br>A precise mono <em>edge.</em></h2>
+        </div>
+      </div>
+
+      <div class="specimens">
+
+        <!-- Fraunces -->
+        <div class="specimen" data-reveal>
+          <div class="spec-label">
+            <p class="name">Fraunces</p>
+            <p class="weights">300 — 400</p>
+            <p class="use">Display, section openers, story, pull-quotes.</p>
+          </div>
+          <div class="spec-body">
+            <p class="d-l spec-hero" style="line-height:1;">Shaped by Icelandic light.</p>
+            <div class="type-line">
+              <span class="anno">Display XL · 300</span>
+              <span class="d-xl" style="font-size:clamp(40px,7vw,84px);">The long blue dusk</span>
+            </div>
+            <div class="type-line">
+              <span class="anno">Display L · 300</span>
+              <span class="d-l">Clarity, found in the cold</span>
+            </div>
+            <div class="type-line">
+              <span class="anno">H1 · 400</span>
+              <span style="font-family:var(--font-serif); font-weight:400; font-size:40px; line-height:1.1; letter-spacing:-.01em;">Designed in Reykjavík</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schibsted Grotesk -->
+        <div class="specimen" data-reveal>
+          <div class="spec-label">
+            <p class="name">Schibsted Grotesk</p>
+            <p class="weights">400 · 500 · 600 · 700</p>
+            <p class="use">Nav, body, UI, product names, buttons.</p>
+          </div>
+          <div class="spec-body">
+            <p class="h2 spec-hero" style="font-weight:600; max-width:20ch;">The workhorse. Clean and unmistakably Nordic, with just enough character to avoid the default.</p>
+            <p style="margin-top:18px; max-width:52ch; color:var(--slate);">Body copy sits at sixteen to nineteen pixels with generous leading. Spare, confident, a touch poetic. Short sentences. We let the product and the light speak — never salesy, never exclamatory.</p>
+            <div class="weight-row">
+              <span class="w4">Regular<small>400</small></span>
+              <span class="w5">Medium<small>500</small></span>
+              <span class="w6">Semibold<small>600</small></span>
+              <span class="w7">Bold<small>700</small></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IBM Plex Mono -->
+        <div class="specimen" data-reveal>
+          <div class="spec-label">
+            <p class="name">IBM Plex Mono</p>
+            <p class="weights">400 · 500 — small only</p>
+            <p class="use">Prices, SKUs, spec tables, eyebrow labels.</p>
+          </div>
+          <div class="spec-body mono-specimen">
+            <div class="mono-data">
+              <span class="m">€245,00</span>
+              <span class="m">SKU ICG-SOL-GLC-52</span>
+              <span class="m">UV400 · ZEISS</span>
+            </div>
+            <p class="eyebrow">Designed in Reykjavík — 64°08′N</p>
+            <table class="spec-table mono-spec">
+              <tbody>
+                <tr><th scope="row">Lens width</th><td>52 mm</td></tr>
+                <tr><th scope="row">Bridge</th><td>18 mm</td></tr>
+                <tr><th scope="row">Weight</th><td>28 g</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ══════════ 04 — ICE SCENES ══════════ -->
+  <section class="section" aria-label="Ice scenes">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">04</span>
+        <div>
+          <p class="eyebrow">Ice scenes</p>
+          <h2 class="d-l" style="margin-top:16px;">Texture, never<br>a grey <em>box.</em></h2>
+        </div>
+      </div>
+      <p class="sec-intro lead" data-reveal>Placeholder imagery is banned. Every empty surface is composed from three CSS recipes — layered gradients, a shared turbulence filter, refraction and drifting light. Framed here as swatches.</p>
+
+      <div class="scene-grid" data-reveal-group>
+        <figure class="exhibit">
+          <div class="frame ice-field tall" aria-hidden="true"></div>
+          <figcaption>
+            <div class="cap"><span class="name">.ice-field</span><span class="coord">Recipe 01</span></div>
+            <p class="recipe">Layered glacier gradients, turbulence texture and refraction streaks. The glacier-daylight surface.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="exhibit">
+          <div class="frame ice-field deep scene tall" aria-hidden="true">
+            <div class="aurora-veil"></div>
+          </div>
+          <figcaption>
+            <div class="cap"><span class="name">.aurora-veil</span><span class="coord">Recipe 02</span></div>
+            <p class="recipe">A slow-drifting aurora ribbon over the deep dusk field. Screen-blended, never gimmicky.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="exhibit">
+          <div class="frame exhibit-iceblock tall">
+            <div data-float>
+              <figure class="iceblock" style="margin:0;">
+                <div class="iceblock-media">
+                  <img src="{{ 'drift-glacier.jpeg' | asset_url }}" alt="The Drift in Glacier, set into the iceblock recipe" width="800" height="800" loading="lazy">
+                </div>
+              </figure>
+            </div>
+          </div>
+          <figcaption>
+            <div class="cap"><span class="name">.iceblock</span><span class="coord">Recipe 03</span></div>
+            <p class="recipe">The hero device: a translucent slab holding a frame with an offset refraction ghost.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ══════════ 05 — MOTION ══════════ -->
+  <section class="section" aria-label="Motion">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">05</span>
+        <div>
+          <p class="eyebrow">Motion</p>
+          <h2 class="d-l" style="margin-top:16px;">The light is<br><em>moving.</em></h2>
+        </div>
+      </div>
+      <p class="sec-intro lead" data-reveal>Subtle, slow, expensive-feeling. The light is moving, never an animation is playing. Hover each panel to feel the rule.</p>
+
+      <div class="motion-grid" data-reveal-group>
+
+        <!-- buttons flood -->
+        <div class="demo">
+          <div class="demo-head">
+            <span class="demo-name">Buttons flood like meltwater</span>
+            <span class="demo-tag">Hover →</span>
+          </div>
+          <p>The fill wipes in from one edge rather than snapping. Primary inverts, outline fills to basalt.</p>
+          <div class="stage buttons">
+            <a class="btn btn-primary" href="{{ routes.all_products_collection_url }}" data-cursor="shop">Shop the collection</a>
+            <a class="btn btn-outline" href="/pages/lookbook">View lookbook</a>
+          </div>
+        </div>
+
+        <!-- product hover swap -->
+        <div class="demo">
+          <div class="demo-head">
+            <span class="demo-name">Product hover</span>
+            <span class="demo-tag">Swap · lift</span>
+          </div>
+          <p>Image swaps to the side shot, the card lifts −4px with a shadow bloom, colourway dots reveal.</p>
+          <div class="stage">
+            <a class="product-card demo-card" href="/products/the-solstice" data-cursor="view">
+              <div class="card-media">
+                <img src="{{ 'solstice-front.jpeg' | asset_url }}" data-swap-src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="The Solstice in Glacier, front view" width="800" height="800" loading="lazy">
+              </div>
+              <div class="card-info">
+                <div>
+                  <p class="card-name">The Solstice</p>
+                  <div class="dots">
+                    <i style="--dot:linear-gradient(135deg,#CFE2E7,#EEF2F3)"></i>
+                    <i style="--dot:#15191B"></i>
+                    <i style="--dot:#9AA6A9"></i>
+                  </div>
+                </div>
+                <span class="price">€245</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- float / drift -->
+        <div class="demo">
+          <div class="demo-head">
+            <span class="demo-name">The slow drift</span>
+            <span class="demo-tag">9s float</span>
+          </div>
+          <p>The iceblock holds presence with a gentle vertical drift and a periodic light sweep. It settles under reduced-motion.</p>
+          <div class="stage float-stage">
+            <div data-float><div class="iceblock float-slab" aria-hidden="true"></div></div>
+          </div>
+        </div>
+
+        <!-- link arrow nudge -->
+        <div class="demo">
+          <div class="demo-head">
+            <span class="demo-name">Links draw &amp; nudge</span>
+            <span class="demo-tag">Hover →</span>
+          </div>
+          <p>Underlines draw in from the left over 300ms. Arrow links nudge the glyph 5px. Reveals rise 20px and fade, once.</p>
+          <div class="stage link-stage">
+            <a class="link-arrow" href="/pages/story">Read the story <span class="arr">→</span></a>
+            <a class="link-underline" href="/pages/contact">Find a stockist</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ marquee ══════════ -->
+  <div class="marquee" data-marquee>Reveals 500–700ms ◦ Hovers 180–280ms ◦ Nothing bounces ◦ Nothing spins ◦ Respect reduced motion ◦ </div>
+
+  <!-- ══════════ 06 — VOICE (dusk) ══════════ -->
+  <section class="section section-dusk scene" aria-label="Voice">
+    <div class="aurora-veil" style="opacity:.32;"></div>
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num" style="color:var(--aurora);">06</span>
+        <div>
+          <p class="eyebrow on-dark">Voice</p>
+          <h2 class="d-l" style="margin-top:16px; color:var(--snow);">Spare. Confident.<br>A touch <em>poetic.</em></h2>
+        </div>
+      </div>
+
+      <div class="voice" data-reveal-group>
+        <div class="voice-line">
+          <span class="vn">i</span>
+          <div>
+            <p class="voice-pull">We come from a place where the light is <em>rare</em> and the cold is honest.</p>
+            <p class="voice-gloss">Lets the product and the light speak. Never salesy, never exclamatory.</p>
+          </div>
+        </div>
+        <div class="voice-line">
+          <span class="vn">ii</span>
+          <div>
+            <p class="voice-pull">Short sentences. One evocative word set in <em>italic</em> serif.</p>
+            <p class="voice-gloss">Fraunces italic carries a single emotive word inside a display line: light, ice, dusk.</p>
+          </div>
+        </div>
+        <div class="voice-line">
+          <span class="vn">iii</span>
+          <div>
+            <p class="voice-pull">Named for ice and light — <em>The Solstice</em>, The Drift, The Basalt.</p>
+            <p class="voice-gloss">Product naming: The ___ plus a single evocative ice or light word. Colourways in the same register.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ 07 — STRUCTURE ══════════ -->
+  <section class="section" aria-label="Structure">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <span class="sec-num">07</span>
+        <div>
+          <p class="eyebrow">Structure</p>
+          <h2 class="d-l" style="margin-top:16px;">Whitespace is<br>a <em>feature.</em></h2>
+        </div>
+      </div>
+
+      <div class="struct-grid" data-reveal-group>
+        <div class="struct-col">
+          <h3>Spacing scale</h3>
+          <div class="scale-row"><span class="n">4</span><span class="bar" style="width:6%"></span></div>
+          <div class="scale-row"><span class="n">8</span><span class="bar" style="width:11%"></span></div>
+          <div class="scale-row"><span class="n">16</span><span class="bar" style="width:20%"></span></div>
+          <div class="scale-row"><span class="n">32</span><span class="bar" style="width:38%"></span></div>
+          <div class="scale-row"><span class="n">64</span><span class="bar" style="width:62%"></span></div>
+          <div class="scale-row"><span class="n">96</span><span class="bar" style="width:82%"></span></div>
+          <div class="scale-row"><span class="n">128</span><span class="bar" style="width:100%"></span></div>
+          <p class="struct-note">Big vertical rhythm between sections — 96 to 160px on desktop.</p>
+        </div>
+
+        <div class="struct-col">
+          <h3>Radius — restrained</h3>
+          <div class="radius-demo">
+            <figure style="margin:0;"><div class="box r2"></div><figcaption>2px · default</figcaption></figure>
+            <figure style="margin:0;"><div class="box r0"></div><figcaption>0px · images</figcaption></figure>
+          </div>
+          <p class="struct-note">Small and premium on UI. No rounding on large imagery — sharp is luxury.</p>
+          <div class="hairline-demo"><span>1px MIST HAIRLINE</span></div>
+          <p class="struct-note">Thin rules as editorial structure, not heavy boxes.</p>
+        </div>
+
+        <div class="struct-col">
+          <h3>Grid &amp; margins</h3>
+          <div class="mini-grid" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p class="struct-note">12 columns · max ~1320px · wide outer margins.</p>
+          <p class="struct-note" style="margin-top:10px;">Asymmetry over centred symmetry — let imagery bleed to one edge with type anchored to the other.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ COLOPHON ══════════ -->
+  <section class="section section-tight section-drift" aria-label="Colophon">
+    <div class="container">
+      <div class="colophon" data-reveal>
+        <div>
+          <p class="eyebrow quiet">Design system — v1</p>
+          <h2 class="d-l co-title" style="margin-top:16px;">The source of truth for the Icegler <em>look.</em></h2>
+        </div>
+        <a class="link-arrow" href="{{ routes.root_url }}" data-cursor="view">See it applied — the Home page <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+{% schema %}
+{"name":"Foundations","settings":[]}
+{% endschema %}

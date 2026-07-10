@@ -1,0 +1,541 @@
+<style>
+/* ============ LOOKBOOK — "Winter Light" ============ */
+body[data-page="lookbook"]{--plate-gap:clamp(20px,3.4vw,44px);}
+
+/* ---- cover: full-viewport dusk title plate ---- */
+body[data-page="lookbook"] .cover{
+  position:relative; min-height:100svh; display:flex; flex-direction:column;
+  justify-content:flex-end; overflow:hidden;
+  padding-block:calc(var(--nav-h) + clamp(40px,8vh,96px)) clamp(40px,7vh,88px);
+}
+body[data-page="lookbook"] .cover .aurora-veil{opacity:.7;}
+body[data-page="lookbook"] .cover-shard{
+  position:absolute; z-index:1; pointer-events:none;
+  background:linear-gradient(150deg, rgba(214,232,236,.26), rgba(174,205,214,.08));
+  border:1px solid rgba(255,255,255,.16); filter:blur(1px); opacity:.7;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.3), 0 24px 50px -26px rgba(13,24,30,.6);
+}
+body[data-page="lookbook"] .cover-shard.a{width:120px; height:78px; right:8%; top:20%;
+  transform:rotate(-13deg); border-radius:14px 5px 12px 6px;}
+body[data-page="lookbook"] .cover-shard.b{width:66px; height:46px; left:11%; top:34%;
+  transform:rotate(11deg); border-radius:6px 13px 5px 11px;}
+body[data-page="lookbook"] .cover-top{
+  position:absolute; top:calc(var(--nav-h) + clamp(20px,4vh,44px));
+  left:clamp(20px,5vw,72px); right:clamp(20px,5vw,72px); z-index:3;
+  display:flex; justify-content:space-between; align-items:baseline; gap:20px; flex-wrap:wrap;
+}
+body[data-page="lookbook"] .cover-title{max-width:none;}
+body[data-page="lookbook"] .cover .d-xl{margin-top:22px;}
+body[data-page="lookbook"] .cover-lead{margin-top:34px; max-width:40ch; color:var(--snow-dim);}
+body[data-page="lookbook"] .cover-foot{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:24px;
+  margin-top:clamp(40px,8vh,88px); padding-top:20px;
+  border-top:1px solid var(--hairline-dark); flex-wrap:wrap;
+}
+
+/* ---- intro: asymmetric pull-quote + notes ---- */
+body[data-page="lookbook"] .intro-grid{
+  display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(40px,6vw,110px); align-items:start;
+}
+body[data-page="lookbook"] .intro-quote{
+  font-family:var(--font-serif); font-weight:320; font-style:italic; font-optical-sizing:auto;
+  font-size:clamp(26px,3.5vw,50px); line-height:1.16; letter-spacing:-.014em;
+  position:relative; padding-left:.66em;
+}
+body[data-page="lookbook"] .intro-quote::before{
+  content:"\201C"; position:absolute; left:-.06em; top:.02em;
+  color:var(--ice); font-style:italic;
+}
+body[data-page="lookbook"] .intro-notes{padding-top:clamp(10px,3vh,40px);}
+body[data-page="lookbook"] .intro-notes p{margin-top:20px; max-width:42ch;}
+body[data-page="lookbook"] .intro-notes p:first-of-type{margin-top:26px;}
+
+/* ---- shared scene plate ---- */
+body[data-page="lookbook"] .plate{
+  display:block; /* <a> plates must blockify or aspect-ratio collapses them */
+  position:relative; overflow:hidden; isolation:isolate; border-radius:var(--r);
+  text-decoration:none;
+}
+body[data-page="lookbook"] .plate .plate-media{
+  position:absolute; inset:0; z-index:2; display:grid; place-items:center;
+  mix-blend-mode:multiply;
+}
+body[data-page="lookbook"] .plate .plate-media img{
+  width:78%; height:78%; object-fit:contain;
+}
+/* on dusk plates the photo mounts as a light print — screen/multiply both fail
+   against white studio backgrounds on dark fields */
+body[data-page="lookbook"] .plate.on-dusk .plate-media{mix-blend-mode:normal;}
+body[data-page="lookbook"] .plate.on-dusk .plate-media img{
+  width:min(56%,400px); height:auto; aspect-ratio:1; object-fit:cover;
+  background:linear-gradient(158deg,#F7FBFC 0%,#E9F1F3 100%);
+  border-radius:3px;
+  box-shadow:0 44px 90px -32px rgba(0,0,0,.58), 0 10px 26px -12px rgba(0,0,0,.35);
+}
+body[data-page="lookbook"] .plate .plate-num{
+  position:absolute; z-index:4; top:clamp(16px,2vw,26px); left:clamp(16px,2vw,26px);
+  font-family:var(--font-serif); font-weight:340; line-height:.8;
+  font-size:clamp(40px,5vw,76px); letter-spacing:-.02em;
+  color:transparent; -webkit-text-stroke:1px rgba(252,253,253,.34);
+}
+body[data-page="lookbook"] .plate.on-light .plate-num{-webkit-text-stroke:1px rgba(21,25,27,.2);}
+body[data-page="lookbook"] .plate .plate-cap{
+  position:absolute; z-index:4; left:clamp(16px,2vw,26px); bottom:clamp(16px,2vw,26px);
+  right:clamp(16px,2vw,26px);
+  display:flex; justify-content:space-between; align-items:flex-end; gap:18px; flex-wrap:wrap;
+}
+body[data-page="lookbook"] .plate .plate-shop{
+  color:var(--snow); font-weight:600; font-size:14px;
+  display:inline-flex; align-items:center; gap:8px;
+}
+body[data-page="lookbook"] .plate.on-light .plate-shop{color:var(--basalt);}
+body[data-page="lookbook"] .plate .plate-shop .arr{transition:transform .25s var(--ease);}
+body[data-page="lookbook"] .plate .plate-shop:hover .arr{transform:translateX(5px);}
+body[data-page="lookbook"] .plate .plate-label{
+  font-family:var(--font-mono); font-weight:500; font-size:11.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:rgba(252,253,253,.72);
+}
+body[data-page="lookbook"] .plate.on-light .plate-label{color:var(--slate);}
+/* frost vignette so type reads over any scene */
+body[data-page="lookbook"] .plate::after{
+  content:""; position:absolute; inset:0; z-index:3; pointer-events:none;
+  background:linear-gradient(183deg, rgba(13,24,30,.32) 0%, rgba(13,24,30,0) 22%,
+    rgba(13,24,30,0) 62%, rgba(13,24,30,.4) 100%);
+}
+body[data-page="lookbook"] .plate.on-light::after{
+  background:linear-gradient(183deg, rgba(20,45,55,.14) 0%, rgba(20,45,55,0) 24%,
+    rgba(20,45,55,0) 66%, rgba(20,45,55,.16) 100%);
+}
+
+/* ---- plate 01: full-bleed hero plate ---- */
+body[data-page="lookbook"] .plate-hero{aspect-ratio:16/8.5;}
+@media (max-width:920px){body[data-page="lookbook"] .plate-hero{aspect-ratio:4/3.4;}}
+
+/* ---- two-up ---- */
+body[data-page="lookbook"] .two-up{
+  display:grid; grid-template-columns:1.15fr .85fr; gap:var(--plate-gap); align-items:start;
+}
+body[data-page="lookbook"] .two-up .plate{aspect-ratio:4/4.5;}
+body[data-page="lookbook"] .two-up .u-2{margin-top:clamp(48px,9vh,120px);}
+
+/* ---- iceblock moment (04) ---- */
+body[data-page="lookbook"] .signature-grid{
+  display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(40px,6vw,96px); align-items:center;
+}
+body[data-page="lookbook"] .signature-copy .d-l{margin-top:20px;}
+body[data-page="lookbook"] .signature-copy .lead{margin-top:24px; max-width:40ch; color:var(--snow-dim);}
+body[data-page="lookbook"] .signature-copy .coord{margin-top:34px; display:block;}
+body[data-page="lookbook"] .signature-ice .iceblock{
+  aspect-ratio:5/4.4; max-width:560px; margin-inline:auto; border-radius:12px;
+}
+body[data-page="lookbook"] .signature-ice .iceblock-media{padding:9%;}
+body[data-page="lookbook"] .signature-ice .melt-floor{max-width:560px; margin-inline:auto;}
+body[data-page="lookbook"] .signature-ice .sig-cap{
+  display:flex; justify-content:space-between; margin:8px auto 0; max-width:560px;
+}
+
+/* ---- offset two (05 / 06) ---- */
+body[data-page="lookbook"] .offset-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:var(--plate-gap); align-items:start;
+}
+body[data-page="lookbook"] .offset-grid .o-5{aspect-ratio:5/5.6;}
+body[data-page="lookbook"] .offset-grid .o-6{aspect-ratio:5/6.4; margin-top:clamp(40px,8vh,110px);}
+/* driftwood-warm still-life plate */
+body[data-page="lookbook"] .plate-drift{
+  background:
+    radial-gradient(64% 54% at 62% 34%, rgba(252,251,247,.5), rgba(252,251,247,0) 66%),
+    linear-gradient(158deg, #F0EBE0 0%, var(--driftwood) 46%, #DAD2C2 100%);
+}
+body[data-page="lookbook"] .plate-drift::before{
+  content:""; position:absolute; inset:-2%; z-index:0; pointer-events:none;
+  background:var(--ice-img); background-size:640px; mix-blend-mode:soft-light; opacity:.34;
+}
+
+/* ---- pull-quote band ---- */
+body[data-page="lookbook"] .band-quote{
+  font-family:var(--font-serif); font-weight:300; font-optical-sizing:auto;
+  font-size:clamp(32px,5.4vw,80px); line-height:1.04; letter-spacing:-.02em;
+  max-width:20ch;
+}
+body[data-page="lookbook"] .band-quote em{font-style:italic; font-weight:300;}
+
+/* ---- the drag gallery (the wow) ---- */
+body[data-page="lookbook"] .gallery-head{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:28px; flex-wrap:wrap;
+  margin-bottom:clamp(32px,5vh,52px);
+}
+body[data-page="lookbook"] .gallery-track{
+  display:flex; gap:clamp(16px,2.4vw,32px);
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  padding-inline:clamp(20px,5vw,72px); padding-block:6px 30px;
+  scrollbar-width:none; cursor:grab; scroll-padding-left:clamp(20px,5vw,72px);
+}
+body[data-page="lookbook"] .gallery-track::-webkit-scrollbar{display:none;}
+body[data-page="lookbook"] .gallery-track.dragging{cursor:grabbing; scroll-snap-type:none;}
+body[data-page="lookbook"] .gallery-track.dragging a{pointer-events:none;}
+body[data-page="lookbook"] .g-plate{
+  flex:0 0 min(76vw,440px); scroll-snap-align:start;
+}
+body[data-page="lookbook"] .g-plate .plate{aspect-ratio:5/6;}
+body[data-page="lookbook"] .g-plate:first-child{margin-left:0;}
+body[data-page="lookbook"] .g-plate.g-wide{flex-basis:min(88vw,560px);}
+body[data-page="lookbook"] .g-plate.g-wide .plate{aspect-ratio:5/4;}
+body[data-page="lookbook"] .g-plate .g-caption{
+  display:flex; justify-content:space-between; gap:14px; margin-top:14px;
+}
+body[data-page="lookbook"] .g-tail{flex:0 0 clamp(20px,5vw,72px);}
+body[data-page="lookbook"] .gallery-cue{
+  display:flex; align-items:center; gap:12px; margin-top:6px;
+  padding-inline:clamp(20px,5vw,72px);
+}
+body[data-page="lookbook"] .gallery-cue .cue-rail{
+  flex:1; height:1px; background:var(--mist); position:relative; overflow:hidden;
+}
+body[data-page="lookbook"] .gallery-cue .cue-rail i{
+  position:absolute; top:0; left:0; height:100%; width:22%;
+  background:var(--glacial); transform-origin:left; transition:transform .12s linear;
+}
+
+/* ---- triptych (07 / 08 / 09) ---- */
+body[data-page="lookbook"] .tri-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:var(--plate-gap); align-items:start;
+}
+body[data-page="lookbook"] .tri-grid .plate{aspect-ratio:4/5.2;}
+body[data-page="lookbook"] .tri-grid .t-8{margin-top:clamp(40px,8vh,96px);}
+body[data-page="lookbook"] .tri-grid .t-9{margin-top:clamp(18px,3vh,44px);}
+
+/* ---- closing driftwood band ---- */
+body[data-page="lookbook"] .close-band{position:relative; overflow:hidden;}
+body[data-page="lookbook"] .close-grid{
+  display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(40px,6vw,96px); align-items:end;
+}
+body[data-page="lookbook"] .close-line{
+  font-family:var(--font-serif); font-weight:300; font-optical-sizing:auto;
+  font-size:clamp(38px,5.4vw,78px); line-height:1.0; letter-spacing:-.022em;
+}
+body[data-page="lookbook"] .close-line em{font-style:italic; font-weight:300;}
+body[data-page="lookbook"] .close-cta{display:flex; flex-direction:column; align-items:flex-start; gap:18px;}
+body[data-page="lookbook"] .close-cta .coord{color:var(--slate);}
+body[data-page="lookbook"] .close-ghost{
+  position:absolute; right:clamp(-20px,-1vw,0px); bottom:-.16em; z-index:0;
+  pointer-events:none; user-select:none; line-height:.8;
+}
+
+/* ---- responsive ---- */
+@media (max-width:920px){
+  body[data-page="lookbook"] .intro-grid{grid-template-columns:1fr; gap:44px;}
+  body[data-page="lookbook"] .two-up{grid-template-columns:1fr; gap:32px;}
+  body[data-page="lookbook"] .two-up .u-2{margin-top:0;}
+  body[data-page="lookbook"] .signature-grid{grid-template-columns:1fr; gap:48px;}
+  body[data-page="lookbook"] .signature-ice{order:-1;}
+  body[data-page="lookbook"] .offset-grid{grid-template-columns:1fr; gap:32px;}
+  body[data-page="lookbook"] .offset-grid .o-6{margin-top:0;}
+  body[data-page="lookbook"] .tri-grid{grid-template-columns:1fr 1fr; gap:24px;}
+  body[data-page="lookbook"] .tri-grid .t-8,body[data-page="lookbook"] .tri-grid .t-9{margin-top:0;}
+  body[data-page="lookbook"] .close-grid{grid-template-columns:1fr; gap:40px; align-items:start;}
+  body[data-page="lookbook"] .close-ghost{display:none;}
+}
+@media (max-width:560px){
+  body[data-page="lookbook"] .cover-top{position:static; margin-bottom:auto;}
+  body[data-page="lookbook"] .tri-grid{grid-template-columns:1fr; gap:20px;}
+  body[data-page="lookbook"] .g-plate{flex-basis:82vw;}
+}
+</style>
+
+  <!-- ══════════ COVER — dusk title plate ══════════ -->
+  <section class="cover section-dusk ice-field deep scene" aria-label="Winter Light — lookbook cover">
+    <div class="aurora-veil"></div>
+    <div class="cover-shard a" data-parallax="0.16" aria-hidden="true"></div>
+    <div class="cover-shard b" data-parallax="-0.11" aria-hidden="true"></div>
+
+    <div class="cover-top">
+      <span class="coord" style="color:rgba(252,253,253,.5);">Lookbook 01 · Winter 25 · Reykjavík</span>
+      <span class="coord" style="color:rgba(252,253,253,.5);">64°08′46″N — 21°56′24″W</span>
+    </div>
+
+    <div class="container" style="width:100%;">
+      <div class="cover-title" data-reveal-group>
+        <p class="eyebrow on-dark">Frames on glacier, basalt and ice</p>
+        <h1 class="d-xl">Winter<br><em>light.</em></h1>
+        <p class="lead cover-lead">A season shot in the long blue dusk — the Icegler collection on glacier, basalt and ice. Eight frames, one kind of light.</p>
+      </div>
+      <div class="cover-foot" data-reveal>
+        <span class="coord" style="color:rgba(252,253,253,.5);">Photographed on the south coast — Vík · Jökulsárlón</span>
+        <span class="scroll-cue" style="color:rgba(252,253,253,.55);" aria-hidden="true">Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ INTRO — pull-quote + notes ══════════ -->
+  <section class="section" aria-label="Notes from the shoot">
+    <div class="container intro-grid">
+      <blockquote class="intro-quote" data-reveal="mask">We waited for the four o'clock dark, when the sky goes the colour of a bruise and the snow keeps the last of the light.</blockquote>
+      <div class="intro-notes" data-reveal-group>
+        <p class="eyebrow">Notes from the shoot</p>
+        <p class="lead">Photographed over three days across the south coast — Reykjavík, Vík, and the glacier lagoon at Jökulsárlón. No studio, no sun. Only the flat, generous light that the north gives for a few hours in January.</p>
+        <p class="muted" style="font-size:16px;">Styling kept deliberately spare. The frames, the cold, the model, the ice. Nothing else in the frame to argue with.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PLATE 01 — full-bleed ══════════ -->
+  <section class="bleed" style="padding-inline:clamp(20px,5vw,72px);" aria-label="Plate 01 — The Solstice on glacier">
+    <a class="plate plate-hero ice-field deep scene on-dusk" href="/products/the-solstice" data-cursor="view" data-reveal="scale">
+      <div class="aurora-veil"></div>
+      <div class="plate-media"><img src="{{ 'solstice-front.jpeg' | asset_url }}" alt="The Solstice in Glacier on the ice at Jökulsárlón" width="800" height="800" loading="lazy"></div>
+      <span class="plate-num" aria-hidden="true">01</span>
+      <div class="plate-cap">
+        <span class="plate-label">The Solstice — Glacier · Jökulsárlón</span>
+        <span class="plate-shop">Shop The Solstice <span class="arr">→</span></span>
+      </div>
+    </a>
+  </section>
+
+  <!-- ══════════ TWO-UP — 02 / 03 ══════════ -->
+  <section class="section section-tight" aria-label="Plates 02 and 03">
+    <div class="container two-up">
+      <div class="u-1" data-reveal>
+        <div class="plate ice-field scene on-light">
+          <div class="plate-media"><img src="{{ 'drift-basalt.jpeg' | asset_url }}" alt="The Drift in Basalt, worn against the basalt sea stacks at Vík" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">02</span>
+          <div class="plate-cap">
+            <span class="plate-label">Worn — basalt sea stacks · Vík</span>
+          </div>
+        </div>
+      </div>
+      <a class="u-2 plate ice-field deep scene on-dusk" href="/products/the-drift" data-cursor="view" data-reveal data-reveal-delay="120">
+        <div class="aurora-veil" style="opacity:.4;"></div>
+        <div class="plate-media"><img src="{{ 'drift-basalt.jpeg' | asset_url }}" alt="The Drift in Basalt on black sand" width="800" height="800" loading="lazy"></div>
+        <span class="plate-num" aria-hidden="true">03</span>
+        <div class="plate-cap">
+          <span class="plate-label">The Drift — Basalt · black sand</span>
+          <span class="plate-shop">Shop The Drift <span class="arr">→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════ ICEBLOCK MOMENT — 04 ══════════ -->
+  <section class="section section-dusk scene" aria-label="Plate 04 — the signature">
+    <div class="aurora-veil" style="opacity:.32;"></div>
+    <div class="container signature-grid">
+      <div class="signature-copy" data-reveal-group>
+        <p class="eyebrow on-dark">04 — The signature</p>
+        <h2 class="d-l">The Solstice,<br><em>frozen.</em></h2>
+        <p class="lead">Our recurring motif, shot in the studio in Reykjavík — a pair of frames set in a clear block of Icelandic ice. Found in nature, lit for the cold. Nothing carved, nothing rendered.</p>
+        <span class="coord">Studio, Reykjavík — Fig. 04</span>
+      </div>
+      <div class="signature-ice" data-reveal="fade" data-reveal-delay="150">
+        <div data-float>
+          <figure class="iceblock">
+            <div class="refract" aria-hidden="true"><img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="" width="800" height="800" loading="lazy"></div>
+            <div class="iceblock-media">
+              <img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="The Solstice frozen in a clear block of Icelandic ice" width="800" height="800" loading="lazy">
+            </div>
+          </figure>
+        </div>
+        <div class="melt-floor" aria-hidden="true"></div>
+        <div class="sig-cap">
+          <span class="coord">The Solstice, frozen</span>
+          <span class="coord">Plate 04</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ marquee ══════════ -->
+  <div class="marquee" data-marquee>Vík ◦ Jökulsárlón ◦ Reynisfjara ◦ Hverir ◦ The long blue dusk ◦ Winter 25 ◦ </div>
+
+  <!-- ══════════ OFFSET TWO — 05 / 06 ══════════ -->
+  <section class="section section-tight" aria-label="Plates 05 and 06">
+    <div class="container offset-grid">
+      <a class="o-5 plate plate-drift scene on-light" href="/products/the-basalt" data-cursor="view" data-reveal>
+        <div class="plate-media"><img src="{{ 'basalt-meltwater.jpeg' | asset_url }}" alt="The Basalt in Meltwater, a still life on driftwood" width="800" height="800" loading="lazy"></div>
+        <span class="plate-num" aria-hidden="true">05</span>
+        <div class="plate-cap">
+          <span class="plate-label">Still life — on driftwood</span>
+          <span class="plate-shop">Shop The Basalt <span class="arr">→</span></span>
+        </div>
+      </a>
+      <div class="o-6" data-reveal data-reveal-delay="120">
+        <div class="plate ice-field deep scene on-dusk">
+          <div class="aurora-veil" style="opacity:.5;"></div>
+          <div class="plate-media"><img src="{{ 'basalt-driftwood.jpeg' | asset_url }}" alt="The Basalt worn in the geothermal steam at Hverir" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">06</span>
+          <div class="plate-cap">
+            <span class="plate-label">Worn — geothermal steam · Hverir</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PULL-QUOTE BAND — dusk ══════════ -->
+  <section class="section section-dusk scene" aria-label="Pull quote">
+    <div class="aurora-veil" style="opacity:.3;"></div>
+    <div class="container" style="display:grid; justify-items:center; text-align:center;">
+      <p class="eyebrow on-dark" data-reveal>The winter line</p>
+      <blockquote class="band-quote" data-reveal="mask" data-reveal-delay="120" style="margin-top:26px; text-align:center;">Dress for the cold.<br>Look like you <em>mean&nbsp;it.</em></blockquote>
+    </div>
+  </section>
+
+  <!-- ══════════ DRAG GALLERY — the wow ══════════ -->
+  <section class="section" aria-label="The full spread — drag gallery" style="overflow:hidden;">
+    <div class="container gallery-head" data-reveal>
+      <div>
+        <p class="eyebrow">The full spread</p>
+        <h2 class="d-l" style="margin-top:16px;">Six plates,<br>one long <em>dusk.</em></h2>
+      </div>
+      <p class="coord" style="align-self:flex-end;">Drag to move ◦ Plates 05–10</p>
+    </div>
+
+    <div class="gallery-track" data-cursor="drag" data-reveal="fade" tabindex="0" aria-label="Editorial gallery, drag or scroll horizontally">
+
+      <div class="g-plate g-wide">
+        <a class="plate ice-field deep scene on-dusk" href="/products/the-solstice" data-cursor="view">
+          <div class="aurora-veil"></div>
+          <div class="plate-media"><img src="{{ 'solstice-front.jpeg' | asset_url }}" alt="The Solstice in Glacier at the glacier edge at dawn" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">05</span>
+          <div class="plate-cap"><span class="plate-label">Glacier edge · dawn</span></div>
+        </a>
+        <div class="g-caption"><span class="coord">The Solstice — Glacier</span><span class="coord">01 / 06</span></div>
+      </div>
+
+      <div class="g-plate">
+        <div class="plate ice-field scene on-light">
+          <div class="plate-media"><img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="Profile study of The Solstice" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">06</span>
+          <div class="plate-cap"><span class="plate-label">Profile · The Solstice</span></div>
+        </div>
+        <div class="g-caption"><span class="coord">Studio</span><span class="coord">02 / 06</span></div>
+      </div>
+
+      <div class="g-plate">
+        <div class="plate plate-drift scene on-light">
+          <div class="plate-media"><img src="{{ 'basalt-driftwood.jpeg' | asset_url }}" alt="The Basalt in Driftwood among the basalt columns at Reynisfjara" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">07</span>
+          <div class="plate-cap"><span class="plate-label">Basalt columns · Reynisfjara</span></div>
+        </div>
+        <div class="g-caption"><span class="coord">The Basalt — Driftwood</span><span class="coord">03 / 06</span></div>
+      </div>
+
+      <div class="g-plate g-wide">
+        <a class="plate ice-field deep scene on-dusk" href="/products/the-drift" data-cursor="view">
+          <div class="aurora-veil" style="opacity:.5;"></div>
+          <div class="plate-media"><img src="{{ 'drift-glacier.jpeg' | asset_url }}" alt="The Drift in Glacier under the aurora" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">08</span>
+          <div class="plate-cap"><span class="plate-label">Under the aurora · Þingvellir</span><span class="plate-shop">Shop The Drift <span class="arr">→</span></span></div>
+        </a>
+        <div class="g-caption"><span class="coord">The Drift — Glacier</span><span class="coord">04 / 06</span></div>
+      </div>
+
+      <div class="g-plate">
+        <div class="plate ice-field scene on-light">
+          <div class="plate-media"><img src="{{ 'drift-basalt.jpeg' | asset_url }}" alt="The Drift in Basalt on black sand" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">09</span>
+          <div class="plate-cap"><span class="plate-label">Black sand · Vík</span></div>
+        </div>
+        <div class="g-caption"><span class="coord">The Drift — Basalt</span><span class="coord">05 / 06</span></div>
+      </div>
+
+      <div class="g-plate g-wide">
+        <a class="plate ice-field deep scene on-dusk" href="/products/the-basalt" data-cursor="view">
+          <div class="aurora-veil"></div>
+          <div class="plate-media"><img src="{{ 'basalt-meltwater.jpeg' | asset_url }}" alt="The Basalt in Meltwater in the geothermal steam at Hverir" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">10</span>
+          <div class="plate-cap"><span class="plate-label">Geothermal steam · Hverir</span><span class="plate-shop">Shop The Basalt <span class="arr">→</span></span></div>
+        </a>
+        <div class="g-caption"><span class="coord">The Basalt — Meltwater</span><span class="coord">06 / 06</span></div>
+      </div>
+
+      <div class="g-tail" aria-hidden="true"></div>
+    </div>
+
+    <div class="gallery-cue" aria-hidden="true">
+      <span class="coord">Drag</span>
+      <span class="cue-rail"><i class="cue-fill"></i></span>
+      <span class="coord">06</span>
+    </div>
+  </section>
+
+  <!-- ══════════ TRIPTYCH — 07 / 08 / 09 ══════════ -->
+  <section class="section section-tight" aria-label="Plates 07, 08 and 09">
+    <div class="container tri-grid">
+      <div class="t-7" data-reveal>
+        <div class="plate ice-field deep scene on-dusk">
+          <div class="aurora-veil" style="opacity:.55;"></div>
+          <div class="plate-media"><img src="{{ 'drift-glacier.jpeg' | asset_url }}" alt="The Drift in Glacier at the glacier edge at dawn" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">07</span>
+          <div class="plate-cap"><span class="plate-label">Glacier edge · dawn</span></div>
+        </div>
+      </div>
+      <div class="t-8" data-reveal data-reveal-delay="120">
+        <div class="plate ice-field scene on-light">
+          <div class="plate-media"><img src="{{ 'solstice-angle.jpeg' | asset_url }}" alt="Profile study of The Solstice" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">08</span>
+          <div class="plate-cap"><span class="plate-label">Profile · The Solstice</span></div>
+        </div>
+      </div>
+      <div class="t-9" data-reveal data-reveal-delay="220">
+        <div class="plate plate-drift scene on-light">
+          <div class="plate-media"><img src="{{ 'basalt-driftwood.jpeg' | asset_url }}" alt="The Basalt among the basalt columns at Reynisfjara" width="800" height="800" loading="lazy"></div>
+          <span class="plate-num" aria-hidden="true">09</span>
+          <div class="plate-cap"><span class="plate-label">Basalt columns · Reynisfjara</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CLOSING — driftwood band ══════════ -->
+  <section class="close-band section section-drift" aria-label="End of lookbook">
+    <span class="ghost-num close-ghost" data-parallax="0.08" aria-hidden="true">10</span>
+    <div class="container close-grid" style="position:relative; z-index:1;">
+      <div data-reveal-group>
+        <p class="eyebrow">End of lookbook</p>
+        <p class="close-line" style="margin-top:24px;">Shot in the cold.<br>Made for the <em>light.</em></p>
+      </div>
+      <div class="close-cta" data-reveal data-reveal-delay="120">
+        <a class="btn btn-primary" href="{{ routes.all_products_collection_url }}" data-cursor="view">Shop the collection <span class="arr">→</span></a>
+        <span class="coord">Winter 25 · The full range — three frames</span>
+      </div>
+    </div>
+  </section>
+
+<script>
+/* Lookbook — horizontal drag gallery (pointer-drag + scroll-snap + cue rail). */
+(function(){
+  if (document.documentElement.classList.contains('rm')) return;
+  var track = document.querySelector('body[data-page="lookbook"] .gallery-track');
+  if (!track) return;
+  var fill = document.querySelector('.gallery-cue .cue-fill');
+  var down = false, moved = false, startX = 0, startScroll = 0;
+  track.addEventListener('pointerdown', function(e){
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    down = true; moved = false; startX = e.clientX; startScroll = track.scrollLeft;
+  });
+  track.addEventListener('pointermove', function(e){
+    if (!down) return;
+    var dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) > 6){ moved = true; track.classList.add('dragging'); track.setPointerCapture(e.pointerId); }
+    if (moved){ track.scrollLeft = startScroll - dx; e.preventDefault(); }
+  });
+  function end(){ down = false; setTimeout(function(){ track.classList.remove('dragging'); }, 0); }
+  track.addEventListener('pointerup', end);
+  track.addEventListener('pointercancel', end);
+  if (fill){
+    track.addEventListener('scroll', function(){
+      var max = track.scrollWidth - track.clientWidth;
+      var k = max > 0 ? track.scrollLeft / max : 0;
+      fill.style.transform = 'translateX(' + (k * 355) + '%)';
+    }, { passive: true });
+  }
+})();
+</script>
+
+{% schema %}
+{"name":"Lookbook","settings":[]}
+{% endschema %}

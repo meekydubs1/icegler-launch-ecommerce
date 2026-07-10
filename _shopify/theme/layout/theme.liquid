@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+  {{- page_title -}}
+  {%- unless page_title contains shop.name %} — {{ shop.name }}{% endunless -%}
+</title>
+{%- if page_description -%}
+<meta name="description" content="{{ page_description | escape }}">
+{%- endif -%}
+<meta name="theme-color" content="#0D181E">
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+{{ 'main.css' | asset_url | stylesheet_tag }}
+<script>
+  window.ICEGLER_ENV = {
+    currency: {{ cart.currency.iso_code | json }},
+    freeShipCents: {{ settings.free_shipping_threshold | default: 250 | times: 100 }},
+    cartCount: {{ cart.item_count }},
+    routes: {
+      cart: {{ routes.cart_url | json }},
+      cartAdd: {{ routes.cart_add_url | json }},
+      cartChange: {{ routes.cart_change_url | json }},
+      root: {{ routes.root_url | json }}
+    }
+  };
+</script>
+<script src="{{ 'main.js' | asset_url }}" defer></script>
+{{ content_for_header }}
+</head>
+{%- liquid
+  assign page_key = template.name
+  if template.name == 'index'
+    assign page_key = 'home'
+  elsif template.suffix != blank
+    assign page_key = template.suffix
+  endif
+  assign news_off = false
+  if page_key == 'home' or page_key == 'product' or page_key == 'cart' or page_key == 'lookbook' or page_key == '404'
+    assign news_off = true
+  endif
+-%}
+<body data-page="{{ page_key }}"{% if news_off %} data-newsletter="off"{% endif %}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% render 'site-nav' %}
+  <main id="main">
+    {{ content_for_layout }}
+  </main>
+  {% render 'site-footer', hide_newsletter: news_off %}
+  {% render 'cart-drawer' %}
+  <div id="grain" aria-hidden="true"></div>
+  <div id="veil" aria-hidden="true"></div>
+</body>
+</html>

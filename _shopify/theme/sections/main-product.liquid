@@ -1,0 +1,409 @@
+{%- comment -%}
+  PDP — colorway dots are variant option1; lens is option2, shown as a fixed
+  spec line. Unavailable variants (Eclipse) render as disabled "coming soon".
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign shape = ''
+  assign tagline = ''
+  for tag in product.tags
+    if tag contains 'shape:'
+      assign shape = tag | remove_first: 'shape:'
+    elsif tag contains 'tagline:'
+      assign tagline = tag | remove_first: 'tagline:'
+    endif
+  endfor
+  assign has_colors = false
+  if product.options_with_values.first.name == 'Colour' or product.options_with_values.first.name == 'Color'
+    assign has_colors = true
+  endif
+-%}
+<style>
+body[data-page="product"] .crumbs{
+  padding:calc(var(--nav-h) + 26px) 0 26px;
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ash); display:flex; gap:10px; flex-wrap:wrap;
+}
+body[data-page="product"] .crumbs a{color:inherit; text-decoration:none;}
+body[data-page="product"] .crumbs a:hover{color:var(--basalt);}
+body[data-page="product"] .crumbs .sep{opacity:.5;}
+body[data-page="product"] .crumbs .here{color:var(--basalt);}
+body[data-page="product"] .pdp-grid{
+  display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(32px,5vw,80px); align-items:start; padding-bottom:clamp(72px,10vh,120px);
+}
+body[data-page="product"] .stage{
+  position:relative; border-radius:var(--r); overflow:hidden;
+}
+body[data-page="product"] .stage .stage-tag{
+  position:absolute; z-index:3; top:16px; left:16px;
+}
+body[data-page="product"] .stage .stage-coord{
+  position:absolute; z-index:3; bottom:14px; right:16px;
+}
+body[data-page="product"] .stage-media{
+  position:relative; z-index:2; display:grid; place-items:center;
+  aspect-ratio:1; padding:8%; mix-blend-mode:multiply;
+}
+body[data-page="product"] .stage-media img{
+  width:100%; height:100%; object-fit:contain;
+  transition:opacity .25s var(--ease);
+}
+body[data-page="product"] .stage-media.switching img{opacity:0;}
+body[data-page="product"] .thumbs{display:flex; gap:14px; margin-top:16px;}
+body[data-page="product"] .thumb{
+  position:relative; width:92px; height:92px; background:var(--snow);
+  border:1px solid var(--mist); border-radius:var(--r); display:grid; place-items:center;
+  padding:10px; transition:border-color .25s var(--ease);
+}
+body[data-page="product"] .thumb img{mix-blend-mode:multiply; max-height:100%;}
+body[data-page="product"] .thumb.active{border-color:var(--basalt);}
+body[data-page="product"] .thumb .coord{position:absolute; bottom:5px; left:7px; font-size:8.5px;}
+body[data-page="product"] .signature{
+  display:grid; grid-template-columns:150px 1fr; gap:26px; align-items:center;
+  margin-top:clamp(36px,5vh,56px);
+}
+body[data-page="product"] .signature .iceblock{aspect-ratio:1; border-radius:9px;}
+body[data-page="product"] .signature .iceblock-media{padding:12%;}
+body[data-page="product"] .buy{
+  position:sticky; top:calc(var(--nav-h) + 22px);
+  background:var(--snow); border:1px solid rgba(219,224,225,.6); border-radius:var(--r);
+  padding:clamp(24px,2.6vw,40px);
+}
+body[data-page="product"] .buy-top{
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+}
+body[data-page="product"] .buy h1{
+  font-family:var(--font-serif); font-weight:340; font-optical-sizing:auto;
+  font-size:clamp(40px,4.4vw,60px); line-height:1.02; letter-spacing:-.02em; margin-top:10px;
+}
+body[data-page="product"] .buy .shape-line{margin-top:12px;}
+body[data-page="product"] .buy .price-line{margin-top:20px; padding-bottom:20px; border-bottom:1px solid var(--mist);}
+body[data-page="product"] .buy .price-line .price{font-size:22px;}
+body[data-page="product"] .buy .blurb{margin-top:20px; color:var(--slate); font-size:15.5px;}
+body[data-page="product"] .opt-row{
+  display:flex; justify-content:space-between; align-items:baseline; margin-top:26px;
+}
+body[data-page="product"] .swatches{display:flex; align-items:center; gap:10px; margin-top:12px;}
+body[data-page="product"] .swatch{
+  display:grid; place-items:center; width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--mist); transition:border-color .2s var(--ease), transform .2s var(--ease);
+}
+body[data-page="product"] .swatch i{width:20px; height:20px; border-radius:50%; background:var(--dot,var(--mist)); display:block;
+  border:1px solid rgba(21,25,27,.15);}
+body[data-page="product"] .swatch:hover{transform:scale(1.06);}
+body[data-page="product"] .swatch.active{border-color:var(--basalt);}
+body[data-page="product"] .swatch[disabled]{opacity:.45; cursor:not-allowed; transform:none;}
+body[data-page="product"] .soon-note{margin-left:6px;}
+body[data-page="product"] .lens-row{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  background:var(--glacier); border-radius:var(--r); padding:13px 16px; margin-top:24px;
+}
+body[data-page="product"] .buy-cta{margin-top:24px;}
+body[data-page="product"] .buy-links{display:flex; gap:22px; margin-top:18px;}
+body[data-page="product"] .trust{list-style:none; margin:26px 0 0; padding:18px 0 0; border-top:1px solid var(--mist); display:grid; gap:10px;}
+body[data-page="product"] .trust li{font-size:13.5px; color:var(--slate); display:flex; gap:10px; align-items:baseline;}
+body[data-page="product"] .trust li::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--glacial); flex:none; transform:translateY(-1px);}
+body[data-page="product"] .acc{margin-top:26px;}
+body[data-page="product"] .quote-band{position:relative; overflow:hidden;}
+body[data-page="product"] .quote-grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.9fr);
+  gap:clamp(40px,6vw,96px); align-items:center; position:relative; z-index:2;
+}
+body[data-page="product"] .quote-plate{
+  background:var(--snow); padding:clamp(14px,1.6vw,22px); border-radius:var(--r);
+  box-shadow:0 50px 90px -40px rgba(0,0,0,.6); transform:rotate(-.5deg); margin:0;
+}
+body[data-page="product"] .quote-plate img{width:100%; aspect-ratio:1; object-fit:contain; mix-blend-mode:multiply; background:var(--glacier);}
+body[data-page="product"] .quote-plate figcaption{display:flex; justify-content:space-between; padding-top:12px;}
+body[data-page="product"] .others-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;}
+body[data-page="product"] .others-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,64px);
+  margin-top:clamp(44px,6vh,72px); align-items:start;
+}
+body[data-page="product"] .others-grid .product-card:last-child{margin-top:clamp(28px,5vh,64px);}
+@media (max-width:920px){
+  body[data-page="product"] .pdp-grid{grid-template-columns:1fr; gap:40px;}
+  body[data-page="product"] .buy{position:static;}
+  body[data-page="product"] .quote-grid{grid-template-columns:1fr; gap:44px;}
+  body[data-page="product"] .others-grid{grid-template-columns:1fr; gap:40px;}
+  body[data-page="product"] .others-grid .product-card:last-child{margin-top:0;}
+}
+</style>
+
+<div class="container">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a><span class="sep">/</span>
+    <a href="{{ routes.all_products_collection_url }}">Shop</a><span class="sep">/</span>
+    <span class="here">{{ product.title }}</span>
+  </nav>
+
+  <div class="pdp-grid">
+    <!-- media column -->
+    <div>
+      <div class="stage ice-field" data-reveal="scale">
+        <span class="coord stage-tag">Front</span>
+        <span class="coord stage-coord">64°08′N — 21°56′W</span>
+        <div class="stage-media" id="pdp-stage">
+          <img id="pdp-main-img"
+               src="{{ current_variant.featured_image | default: product.featured_image | image_url: width: 1000 }}"
+               alt="{{ product.title | escape }} — {{ current_variant.title | escape }}"
+               width="1000" height="1000" fetchpriority="high">
+        </div>
+      </div>
+      {%- if product.images.size > 1 -%}
+      <div class="thumbs">
+        {%- for image in product.images limit: 4 -%}
+        <button class="thumb{% if forloop.first %} active{% endif %}" data-thumb="{{ image | image_url: width: 1000 }}"
+                aria-label="{{ product.title | escape }}, view {{ forloop.index }}">
+          <img src="{{ image | image_url: width: 184 }}" alt="" width="72" height="72" loading="lazy">
+          <span class="coord">{% if forloop.first %}Front{% else %}Profile{% endif %}</span>
+        </button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      <div class="signature" data-reveal>
+        <div>
+          <figure class="iceblock" style="margin:0;">
+            <div class="iceblock-media">
+              <img src="{{ product.featured_image | image_url: width: 400 }}" alt="" width="400" height="400" loading="lazy">
+            </div>
+          </figure>
+        </div>
+        <div>
+          <p class="eyebrow">On ice — the signature</p>
+          <p class="d-m" style="margin-top:10px;">Found in nature,<br>lit for the <em>light.</em></p>
+          <p class="small muted" style="margin-top:12px; max-width:38ch;">Every frame is photographed the way it was drawn — set in a block of clear Icelandic ice, condensation beading, cold blue-white light passing through.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- buy panel -->
+    <div class="buy" data-reveal data-reveal-delay="120">
+      <div class="buy-top">
+        <span class="coord" id="pdp-sku">{{ current_variant.sku | default: product.handle | upcase }}</span>
+        <span class="coord">★ 4.9 · 128 reviews</span>
+      </div>
+      <h1>{{ product.title }}</h1>
+      {%- if shape != blank or tagline != blank -%}
+      <p class="eyebrow shape-line">{{ shape }}{% if shape != blank and tagline != blank %} — {% endif %}{{ tagline }}</p>
+      {%- endif -%}
+      <div class="price-line">
+        <span class="price" id="pdp-price">{{ current_variant.price | money_without_trailing_zeros }}</span>
+        <span class="small faint">incl. VAT</span>
+      </div>
+      <div class="blurb">{{ product.description }}</div>
+
+      {%- if has_colors -%}
+      <div class="opt-row">
+        <span class="eyebrow quiet">Colour</span>
+        <span style="font-weight:600;" id="pdp-color-name">{{ current_variant.option1 }}</span>
+      </div>
+      <div class="swatches" id="pdp-swatches">
+        {%- for value in product.options_with_values.first.values -%}
+          {%- liquid
+            assign v_available = false
+            for v in product.variants
+              if v.option1 == value and v.available
+                assign v_available = true
+              endif
+            endfor
+          -%}
+          <button class="swatch{% if current_variant.option1 == value %} active{% endif %}"
+                  data-color="{{ value | escape }}"
+                  {% unless v_available %}disabled aria-disabled="true"{% endunless %}
+                  aria-label="Colour: {{ value | escape }}{% unless v_available %} (coming soon){% endunless %}">
+            <i style="--dot:{% render 'dot-color', name: value %}"></i>
+          </button>
+          {%- unless v_available -%}
+            <span class="coord soon-note">{{ value }} · coming soon</span>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+
+      {%- if current_variant.option2 != blank -%}
+      <div class="lens-row">
+        <span class="eyebrow quiet">Lens</span>
+        <span class="mono" id="pdp-lens">{{ current_variant.option2 }}</span>
+        <a class="link-underline small" href="/pages/contact" style="font-size:13px;">Lens guide</a>
+      </div>
+      {%- endif -%}
+
+      <form action="{{ routes.cart_add_url }}" method="post" id="pdp-form">
+        <input type="hidden" name="id" id="pdp-variant-id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn-primary btn-block buy-cta" id="pdp-cta"
+                {% unless current_variant.available %}disabled{% endunless %}>
+          {%- if current_variant.available -%}
+            Add to bag — {{ current_variant.price | money_without_trailing_zeros }}
+          {%- else -%}
+            Coming soon
+          {%- endif -%}
+        </button>
+      </form>
+      <div class="buy-links">
+        <a class="link-arrow small" href="/pages/contact" style="font-size:14px;">Find in stores <span class="arr">→</span></a>
+        <a class="link-arrow small" href="/pages/contact" style="font-size:14px;">Book a fitting <span class="arr">→</span></a>
+      </div>
+
+      <ul class="trust">
+        <li>Ships in 2–3 days from Reykjavík · free over {{ settings.free_shipping_threshold | default: 250 | times: 100 | money_without_trailing_zeros }}</li>
+        <li>Two-year guarantee · 30-day free returns</li>
+        <li>100% UV400 · Carl Zeiss lenses as standard</li>
+      </ul>
+
+      <div class="acc">
+        <div class="acc-item" data-open>
+          <button type="button" aria-expanded="true">Details &amp; craft <span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div>
+            <p>Handcrafted from plant-based bio-acetate, tumble-polished over three days for a warm, glassy finish. Five-barrel stainless hinges. Adjustable acetate nose pads. Each pair is hand-finished and inspected in our Reykjavík studio.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button type="button" aria-expanded="false">Specifications <span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div>
+            <table class="spec-table">
+              <tr><th>SKU</th><td id="pdp-spec-sku">{{ current_variant.sku }}</td></tr>
+              <tr><th>Lens</th><td id="pdp-spec-lens">{{ current_variant.option2 }}</td></tr>
+              <tr><th>Material</th><td>Bio-acetate</td></tr>
+              <tr><th>Weight</th><td>~28 g</td></tr>
+              <tr><th>Protection</th><td>100% UV400</td></tr>
+            </table>
+            <p style="padding-top:14px;"></p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button type="button" aria-expanded="false">Shipping &amp; returns <span class="acc-x" aria-hidden="true"></span></button>
+          <div class="acc-panel"><div>
+            <p>Ships worldwide from Reykjavík in 2–3 working days, carbon-considered and tracked. Free shipping over {{ settings.free_shipping_threshold | default: 250 | times: 100 | money_without_trailing_zeros }}. 30-day returns, free and without questions.</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ marquee ══════════ -->
+<div class="marquee" data-marquee>Handcrafted in Reykjavík ◦ Carl Zeiss polarized ◦ Plant-based bio-acetate ◦ Two-year guarantee ◦ </div>
+
+<!-- ══════════ dusk pull-quote ══════════ -->
+<section class="section section-dusk scene quote-band" aria-label="Worn in the dusk">
+  <div class="aurora-veil" style="opacity:.4;"></div>
+  <div class="container quote-grid">
+    <blockquote data-reveal style="margin:0; font-family:var(--font-serif); font-weight:320; font-size:clamp(28px,3.4vw,48px); line-height:1.2; letter-spacing:-.015em;">
+      <span style="color:var(--ice);">“</span> Worn in the long blue dusk, where the light is rare and the cold is honest.
+    </blockquote>
+    <figure class="quote-plate" data-reveal="scale" data-parallax="0.05">
+      <img src="{{ current_variant.featured_image | default: product.featured_image | image_url: width: 800 }}" alt="{{ product.title | escape }}" width="800" height="800" loading="lazy" id="pdp-quote-img">
+      <figcaption>
+        <span class="coord" style="color:var(--ash);" id="pdp-quote-cap">{{ product.title }} — {{ current_variant.option1 }}</span>
+        <span class="coord" style="color:var(--ash);">Fig. 02</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ the other frames ══════════ -->
+<section class="section" aria-label="The other frames">
+  <div class="container">
+    <div class="others-head" data-reveal>
+      <div>
+        <p class="eyebrow">Pairs with — the other frames</p>
+        <h2 class="d-l" style="margin-top:16px;">Two more, cut for<br>the same <em>light.</em></h2>
+      </div>
+      <a class="link-arrow" href="{{ routes.all_products_collection_url }}">View all frames <span class="arr">→</span></a>
+    </div>
+    <div class="others-grid">
+      {%- assign shown = 0 -%}
+      {%- assign handles = 'the-solstice,the-drift,the-basalt' | split: ',' -%}
+      {%- for h in handles -%}
+        {%- if h != product.handle and shown < 2 -%}
+          {%- assign other = all_products[h] -%}
+          {%- if other != blank -%}
+            {% render 'product-card', product: other %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var variants = {{ product.variants | json }};
+  var stage = document.getElementById('pdp-stage');
+  var mainImg = document.getElementById('pdp-main-img');
+  var rm = document.documentElement.classList.contains('rm');
+
+  function money(cents) { return window.ICEGLER ? window.ICEGLER.money(cents) : '€' + Math.round(cents / 100); }
+  function setText(id, v) { var n = document.getElementById(id); if (n && v != null) n.textContent = v; }
+
+  function swapImage(src) {
+    if (!src || !mainImg) return;
+    if (rm) { mainImg.src = src; return; }
+    stage.classList.add('switching');
+    setTimeout(function () {
+      mainImg.src = src;
+      mainImg.onload = function () { stage.classList.remove('switching'); };
+      setTimeout(function () { stage.classList.remove('switching'); }, 450);
+    }, 220);
+  }
+
+  function selectColor(color) {
+    var v = variants.find(function (x) { return x.option1 === color; });
+    if (!v) return;
+    document.querySelectorAll('#pdp-swatches .swatch').forEach(function (s) {
+      s.classList.toggle('active', s.getAttribute('data-color') === color);
+    });
+    setText('pdp-color-name', v.option1);
+    setText('pdp-lens', v.option2);
+    setText('pdp-spec-lens', v.option2);
+    setText('pdp-sku', v.sku || '');
+    setText('pdp-spec-sku', v.sku || '');
+    setText('pdp-price', money(v.price));
+    setText('pdp-quote-cap', {{ product.title | json }} + ' — ' + v.option1);
+    var idInput = document.getElementById('pdp-variant-id');
+    if (idInput) idInput.value = v.id;
+    var cta = document.getElementById('pdp-cta');
+    if (cta) {
+      cta.disabled = !v.available;
+      cta.textContent = v.available ? ('Add to bag — ' + money(v.price)) : 'Coming soon';
+    }
+    if (v.featured_image && v.featured_image.src) swapImage(v.featured_image.src);
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set('variant', v.id);
+      history.replaceState({}, '', url);
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('#pdp-swatches .swatch:not([disabled])').forEach(function (s) {
+    s.addEventListener('click', function () { selectColor(s.getAttribute('data-color')); });
+  });
+  document.querySelectorAll('.thumb').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.thumb').forEach(function (x) { x.classList.remove('active'); });
+      t.classList.add('active');
+      swapImage(t.getAttribute('data-thumb'));
+    });
+  });
+  document.querySelectorAll('.acc-item > button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var item = b.parentElement;
+      var open = item.hasAttribute('data-open');
+      if (open) { item.removeAttribute('data-open'); b.setAttribute('aria-expanded', 'false'); }
+      else { item.setAttribute('data-open', ''); b.setAttribute('aria-expanded', 'true'); }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

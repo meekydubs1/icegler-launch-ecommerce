@@ -1,0 +1,19 @@
+{
+  "general": {
+    "meta": {
+      "page": "Page {{ page }}"
+    },
+    "404": {
+      "title": "Lost in the dusk"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search frames, pages, stories"
+    }
+  },
+  "cart": {
+    "title": "Your bag",
+    "empty": "Your bag is empty",
+    "checkout": "Checkout"
+  }
+}

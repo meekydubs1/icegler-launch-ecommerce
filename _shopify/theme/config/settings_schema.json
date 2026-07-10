@@ -1,0 +1,22 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Icegler — Shaped by Light",
+    "theme_version": "1.0.0",
+    "theme_author": "Icegler",
+    "theme_documentation_url": "https://github.com/meekydubs1/icegler-launch-ecommerce",
+    "theme_support_url": "https://github.com/meekydubs1/icegler-launch-ecommerce"
+  },
+  {
+    "name": "Store",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "In your store currency. Used for the progress bar in the cart drawer and cart page.",
+        "default": 250
+      }
+    ]
+  }
+]

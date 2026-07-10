@@ -1,0 +1,57 @@
+<style>
+body[data-page="blog"] .blog-head{padding-top:calc(var(--nav-h) + clamp(40px,7vh,72px));}
+body[data-page="blog"] .blog-list{margin-top:clamp(44px,6vh,80px);}
+body[data-page="blog"] .blog-item{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2.4fr); gap:clamp(20px,4vw,64px);
+  padding-block:clamp(28px,4vh,44px); border-top:1px solid var(--mist); align-items:baseline;
+}
+body[data-page="blog"] .blog-list .blog-item:last-child{border-bottom:1px solid var(--mist);}
+body[data-page="blog"] .blog-item h2{
+  font-family:var(--font-serif); font-weight:340; font-size:clamp(24px,2.6vw,34px);
+  line-height:1.1; letter-spacing:-.012em;
+}
+body[data-page="blog"] .blog-item h2 a{text-decoration:none;}
+body[data-page="blog"] .blog-item .excerpt{margin-top:14px; color:var(--slate); max-width:56ch;}
+@media (max-width:760px){
+  body[data-page="blog"] .blog-item{grid-template-columns:1fr; gap:10px;}
+}
+</style>
+
+<section class="section blog-head" aria-label="{{ blog.title | escape }}">
+  <div class="container">
+    <p class="eyebrow" data-reveal>Journal</p>
+    <h1 class="d-l" style="margin-top:16px;" data-reveal>{{ blog.title }}</h1>
+
+    {%- paginate blog.articles by 12 -%}
+    <div class="blog-list" data-reveal-group>
+      {%- for article in blog.articles -%}
+        <article class="blog-item">
+          <div>
+            <span class="coord">{{ article.published_at | date: '%d %b %Y' }}</span>
+          </div>
+          <div>
+            <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+            {%- if article.excerpt_or_content != blank -%}
+            <p class="excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 34 }}</p>
+            {%- endif -%}
+            <a class="link-arrow" href="{{ article.url }}" style="margin-top:16px; display:inline-flex;">Read <span class="arr">→</span></a>
+          </div>
+        </article>
+      {%- else -%}
+        <p class="muted" style="padding-block:44px;">No stories yet — check back soon.</p>
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+    <nav class="coord" style="display:flex; gap:22px; justify-content:center; padding-top:48px;" aria-label="Pagination">
+      {%- if paginate.previous -%}<a class="link-underline" href="{{ paginate.previous.url }}">← Previous</a>{%- endif -%}
+      <span>Page {{ paginate.current_page }} / {{ paginate.pages }}</span>
+      {%- if paginate.next -%}<a class="link-underline" href="{{ paginate.next.url }}">Next →</a>{%- endif -%}
+    </nav>
+    {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{"name":"Blog","settings":[]}
+{% endschema %}

@@ -1,0 +1,175 @@
+{%- comment -%}
+  Cart page. Steppers use main.js's [data-cart-line] AJAX handlers and reload
+  for authoritative totals; shipping is genuinely calculated at checkout.
+{%- endcomment -%}
+<style>
+body[data-page="cart"] .bag-head{
+  padding-top:calc(var(--nav-h) + clamp(36px,6vh,64px));
+  display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;
+}
+body[data-page="cart"] .bag-head h1{margin-top:14px;}
+body[data-page="cart"] .bag-grid{
+  display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
+  gap:clamp(32px,5vw,80px); align-items:start; padding-block:clamp(44px,7vh,80px) clamp(72px,10vh,120px);
+}
+body[data-page="cart"] .bag-line{
+  display:grid; grid-template-columns:136px 1fr auto; gap:clamp(18px,2.5vw,34px);
+  align-items:center; padding-block:26px; border-bottom:1px solid var(--mist);
+}
+body[data-page="cart"] .bag-line:first-child{border-top:1px solid var(--mist);}
+body[data-page="cart"] .bag-line img{
+  width:136px; height:136px; object-fit:contain; background:var(--snow);
+  border-radius:var(--r); mix-blend-mode:multiply;
+}
+body[data-page="cart"] .bag-line .meta p{margin-top:4px;}
+body[data-page="cart"] .bag-controls{display:flex; align-items:center; gap:16px; margin-top:14px;}
+body[data-page="cart"] .bag-summary{
+  position:sticky; top:calc(var(--nav-h) + 22px);
+  background:var(--snow); border:1px solid rgba(219,224,225,.6); border-radius:var(--r);
+  padding:clamp(24px,2.6vw,36px);
+}
+body[data-page="cart"] .sum-row{
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding-block:9px;
+}
+body[data-page="cart"] .sum-total{
+  border-top:1px solid var(--mist); margin-top:12px; padding-top:16px;
+}
+body[data-page="cart"] .sum-total .price{font-size:20px;}
+body[data-page="cart"] .bag-empty{
+  text-align:center; padding-block:clamp(64px,12vh,140px);
+  display:grid; justify-items:center; gap:20px;
+}
+body[data-page="cart"] .bag-empty .iceblock{width:120px; aspect-ratio:1; border-radius:9px; display:grid; place-items:center;}
+body[data-page="cart"] .also{padding-bottom:clamp(72px,10vh,120px);}
+body[data-page="cart"] .also-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,3vw,44px);
+  margin-top:clamp(40px,6vh,64px);
+}
+@media (max-width:920px){
+  body[data-page="cart"] .bag-grid{grid-template-columns:1fr; gap:44px;}
+  body[data-page="cart"] .bag-summary{position:static;}
+  body[data-page="cart"] .also-grid{grid-template-columns:1fr; gap:40px;}
+  body[data-page="cart"] .bag-line{grid-template-columns:96px 1fr auto;}
+  body[data-page="cart"] .bag-line img{width:96px; height:96px;}
+}
+</style>
+
+<div class="container">
+  <header class="bag-head" data-reveal-group>
+    <div>
+      <p class="eyebrow">Cart</p>
+      <h1 class="d-xl">Your <em>bag.</em></h1>
+    </div>
+    <span class="coord">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
+  </header>
+
+  {%- if cart.item_count > 0 -%}
+  <div class="bag-grid">
+    <div data-reveal>
+      {%- for item in cart.items -%}
+      <div class="bag-line">
+        <img src="{{ item.image | image_url: width: 272 }}" alt="{{ item.title | escape }}" width="136" height="136" loading="lazy">
+        <div class="meta">
+          <p class="h3">{{ item.product.title }}</p>
+          {%- unless item.variant.title == 'Default Title' -%}
+            {%- assign parts = item.variant.title | split: ' / ' -%}
+            <p class="small muted">Colour — {{ parts[0] }}</p>
+            {%- if parts[1] -%}<p class="small muted">Lens — {{ parts[1] }}</p>{%- endif -%}
+          {%- endunless -%}
+          {%- if item.sku != blank -%}<p class="coord" style="margin-top:8px;">{{ item.sku }}</p>{%- endif -%}
+          <div class="bag-controls">
+            <span class="qty">
+              <button data-cart-line="{{ item.key }}" data-qty-delta="-1" data-current="{{ item.quantity }}" aria-label="Decrease quantity">−</button>
+              <output>{{ item.quantity }}</output>
+              <button data-cart-line="{{ item.key }}" data-qty-delta="1" data-current="{{ item.quantity }}" aria-label="Increase quantity">+</button>
+            </span>
+            <button class="remove-link" data-cart-line="{{ item.key }}" data-line-remove>Remove</button>
+          </div>
+        </div>
+        <span class="price">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+      </div>
+      {%- endfor -%}
+      <p style="margin-top:26px;">
+        <a class="link-arrow" href="{{ routes.all_products_collection_url }}"><span class="arr">←</span> Continue shopping</a>
+      </p>
+    </div>
+
+    <aside class="bag-summary" data-reveal data-reveal-delay="140">
+      <p class="eyebrow">Order summary</p>
+      {%- assign free_ship = settings.free_shipping_threshold | default: 250 | times: 100 -%}
+      <div style="margin-top:20px;">
+        {%- if cart.total_price >= free_ship -%}
+        <p class="small">You’ve unlocked free shipping. ❄</p>
+        <div class="progress" style="margin-top:10px;"><i style="width:100%;"></i></div>
+        {%- else -%}
+        {%- assign remaining = free_ship | minus: cart.total_price -%}
+        <p class="small">Add <b>{{ remaining | money_without_trailing_zeros }}</b> for free shipping</p>
+        {%- assign pct = cart.total_price | times: 100.0 | divided_by: free_ship -%}
+        <div class="progress" style="margin-top:10px;"><i style="width:{{ pct }}%;"></i></div>
+        {%- endif -%}
+      </div>
+      <div style="margin-top:22px;">
+        <div class="sum-row"><span>Subtotal</span><span class="price">{{ cart.total_price | money_without_trailing_zeros }}</span></div>
+        <div class="sum-row"><span class="muted">Shipping</span><span class="small faint">Calculated at checkout</span></div>
+        <div class="sum-row"><span class="muted">Estimated tax</span><span class="small faint">Calculated at checkout</span></div>
+        <div class="sum-row sum-total"><span style="font-weight:600;">Total</span><span class="price">{{ cart.total_price | money_without_trailing_zeros }}</span></div>
+      </div>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="btn btn-primary btn-block" style="margin-top:20px;">
+          Checkout — {{ cart.total_price | money_without_trailing_zeros }}
+        </button>
+      </form>
+      <p class="small faint" style="margin-top:14px; text-align:center;">Secure checkout · Two-year guarantee · 30-day returns</p>
+    </aside>
+  </div>
+
+  {%- else -%}
+  <div class="bag-empty" data-reveal-group>
+    <figure class="iceblock" style="margin:0;" data-float>
+      <div class="iceblock-media" style="display:grid;place-items:center;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#586065" stroke-width="1.4" width="30" height="30" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      </div>
+    </figure>
+    <p class="d-m">Your bag is empty — the ice is waiting.</p>
+    <p class="muted" style="max-width:34ch;">The cold is calling. Find a frame shaped for the northern light.</p>
+    <a class="btn btn-primary" href="{{ routes.all_products_collection_url }}">Shop the collection</a>
+  </div>
+  {%- endif -%}
+</div>
+
+<!-- ══════════ marquee ══════════ -->
+<div class="marquee" data-marquee>Free shipping over {{ settings.free_shipping_threshold | default: 250 | times: 100 | money_without_trailing_zeros }} ◦ Two-year guarantee ◦ 30-day returns ◦ Designed in Reykjavík ◦ </div>
+
+<!-- ══════════ complete the look ══════════ -->
+<section class="also section" aria-label="You might also like">
+  <div class="container">
+    <div data-reveal>
+      <p class="eyebrow">You might also like</p>
+      <h2 class="d-l" style="margin-top:16px;">Complete the <em>look.</em></h2>
+    </div>
+    <div class="also-grid">
+      {%- assign handles = 'the-solstice,the-drift,the-basalt' | split: ',' -%}
+      {%- assign shown = 0 -%}
+      {%- for h in handles -%}
+        {%- assign p = all_products[h] -%}
+        {%- if p != blank and shown < 3 -%}
+          {%- assign in_cart = false -%}
+          {%- for item in cart.items -%}
+            {%- if item.product.handle == h -%}{%- assign in_cart = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- unless in_cart -%}
+            {% render 'product-card', product: p, reveal_delay: shown | times: 100 %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

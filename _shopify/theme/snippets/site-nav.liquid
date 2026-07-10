@@ -1,0 +1,39 @@
+{%- comment -%}
+  Fixed top nav + mobile menu overlay. Styles live in main.css (#site-nav, #menu-overlay).
+  main.js binds scroll solidify, burger, and cart-open behaviour.
+{%- endcomment -%}
+<header id="site-nav">
+  <div class="nav-inner">
+    <nav class="nav-links" aria-label="Primary">
+      <a href="{{ routes.all_products_collection_url }}"{% if template.name == 'collection' %} aria-current="page"{% endif %}>Shop</a>
+      <a href="/pages/lookbook"{% if template.suffix == 'lookbook' %} aria-current="page"{% endif %}>Lookbook</a>
+      <a href="/pages/story"{% if template.suffix == 'story' %} aria-current="page"{% endif %}>Story</a>
+    </nav>
+    <button class="nav-burger nav-icon" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+    <a class="nav-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} — home">Icegler</a>
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="Secondary">
+        <a href="/pages/contact"{% if template.suffix == 'contact' %} aria-current="page"{% endif %}>Stores</a>
+      </nav>
+      <button class="nav-icon" data-cart-open aria-label="Open bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-badge" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="menu-overlay" aria-hidden="true">
+  <button id="menu-close" class="nav-icon" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <nav class="menu-links" aria-label="Menu">
+    <a href="{{ routes.all_products_collection_url }}" style="transition-delay:80ms">Shop</a>
+    <a href="/pages/lookbook" style="transition-delay:150ms">Lookbook</a>
+    <a href="/pages/story" style="transition-delay:220ms">Story</a>
+    <a href="/pages/contact" style="transition-delay:290ms">Stores</a>
+  </nav>
+  <div class="menu-foot"><span class="coord">Designed in Reykjavík — 64°08′N</span></div>
+</div>

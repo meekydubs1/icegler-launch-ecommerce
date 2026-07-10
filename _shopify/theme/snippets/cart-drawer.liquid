@@ -1,0 +1,57 @@
+{%- comment -%}
+  Slide-in bag. Server-rendered from {{ cart }}; main.js re-renders the item list
+  from /cart.js after AJAX changes, mirroring this exact markup.
+{%- endcomment -%}
+<div id="cart-veil"></div>
+<aside id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping bag" aria-hidden="true">
+  <header class="drawer-head">
+    <span class="h3">Your bag (<span data-cart-count-inline>{{ cart.item_count }}</span>)</span>
+    <button class="nav-icon" data-cart-close aria-label="Close bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </header>
+
+  <div class="drawer-ship" {% if cart.item_count == 0 %}hidden{% endif %}>
+    <p class="small drawer-ship-label"></p>
+    <div class="progress"><i></i></div>
+  </div>
+
+  <ul class="drawer-items" {% if cart.item_count == 0 %}hidden{% endif %}>
+    {%- for item in cart.items -%}
+    <li data-line-key="{{ item.key }}">
+      <img src="{{ item.image | image_url: width: 152 }}" alt="{{ item.title | escape }}" width="76" height="76" loading="lazy">
+      <div>
+        <p style="font-weight:600;font-size:15px;">{{ item.product.title }}</p>
+        {%- unless item.variant.title == 'Default Title' -%}
+        <p class="small muted">{{ item.variant.title | replace: ' / ', ' · ' }}</p>
+        {%- endunless -%}
+        <div style="display:flex;align-items:center;gap:14px;margin-top:10px;">
+          <span class="qty">
+            <button data-qty="-1" aria-label="Decrease quantity">−</button>
+            <output>{{ item.quantity }}</output>
+            <button data-qty="1" aria-label="Increase quantity">+</button>
+          </span>
+          <button class="remove-link" data-remove>Remove</button>
+        </div>
+      </div>
+      <span class="price">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+    </li>
+    {%- endfor -%}
+  </ul>
+
+  <div class="drawer-empty" {% if cart.item_count > 0 %}hidden{% endif %}>
+    <p class="d-m">Your bag is empty</p>
+    <p class="muted" style="max-width:30ch;margin-inline:auto;">The cold is calling. Find a frame shaped for the northern light.</p>
+    <a class="btn btn-primary" href="{{ routes.all_products_collection_url }}">Shop the collection</a>
+  </div>
+
+  <footer class="drawer-foot" {% if cart.item_count == 0 %}hidden{% endif %}>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-weight:600;">Subtotal</span>
+      <span class="price drawer-subtotal">{{ cart.total_price | money_without_trailing_zeros }}</span>
+    </div>
+    <p class="small faint" style="margin-top:-6px;">Shipping &amp; taxes calculated at checkout.</p>
+    <a class="btn btn-primary btn-block drawer-checkout" href="/checkout" data-no-veil>Checkout — {{ cart.total_price | money_without_trailing_zeros }}</a>
+    <a class="link-underline" style="justify-self:center;" href="{{ routes.cart_url }}">View full bag</a>
+  </footer>
+</aside>
